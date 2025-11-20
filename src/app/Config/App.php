@@ -199,4 +199,38 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        $base_endpoint = '';
+        if (
+            $_SERVER['SERVER_NAME'] == 'localhost'
+            && $_SERVER['SERVER_PORT'] == '80'
+        ) {
+            $base_endpoint = 'info.php';
+        } elseif (
+            $_SERVER['SERVER_NAME'] == 'habilidade.com'
+            && $_SERVER['SERVER_PORT'] == '80'
+            || $_SERVER['SERVER_NAME'] == 'habilidade.com'
+            && $_SERVER['SERVER_PORT'] == '443'
+        ) {
+            $base_endpoint = 'codeigniter56300/public/';
+        } else {
+            $response = [
+                'api_version' => '1.1',
+                'timestamp' => date('Y-m-d H:i:s'),
+                'code' => '503',
+                'status' => 'Unknown',
+                'message' => 'Service Unavailable',
+                'metadata' => [
+                    'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                    'base_url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/'
+                ],
+            ];
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            exit;
+        }
+        $this->baseURL = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/' . $base_endpoint;
+    }
 }
