@@ -4,3 +4,5 @@ src/writable/logs/*
 src/.env
 src/system/ThirdParty/_Jugwoko.php
 src/system/HotReloader/_Puipuia.php
+src/system/HotReloader/Puipuia.php
+src/system/ThirdParty/Jugwoko.php
