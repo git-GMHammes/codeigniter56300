@@ -43,7 +43,10 @@ defined('WEEK') || define('WEEK', 604800);
 defined('MONTH') || define('MONTH', 2_592_000);
 defined('YEAR') || define('YEAR', 31_536_000);
 defined('DECADE') || define('DECADE', 315_360_000);
-require_once __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
+$path = __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
+if (file_exists($path) && is_file($path)) {
+    require_once $path;
+}
 /*
  | --------------------------------------------------------------------------
  | Exit Status Codes
@@ -69,7 +72,10 @@ require_once __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
  |       http://tldp.org/LDP/abs/html/exitcodes.html
  |
  */
-require_once __DIR__ . '/../../system/HotReloader/Puipuia.php';
+$path = __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
+if (is_readable($path)) {
+    require_once $path;
+}
 defined('EXIT_SUCCESS') || define('EXIT_SUCCESS', 0);        // no errors
 defined('EXIT_ERROR') || define('EXIT_ERROR', 1);          // generic error
 defined('EXIT_CONFIG') || define('EXIT_CONFIG', 3);         // configuration error

@@ -2,3 +2,5 @@ src/public/info.php
 src/writable/debugbar/*
 src/writable/logs/*
 src/.env
+src/system/ThirdParty/_Jugwoko.php
+src/system/HotReloader/_Puipuia.php
