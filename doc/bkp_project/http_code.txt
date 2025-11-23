@@ -1,0 +1,551 @@
+// Exemplos corrigidos (válidos e consistentes)
+// Basic API response 
+{
+    "http_code": 200,
+    "status": "success",
+    "message": "Operation completed successfully.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:06:00"
+    },
+    "data": [],
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "param1"
+            ]
+        }
+    ]
+}
+// Error JSON: 
+{
+    "http_code": 422,
+    "status": "error",
+    "message": "Validation failed.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:27:25"
+    },
+    "data": {
+        "validation": {
+            "email": "The email field must contain a valid email address.",
+            "password": "The password field is required.",
+            "first_name": "The first_name field must be at least 2 characters in length."
+        }
+    },
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "param1"
+            ]
+        }
+    ]
+}
+// Warning JSON: 
+{
+    "http_code": 200,
+    "status": "warning",
+    "message": "Operation completed with warnings.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:27:25"
+    },
+    "data": {
+        "validation": {
+            "email": "The email is valid but not verified.",
+            "password": "The password is weak; consider using at least one number and one special character.",
+            "first_name": "First name was trimmed due to leading/trailing spaces."
+        }
+    },
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "param1"
+            ]
+        }
+    ]
+}
+// Create (store) or Modify (update) response with client record (fields translated) 
+{
+    "http_code": 200,
+    "status": "success",
+    "message": "Operation completed successfully.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:06:00"
+    },
+    "data": [
+        {
+            "id": 123,
+            "first_name": "João",
+            "last_name": "Silva",
+            "company_name": null,
+            "person_type": "individual",
+            "tax_id": "123.456.789-09",
+            "identity": "MG-12.345.678",
+            "email": "joao.silva@example.com",
+            "phone_mobile": "+55 31 91234-5678",
+            "phone_home": null,
+            "birth_date": "1985-04-15",
+            "gender": "M",
+            "address_street": "Rua das Flores",
+            "address_number": "100",
+            "address_complement": "Apto 201",
+            "address_neighborhood": "Centro",
+            "address_city": "Belo Horizonte",
+            "address_state": "MG",
+            "address_zip": "30123-456",
+            "state_registration": null,
+            "municipal_registration": null,
+            "preferred_contact": "email",
+            "segment": "retail",
+            "notes": "Preferred customer; request contact by email.",
+            "active": true,
+            "created_at": "2025-11-23 19:06:00",
+            "updated_at": "2025-11-23 19:06:00"
+        }
+    ],
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "param1"
+            ]
+        }
+    ]
+}
+// List / search response (3 records) with pagination metadata (as requested) 
+{
+    "http_code": 200,
+    "status": "success",
+    "message": "Operation completed successfully.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:18:55"
+    },
+    "data": [
+        {
+            "id": 123,
+            "name": "João Silva",
+            "email": "joao.silva@example.com"
+        },
+        {
+            "id": 124,
+            "name": "Maria Oliveira",
+            "email": "maria.oliveira@example.com"
+        },
+        {
+            "id": 125,
+            "name": "Carlos Pereira",
+            "email": "carlos.pereira@example.com"
+        }
+    ],
+    "metadata": [
+        {
+            "total_records": 57,
+            "per_page": 10,
+            "current_page": 1
+        }
+    ]
+}
+// Error JSON: 
+{
+    "http_code": 422,
+    "status": "error",
+    "message": "Validation failed for search parameters.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:32:16"
+    },
+    "data": {
+        "validation": {
+            "page": "The page field must contain an integer greater than or equal to 1.",
+            "per_page": "The per_page field must contain an integer between 1 and 100.",
+            "sort": "The sort field must be one of: id, name, email.",
+            "filter": "The filter value is too long. Maximum length is 255 characters."
+        }
+    },
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "search"
+            ],
+            "total_records": 0,
+            "per_page": null,
+            "current_page": null
+        }
+    ]
+}
+// Warning JSON: 
+{
+    "http_code": 200,
+    "status": "warning",
+    "message": "Operation completed with warnings.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-11-23 19:32:16"
+    },
+    "data": {
+        "results": [
+            {
+                "id": 123,
+                "name": "João Silva",
+                "email": "joao.silva@example.com"
+            },
+            {
+                "id": 124,
+                "name": "Maria Oliveira",
+                "email": "maria.oliveira@example.com"
+            }
+        ],
+        "warnings": {
+            "per_page": "Invalid per_page supplied; defaulted to 10.",
+            "partial_results": "Some results were omitted due to permission restrictions."
+        }
+    },
+    "metadata": [
+        {
+            "base_url": "http://example.com/",
+            "get_uri": [
+                "controller",
+                "method",
+                "query=abc"
+            ],
+            "total_records": 57,
+            "per_page": 10,
+            "current_page": 1
+        }
+    ]
+}
+// Codigos http:
+[
+    {
+        "http_code": 100,
+        "message": "Continue",
+        "body": false
+    },
+    {
+        "http_code": 101,
+        "message": "Switching protocols",
+        "body": false
+    },
+    {
+        "http_code": 102,
+        "message": "Processing",
+        "body": false
+    },
+    {
+        "http_code": 103,
+        "message": "Early hints",
+        "body": false
+    },
+    {
+        "http_code": 200,
+        "message": "OK",
+        "body": true
+    },
+    {
+        "http_code": 201,
+        "message": "Created",
+        "body": true
+    },
+    {
+        "http_code": 202,
+        "message": "Accepted",
+        "body": true
+    },
+    {
+        "http_code": 203,
+        "message": "Non-authoritative info",
+        "body": true
+    },
+    {
+        "http_code": 204,
+        "message": "No content",
+        "body": false
+    },
+    {
+        "http_code": 205,
+        "message": "Reset content",
+        "body": false
+    },
+    {
+        "http_code": 206,
+        "message": "Partial content",
+        "body": true
+    },
+    {
+        "http_code": 207,
+        "message": "Multi-status",
+        "body": true
+    },
+    {
+        "http_code": 208,
+        "message": "Already reported",
+        "body": true
+    },
+    {
+        "http_code": 226,
+        "message": "IM used",
+        "body": true
+    },
+    {
+        "http_code": 300,
+        "message": "Multiple choices",
+        "body": true
+    },
+    {
+        "http_code": 301,
+        "message": "Moved permanently",
+        "body": true
+    },
+    {
+        "http_code": 302,
+        "message": "Found",
+        "body": true
+    },
+    {
+        "http_code": 303,
+        "message": "See other",
+        "body": true
+    },
+    {
+        "http_code": 304,
+        "message": "Not modified",
+        "body": false
+    },
+    {
+        "http_code": 305,
+        "message": "Use proxy",
+        "body": true
+    },
+    {
+        "http_code": 306,
+        "message": "Unused",
+        "body": false
+    },
+    {
+        "http_code": 307,
+        "message": "Temporary redirect",
+        "body": true
+    },
+    {
+        "http_code": 308,
+        "message": "Permanent redirect",
+        "body": true
+    },
+    {
+        "http_code": 400,
+        "message": "Bad request",
+        "body": true
+    },
+    {
+        "http_code": 401,
+        "message": "Unauthorized",
+        "body": true
+    },
+    {
+        "http_code": 402,
+        "message": "Payment required",
+        "body": true
+    },
+    {
+        "http_code": 403,
+        "message": "Forbidden",
+        "body": true
+    },
+    {
+        "http_code": 404,
+        "message": "Not found",
+        "body": true
+    },
+    {
+        "http_code": 405,
+        "message": "Method not allowed",
+        "body": true
+    },
+    {
+        "http_code": 406,
+        "message": "Not acceptable",
+        "body": true
+    },
+    {
+        "http_code": 407,
+        "message": "Proxy auth required",
+        "body": true
+    },
+    {
+        "http_code": 408,
+        "message": "Request timeout",
+        "body": true
+    },
+    {
+        "http_code": 409,
+        "message": "Conflict",
+        "body": true
+    },
+    {
+        "http_code": 410,
+        "message": "Gone",
+        "body": true
+    },
+    {
+        "http_code": 411,
+        "message": "Length required",
+        "body": true
+    },
+    {
+        "http_code": 412,
+        "message": "Precondition failed",
+        "body": true
+    },
+    {
+        "http_code": 413,
+        "message": "Payload too large",
+        "body": true
+    },
+    {
+        "http_code": 414,
+        "message": "URI too long",
+        "body": true
+    },
+    {
+        "http_code": 415,
+        "message": "Unsupported media type",
+        "body": true
+    },
+    {
+        "http_code": 416,
+        "message": "Range not satisfiable",
+        "body": true
+    },
+    {
+        "http_code": 417,
+        "message": "Expectation failed",
+        "body": true
+    },
+    {
+        "http_code": 418,
+        "message": "I'm a teapot",
+        "body": true
+    },
+    {
+        "http_code": 421,
+        "message": "Misdirected request",
+        "body": true
+    },
+    {
+        "http_code": 422,
+        "message": "Unprocessable entity",
+        "body": true
+    },
+    {
+        "http_code": 423,
+        "message": "Locked",
+        "body": true
+    },
+    {
+        "http_code": 424,
+        "message": "Failed dependency",
+        "body": true
+    },
+    {
+        "http_code": 425,
+        "message": "Too early",
+        "body": true
+    },
+    {
+        "http_code": 426,
+        "message": "Upgrade required",
+        "body": true
+    },
+    {
+        "http_code": 428,
+        "message": "Precondition required",
+        "body": true
+    },
+    {
+        "http_code": 429,
+        "message": "Too many requests",
+        "body": true
+    },
+    {
+        "http_code": 431,
+        "message": "Request header fields too large",
+        "body": true
+    },
+    {
+        "http_code": 451,
+        "message": "Unavailable for legal reasons",
+        "body": true
+    },
+    {
+        "http_code": 500,
+        "message": "Internal server error",
+        "body": true
+    },
+    {
+        "http_code": 501,
+        "message": "Not implemented",
+        "body": true
+    },
+    {
+        "http_code": 502,
+        "message": "Bad gateway",
+        "body": true
+    },
+    {
+        "http_code": 503,
+        "message": "Service unavailable",
+        "body": true
+    },
+    {
+        "http_code": 504,
+        "message": "Gateway timeout",
+        "body": true
+    },
+    {
+        "http_code": 505,
+        "message": "HTTP version not supported",
+        "body": true
+    },
+    {
+        "http_code": 506,
+        "message": "Variant also negotiates",
+        "body": true
+    },
+    {
+        "http_code": 507,
+        "message": "Insufficient storage",
+        "body": true
+    },
+    {
+        "http_code": 508,
+        "message": "Loop detected",
+        "body": true
+    },
+    {
+        "http_code": 510,
+        "message": "Not extended",
+        "body": true
+    },
+    {
+        "http_code": 511,
+        "message": "Network auth required",
+        "body": true
+    }
+]

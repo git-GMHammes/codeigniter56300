@@ -25,7 +25,12 @@ class StoreRequest
     # @return array ['valid' => bool, 'errors' => array|null, 'data' => array|null]
     public function validateCreate(): array
     {
+        // Captura dados do request
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
+
+        // ========================================================================
+        // CONFIGURAÃ‡ÃƒO DE VALIDAÃ‡ÃƒO
+        // ========================================================================
 
         $config = [
             'table' => 'user_management',
@@ -49,8 +54,13 @@ class StoreRequest
             ]
         ];
 
+        // ========================================================================
+        // VALIDAÃ‡ÃƒO COM CONEXÃO ESPECÃ�FICA
+        // ========================================================================
+
         $this->validation->setRules($config['rules'], $config['messages']);
 
+        // Executa validação NA CONEXÃO CORRETA
         if (!$this->validation->run($data, null, $config['connection'])) {
             return [
                 'valid' => false,
@@ -58,6 +68,10 @@ class StoreRequest
                 'data' => null
             ];
         }
+
+        // ========================================================================
+        // RETORNO
+        // ========================================================================
 
         return [
             'valid' => true,

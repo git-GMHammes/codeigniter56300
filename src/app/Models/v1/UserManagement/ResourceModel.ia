@@ -44,7 +44,7 @@ class ResourceModel extends Model
 
     # Permite valores NULL em campos que aceitam NULL
     protected bool $allowEmptyInserts = true;
-
+    
     # Regras de validação (validações complexas devem estar nos Requests)
     protected $validationRules = [];
 
@@ -71,7 +71,7 @@ class ResourceModel extends Model
         'updated_at' => 'datetime',
     ];
 
-        # Campos sensíveis que serão removidos automaticamente do retorno
+    # Campos sensíveis que serão removidos automaticamente do retorno
     public $hiddenFields = [
         'password',
         'token',
@@ -163,24 +163,24 @@ class ResourceModel extends Model
             $perPage = $limit ?? 15;
             $builder = $this->builder();
             $builder->where($this->deletedField . ' IS NOT NULL', null, false);
-
+            
             // Contar total
             $total = $builder->countAllResults(false);
-
+            
             // Calcular offset
             $offset = ($page - 1) * $perPage;
-
+            
             // Buscar dados
             $data = $builder->limit($perPage, $offset)->get()->getResultArray();
             
             // Remover campos sensíveis
             $data = $this->removeHiddenFieldsFromArray($data);
-
+            
             // Calcular metadados
             $totalPages = (int) ceil($total / $perPage);
             $from = $total > 0 ? $offset + 1 : 0;
             $to = min($offset + $perPage, $total);
-
+            
             return [
                 'data' => $data,
                 'meta' => [
@@ -404,7 +404,7 @@ class ResourceModel extends Model
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
         return $builder->countAllResults();
     }
-    
+
     # ============================================================
     # CALLBACK AUTOMÁTICO - REMOÇÃO DE CAMPOS SENSÍVEIS
     # ============================================================

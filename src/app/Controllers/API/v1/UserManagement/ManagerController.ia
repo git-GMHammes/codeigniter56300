@@ -44,7 +44,7 @@ class ManagerController extends ResourceController
 
         $this->apiResponse->setPagination($result['data']['meta']);
         $this->apiResponse->setUrlMetadata();
-
+        
         return $this->apiResponse->success(
             $result['data']['data'],
             'Registros recuperados com sucesso.'
@@ -65,7 +65,7 @@ class ManagerController extends ResourceController
 
         $this->apiResponse->setPagination($result['data']['meta']);
         $this->apiResponse->setUrlMetadata();
-
+        
         return $this->apiResponse->success(
             $result['data']['data'],
             'Registros (incluindo deletados) recuperados com sucesso.'
@@ -86,7 +86,7 @@ class ManagerController extends ResourceController
 
         $this->apiResponse->setPagination($result['data']['meta']);
         $this->apiResponse->setUrlMetadata();
-
+        
         return $this->apiResponse->success(
             $result['data']['data'],
             'Registros deletados recuperados com sucesso.'

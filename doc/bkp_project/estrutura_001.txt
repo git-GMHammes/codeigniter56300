@@ -1,0 +1,163 @@
+html/
+├── app # Código da aplicação
+│   ├── Config
+│   │   ├── Boot
+│   │   │   ├── development.php
+│   │   │   ├── production.php
+│   │   │   └── testing.php
+│   │   ├── App.php
+│   │   ├── Autoload.php
+│   │   ├── CURLRequest.php
+│   │   ├── Cache.php
+│   │   ├── Constants.bkp
+│   │   ├── Constants.php
+│   │   ├── ContentSecurityPolicy.php
+│   │   ├── Cookie.php
+│   │   ├── Cors.php
+│   │   ├── Database.php
+│   │   ├── DocTypes.php
+│   │   ├── Email.php
+│   │   ├── Encryption.php
+│   │   ├── Events.php
+│   │   ├── Exceptions.php
+│   │   ├── Feature.php
+│   │   ├── Filters.php
+│   │   ├── ForeignCharacters.php
+│   │   ├── Format.php
+│   │   ├── Generators.php
+│   │   ├── Honeypot.php
+│   │   ├── Images.php
+│   │   ├── Kint.php
+│   │   ├── Logger.php
+│   │   ├── Migrations.php
+│   │   ├── Mimes.php
+│   │   ├── Modules.php
+│   │   ├── Optimize.php
+│   │   ├── Pager.php
+│   │   ├── Paths.php
+│   │   ├── Publisher.php
+│   │   ├── Routes.php
+│   │   ├── Routing.php
+│   │   ├── Security.php
+│   │   ├── Services.php
+│   │   ├── Session.php
+│   │   ├── Toolbar.php
+│   │   ├── UserAgents.php
+│   │   ├── Validation.php
+│   │   └── View.php
+│   ├── Controllers
+│   │   ├── API
+│   │   │   └── v1
+│   │   │       └── UserManagement
+│   │   │           └── ManagerController.php
+│   │   ├── BaseController.php
+│   │   └── Home.php
+│   ├── Database
+│   │   ├── Migrations
+│   │   │   └── .gitkeep
+│   │   └── Seeds
+│   │       └── .gitkeep
+│   ├── Filters
+│   │   └── .gitkeep
+│   ├── Helpers
+│   │   ├── .gitkeep
+│   │   ├── myPrint_helper.php
+│   │   ├── sanitizer_helper.md
+│   │   └── sanitizer_helper.php
+│   ├── Language
+│   │   ├── en
+│   │   │   └── Validation.php
+│   │   └── .gitkeep
+│   ├── Libraries
+│   │   ├── .gitkeep
+│   │   └── ApiResponse.php
+│   ├── Models
+│   │   ├── v1
+│   │   │   ├── UserCustomer
+│   │   │   │   └── ResourceModel.php
+│   │   │   └── UserManagement
+│   │   │       ├── ResourceModel.md
+│   │   │       └── ResourceModel.php
+│   │   └── .gitkeep
+│   ├── Requests
+│   │   └── v1
+│   │       └── UserManagement
+│   │           └── StoreRequest.php
+│   ├── Routes
+│   │   └── API
+│   │       └── v1
+│   │           └── UserManagement
+│   │               └── api_routes.php
+│   ├── Services
+│   │   └── v1
+│   │       └── UserManagement
+│   │           └── ManagerService.php
+│   ├── ThirdParty
+│   │   └── .gitkeep
+│   ├── Views
+│   │   ├── errors
+│   │   │   ├── cli
+│   │   │   │   ├── error_404.php
+│   │   │   │   ├── error_exception.php
+│   │   │   │   └── production.php
+│   │   │   └── html
+│   │   │       ├── debug.css
+│   │   │       ├── debug.js
+│   │   │       ├── error_400.php
+│   │   │       ├── error_404.php
+│   │   │       ├── error_exception.php
+│   │   │       └── production.php
+│   │   └── welcome_message.php
+│   ├── .htaccess
+│   ├── Common.php
+│   └── index.html
+├── public # Arquivos públicos
+│   ├── observer
+│   │   └── codeigniter
+│   │       ├── estrutura1
+│   │       │   └── index.php
+│   │       ├── estrutura2
+│   │       │   └── index.php
+│   │       └── estrutura_ia.txt
+│   ├── .htaccess
+│   ├── favicon.ico
+│   ├── index.php
+│   ├── info.php
+│   └── robots.txt
+├── tests
+│   ├── _support
+│   │   ├── Database
+│   │   │   ├── Migrations
+│   │   │   │   └── 2020-02-22-222222_example_migration.php
+│   │   │   └── Seeds
+│   │   │       └── ExampleSeeder.php
+│   │   ├── Libraries
+│   │   │   └── ConfigReader.php
+│   │   └── Models
+│   │       └── ExampleModel.php
+│   ├── database # Migrations e seeds
+│   │   └── ExampleDatabaseTest.php
+│   ├── session
+│   │   └── ExampleSessionTest.php
+│   ├── unit
+│   │   └── HealthTest.php
+│   ├── .htaccess
+│   ├── README.md
+│   └── index.html
+├── writable
+│   ├── .htaccess
+│   └── index.html
+├── .env
+├── LICENSE
+├── README.md
+├── composer.json
+├── env
+├── phpunit.xml.dist
+├── preload.php
+└── spark
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Gerado em: 2025-11-23 20:49:10
+Diretório base: /var/www/html
+Ignorados: vendor, node_modules, .git, .idea, storage/logs, storage/framework/cache, storage/framework/sessions, storage/framework/views, bootstrap/cache, system, writable/cache, writable/debugbar, writable/logs, writable/session, writable/uploads
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
