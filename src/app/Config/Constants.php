@@ -43,8 +43,9 @@ defined('WEEK') || define('WEEK', 604800);
 defined('MONTH') || define('MONTH', 2_592_000);
 defined('YEAR') || define('YEAR', 31_536_000);
 defined('DECADE') || define('DECADE', 315_360_000);
+// require_once __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
 $path = __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
-if (file_exists($path) && is_file($path)) {
+if (is_readable($path)) {
     require_once $path;
 }
 /*
@@ -72,7 +73,8 @@ if (file_exists($path) && is_file($path)) {
  |       http://tldp.org/LDP/abs/html/exitcodes.html
  |
  */
-$path = __DIR__ . '/../../system/ThirdParty/Jugwoko.php';
+// require_once __DIR__ . '/../../system/HotReloader/Puipuia.php';
+$path = __DIR__ . '/../../system/HotReloader/Puipuia.php';
 if (is_readable($path)) {
     require_once $path;
 }
