@@ -1,1 +1,4 @@
 src/public/info.php
+src/writable/debugbar/*
+src/writable/logs/*
+src/.env

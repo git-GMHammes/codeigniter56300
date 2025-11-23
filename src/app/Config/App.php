@@ -207,13 +207,13 @@ class App extends BaseConfig
             $_SERVER['SERVER_NAME'] == 'localhost'
             && $_SERVER['SERVER_PORT'] == '80'
         ) {
-            $base_endpoint = 'info.php';
+            $base_endpoint = '';
         } elseif (
             $_SERVER['SERVER_NAME'] == 'habilidade.com'
             && $_SERVER['SERVER_PORT'] == '80'
             || $_SERVER['SERVER_NAME'] == 'habilidade.com'
             && $_SERVER['SERVER_PORT'] == '443'
-        ) {
+            ) {
             $base_endpoint = 'codeigniter56300/public/';
         } else {
             $response = [

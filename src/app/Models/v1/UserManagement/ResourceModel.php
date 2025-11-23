@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models\v1\User;
+namespace App\Models\v1\UserManagement;
 
 use CodeIgniter\Model;
 
 class ResourceModel extends Model
 {
     # Grupo de conexão do banco de dados (DB_GROUP_001, DB_GROUP_002 ou DB_GROUP_003)
-    protected $DBGroup = 'DB_GROUP_001';
+    protected $DBGroup = DB_GROUP_001;
 
     # Nome da tabela no banco de dados
-    protected $table = 'users';
+    protected $table = 'user_management';
 
     # Chave primária da tabela
     protected $primaryKey = 'id';
@@ -38,19 +38,13 @@ class ResourceModel extends Model
 
     # Campos permitidos para mass assignment (proteção de segurança)
     protected $allowedFields = [
-        'name',
         'password',
-        'profile',
-        'date_birth',
-        'zip_code',
-        'address',
-        'cpf',
-        'whatsapp',
-        'user',
-        'mail',
-        'phone'
+        'user'
     ];
 
+    # Permite valores NULL em campos que aceitam NULL
+    protected bool $allowEmptyInserts = true;
+    
     # Regras de validação (validações complexas devem estar nos Requests)
     protected $validationRules = [];
 
@@ -62,21 +56,19 @@ class ResourceModel extends Model
 
     # Callbacks executados automaticamente pelo CI4
     protected $beforeInsert = [];
-    protected $afterInsert  = [];
+    protected $afterInsert = [];
     protected $beforeUpdate = [];
-    protected $afterUpdate  = [];
-    protected $beforeFind   = [];
-    protected $afterFind    = [];
+    protected $afterUpdate = [];
+    protected $beforeFind = [];
+    protected $afterFind = [];
     protected $beforeDelete = [];
-    protected $afterDelete  = [];
+    protected $afterDelete = [];
 
     # Type casting automático de campos (int, date, datetime, etc)
-    protected $casts = [
-        'id'         => 'int',
-        'date_birth' => 'date',
+    protected array $casts = [
+        'id' => 'int',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
     ];
 
     # Campos sensíveis que serão removidos pela Library de formatação
@@ -90,7 +82,7 @@ class ResourceModel extends Model
     public function findAllWithDeleted(?int $limit = null, ?int $offset = null): array
     {
         $builder = $this->builder();
-        
+
         if ($limit !== null) {
             $builder->limit($limit, $offset ?? 0);
         }
@@ -104,7 +96,7 @@ class ResourceModel extends Model
     {
         $builder = $this->builder();
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
-        
+
         if ($limit !== null) {
             $builder->limit($limit, $offset ?? 0);
         }
@@ -118,7 +110,7 @@ class ResourceModel extends Model
     {
         $builder = $this->builder();
         $result = $builder->where($this->primaryKey, $id)->get()->getRowArray();
-        
+
         return $result ?: null;
     }
 
@@ -128,8 +120,8 @@ class ResourceModel extends Model
     {
         $builder = $this->builder();
         return $builder->where($this->primaryKey, $id)
-                       ->set($this->deletedField, null)
-                       ->update();
+            ->set($this->deletedField, null)
+            ->update();
     }
 
     # Hard delete - Exclusão permanente do banco
@@ -145,10 +137,10 @@ class ResourceModel extends Model
     {
         $builder = $this->builder();
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
-        
+
         $count = $builder->countAllResults(false);
         $builder->delete();
-        
+
         return $count;
     }
 
@@ -230,19 +222,19 @@ class ResourceModel extends Model
     {
         $db = \Config\Database::connect($this->DBGroup);
         $fields = $db->getFieldData($this->table);
-        
+
         $metadata = [];
         foreach ($fields as $field) {
             $metadata[] = [
-                'COLUMN_NAME'    => $field->name,
-                'COLUMN_TYPE'    => $field->type,
-                'IS_NULLABLE'    => $field->nullable ? 'YES' : 'NO',
-                'COLUMN_KEY'     => $field->primary_key ? 'PRI' : '',
+                'COLUMN_NAME' => $field->name,
+                'COLUMN_TYPE' => $field->type,
+                'IS_NULLABLE' => $field->nullable ? 'YES' : 'NO',
+                'COLUMN_KEY' => $field->primary_key ? 'PRI' : '',
                 'COLUMN_DEFAULT' => $field->default,
-                'MAX_LENGTH'     => $field->max_length ?? null,
+                'MAX_LENGTH' => $field->max_length ?? null,
             ];
         }
-        
+
         return $metadata;
     }
 
@@ -252,8 +244,8 @@ class ResourceModel extends Model
     {
         $db = \Config\Database::connect($this->DBGroup);
         $fields = $db->getFieldData($this->table);
-        
-        return array_map(function($field) {
+
+        return array_map(function ($field) {
             return $field->name;
         }, $fields);
     }
