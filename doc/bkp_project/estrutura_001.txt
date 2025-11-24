@@ -49,6 +49,7 @@ html/
 │   │   ├── API
 │   │   │   └── v1
 │   │   │       └── UserManagement
+│   │   │           ├── ManagerController.ia
 │   │   │           └── ManagerController.php
 │   │   ├── BaseController.php
 │   │   └── Home.php
@@ -70,12 +71,15 @@ html/
 │   │   └── .gitkeep
 │   ├── Libraries
 │   │   ├── .gitkeep
+│   │   ├── ApiResponse.ia
 │   │   └── ApiResponse.php
 │   ├── Models
 │   │   ├── v1
 │   │   │   ├── UserCustomer
 │   │   │   │   └── ResourceModel.php
 │   │   │   └── UserManagement
+│   │   │       ├── ResourceModel.bkp
+│   │   │       ├── ResourceModel.ia
 │   │   │       ├── ResourceModel.md
 │   │   │       └── ResourceModel.php
 │   │   └── .gitkeep
@@ -91,6 +95,7 @@ html/
 │   ├── Services
 │   │   └── v1
 │   │       └── UserManagement
+│   │           ├── ManagerService.ia
 │   │           └── ManagerService.php
 │   ├── ThirdParty
 │   │   └── .gitkeep
@@ -157,7 +162,7 @@ html/
 └── spark
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Gerado em: 2025-11-23 20:49:10
+Gerado em: 2025-11-24 01:37:42
 Diretório base: /var/www/html
 Ignorados: vendor, node_modules, .git, .idea, storage/logs, storage/framework/cache, storage/framework/sessions, storage/framework/views, bootstrap/cache, system, writable/cache, writable/debugbar, writable/logs, writable/session, writable/uploads
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

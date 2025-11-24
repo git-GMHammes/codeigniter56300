@@ -122,6 +122,18 @@ class ResourceModel extends Model
         $from = $total > 0 ? $offset + 1 : 0;
         $to = min($offset + $perPage, $total);
 
+        // Gerar links de paginação
+        $baseUrl = current_url();
+        $queryParams = http_build_query(array_merge($_GET, ['limit' => $perPage]));
+        $baseUrl = strtok($baseUrl, '?');
+
+        $links = [
+            'first' => $baseUrl . '?page=1&' . $queryParams,
+            'prev' => $page > 1 ? $baseUrl . '?page=' . ($page - 1) . '&' . $queryParams : null,
+            'next' => $page < $totalPages ? $baseUrl . '?page=' . ($page + 1) . '&' . $queryParams : null,
+            'last' => $baseUrl . '?page=' . $totalPages . '&' . $queryParams,
+        ];
+
         return [
             'data' => $data,
             'meta' => [
@@ -132,7 +144,8 @@ class ResourceModel extends Model
                 'from' => $from,
                 'to' => $to,
                 'has_next_page' => $page < $totalPages,
-                'has_previous_page' => $page > 1
+                'has_previous_page' => $page > 1,
+                'links' => $links
             ]
         ];
     }
@@ -180,6 +193,18 @@ class ResourceModel extends Model
             $totalPages = (int) ceil($total / $perPage);
             $from = $total > 0 ? $offset + 1 : 0;
             $to = min($offset + $perPage, $total);
+            
+            // Gerar links de paginação
+            $baseUrl = current_url();
+            $queryParams = http_build_query(array_merge($_GET, ['limit' => $perPage]));
+            $baseUrl = strtok($baseUrl, '?');
+
+            $links = [
+                'first' => $baseUrl . '?page=1&' . $queryParams,
+                'prev' => $page > 1 ? $baseUrl . '?page=' . ($page - 1) . '&' . $queryParams : null,
+                'next' => $page < $totalPages ? $baseUrl . '?page=' . ($page + 1) . '&' . $queryParams : null,
+                'last' => $baseUrl . '?page=' . $totalPages . '&' . $queryParams,
+            ];
 
             return [
                 'data' => $data,
@@ -191,7 +216,8 @@ class ResourceModel extends Model
                     'from' => $from,
                     'to' => $to,
                     'has_next_page' => $page < $totalPages,
-                    'has_previous_page' => $page > 1
+                    'has_previous_page' => $page > 1,
+                    'links' => $links
                 ]
             ];
         }

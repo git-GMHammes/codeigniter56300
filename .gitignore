@@ -1,4 +1,5 @@
 *.bkp
+*.ia
 src/public/info.php
 src/writable/debugbar/*
 src/writable/logs/*
@@ -8,3 +9,5 @@ src/system/HotReloader/_Puipuia.php
 src/system/HotReloader/Puipuia.php
 src/system/ThirdParty/Jugwoko.php
 src/public/observer/codeigniter/*
+src/app/Libraries/ApiResponse.ia
+src/app/Models/v1/UserManagement/ResourceModel.ia

@@ -1,486 +1,897 @@
-# DOCUMENTAÇÃO - ResourceModel
+# ResourceModel - Documentação Completa
 
-## Visão Geral
-
-ResourceModel é a classe base para todos os Models do sistema de migração Laravel para CodeIgniter 4.6. Esta classe utiliza exclusivamente recursos nativos do CodeIgniter 4.6, garantindo total compatibilidade e segurança.
-
-O Model está localizado em: `app/Models/v1/ResourceModel.php`
-
-Namespace: `App\Models\v1`
+**Localização:** `app/Models/v1/UserManagement/ResourceModel.php`
 
 ---
 
-## Propriedades Protegidas (Protected)
-
-### $DBGroup
-
-Define qual grupo de conexão de banco de dados será utilizado pelo Model. O sistema suporta três tipos diferentes de conexões de banco de dados.
-
-Valor padrão: `'DB_GROUP_001'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Esta propriedade deve ser alterada conforme a necessidade de cada Model, podendo assumir os valores DB_GROUP_001, DB_GROUP_002 ou DB_GROUP_003, dependendo de qual banco de dados a tabela pertence.
-
-### $table
-
-Define o nome da tabela no banco de dados que este Model irá manipular.
-
-Valor padrão: `'users'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Cada Model deve alterar esta propriedade para corresponder ao nome real da tabela no banco de dados.
-
-### $primaryKey
-
-Define qual campo é a chave primária da tabela.
-
-Valor padrão: `'id'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-A maioria das tabelas usa 'id' como chave primária, mas esta propriedade pode ser alterada caso a tabela utilize outro campo como chave primária.
-
-### $returnType
-
-Define o formato de retorno dos dados obtidos do banco de dados.
-
-Valor padrão: `'array'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Valores possíveis: 'array' retorna arrays associativos, 'object' retorna objetos stdClass. Recomenda-se manter como 'array' para consistência no projeto.
-
-### $useSoftDeletes
-
-Habilita ou desabilita o recurso de soft delete (exclusão lógica).
-
-Valor padrão: `true`
-
-Tipo: boolean
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Quando ativado (true), as operações de DELETE não removem fisicamente os registros do banco de dados. Ao invés disso, o campo deleted_at é preenchido com a data e hora da exclusão, marcando o registro como deletado logicamente.
-
-### $deletedField
-
-Define qual campo da tabela será usado para marcar registros deletados logicamente.
-
-Valor padrão: `'deleted_at'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Este campo deve existir na tabela e ser do tipo datetime, permitindo valores NULL. Registros com este campo preenchido são considerados deletados.
-
-### $useTimestamps
-
-Habilita ou desabilita o preenchimento automático de timestamps.
-
-Valor padrão: `true`
-
-Tipo: boolean
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Quando ativado (true), o CodeIgniter preenche automaticamente os campos de criação e atualização com a data e hora atual durante operações de INSERT e UPDATE.
-
-### $createdField
-
-Define qual campo será preenchido automaticamente com a data de criação do registro.
-
-Valor padrão: `'created_at'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Este campo deve existir na tabela e ser do tipo datetime. É preenchido automaticamente apenas na operação INSERT.
-
-### $updatedField
-
-Define qual campo será preenchido automaticamente com a data da última atualização do registro.
-
-Valor padrão: `'updated_at'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Este campo deve existir na tabela e ser do tipo datetime. É atualizado automaticamente em toda operação UPDATE.
-
-### $dateFormat
-
-Define o formato de data usado para os timestamps.
-
-Valor padrão: `'datetime'`
-
-Tipo: string
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Valores possíveis: 'datetime' formato Y-m-d H:i:s, 'date' formato Y-m-d, 'int' timestamp Unix. Recomenda-se manter 'datetime' para compatibilidade com MySQL.
-
-### $allowedFields
-
-Define quais campos da tabela podem ser preenchidos através de operações de mass assignment.
-
-Valor padrão: array contendo os campos permitidos
-
-Tipo: array
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Esta é uma medida crítica de segurança equivalente ao $fillable do Laravel. Apenas campos listados neste array podem ser preenchidos através dos métodos insert() e update(). Campos não listados são automaticamente ignorados, protegendo contra vulnerabilidades de mass assignment. Nunca inclua campos sensíveis como 'id' ou campos de controle interno neste array.
-
-### $validationRules
-
-Define regras de validação básicas que serão aplicadas pelo Model.
-
-Valor padrão: array vazio
-
-Tipo: array
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Este array pode conter regras de validação simples do CodeIgniter. No entanto, validações complexas e regras de negócio devem estar nas classes Request, mantendo a separação de responsabilidades.
-
-### $validationMessages
-
-Define mensagens customizadas para os erros de validação.
-
-Valor padrão: array vazio
-
-Tipo: array
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Permite customizar as mensagens de erro retornadas quando uma validação falha. Deve ser usado em conjunto com $validationRules.
-
-### $skipValidation
-
-Controla se a validação deve ser pulada nas operações do Model.
-
-Valor padrão: `false`
-
-Tipo: boolean
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Quando false (padrão), as validações definidas em $validationRules são executadas. Quando true, as validações são ignoradas. Use com cautela.
-
-### Callbacks (beforeInsert, afterInsert, beforeUpdate, afterUpdate, beforeFind, afterFind, beforeDelete, afterDelete)
-
-Define métodos que serão executados automaticamente em diferentes momentos do ciclo de vida do Model.
-
-Valor padrão: arrays vazios
-
-Tipo: array
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Cada callback é um array que pode conter nomes de métodos da classe que serão executados automaticamente. Por exemplo, beforeInsert é executado antes de inserir um registro, afterUpdate é executado após atualizar um registro, e assim por diante. Útil para lógica que deve sempre executar em determinados momentos, como hash de senhas antes de inserir, log de alterações após atualizar, etc.
-
-### $casts
-
-Define conversão automática de tipos para campos específicos.
-
-Valor padrão: array com conversões definidas
-
-Tipo: array
-
-Funcionalidade: Nativa do CodeIgniter 4.6
-
-Este recurso é equivalente aos $casts do Laravel. O CodeIgniter converte automaticamente os tipos dos campos ao buscar ou salvar dados. Tipos disponíveis incluem: int, integer, float, double, string, bool, boolean, object, array, datetime, timestamp, date. Por exemplo, um campo definido como 'int' no array será sempre retornado como inteiro, não como string. Campos de data definidos como 'datetime' são automaticamente convertidos para objetos Time do CodeIgniter.
+## 📋 Índice
+
+1. [Configurações do Model](#configurações-do-model)
+2. [Callbacks do CodeIgniter 4](#-callbacks-do-codeigniter-4)
+3. [Campos Sensíveis (Hidden Fields)](#campos-sensíveis-hidden-fields)
+4. [Métodos de Paginação](#métodos-de-paginação)
+5. [Métodos de Soft Delete](#métodos-de-soft-delete)
+6. [Métodos de Busca](#métodos-de-busca)
+7. [Métodos de Metadados](#métodos-de-metadados)
+8. [Operadores de Filtro](#operadores-de-filtro)
+9. [Exemplos de Uso](#exemplos-de-uso)
 
 ---
 
-## Propriedades Públicas (Public)
+## Configurações do Model
 
-### $hiddenFields
-
-Lista de campos que devem ser removidos das respostas da API.
-
-Valor padrão: array contendo 'password'
-
-Tipo: array
-
-Funcionalidade: Customizada (não é nativa do CodeIgniter)
-
-Esta propriedade serve como referência para a Library de formatação de respostas que será criada futuramente. O Model não processa esta propriedade automaticamente. A Library de formatação lerá este array e removerá os campos listados antes de retornar os dados para o Controller. Isso garante que campos sensíveis como senhas nunca sejam expostos nas respostas da API, mesmo que sejam buscados do banco de dados.
+```php
+protected $table = 'user_management';          # Tabela do banco
+protected $primaryKey = 'id';                  # Chave primária
+protected $returnType = 'array';               # Retorno como array
+protected $useSoftDeletes = true;              # Soft delete ativo
+protected $deletedField = 'deleted_at';        # Campo de soft delete
+protected $useTimestamps = true;               # Timestamps automáticos
+protected $createdField = 'created_at';        # Campo de criação
+protected $updatedField = 'updated_at';        # Campo de atualização
+protected $allowedFields = ['password', 'user']; # Campos permitidos
+```
 
 ---
 
-## Métodos Públicos
-
-### findAllWithDeleted(?int $limit = null, ?int $offset = null): array
-
-Busca todos os registros da tabela, incluindo os que foram marcados como deletados.
-
-Parâmetros:
-
-- $limit: Quantidade máxima de registros a retornar. Se null, retorna todos.
-- $offset: Quantidade de registros a pular antes de começar a retornar. Se null, começa do primeiro.
-
-Retorno: Array com todos os registros encontrados.
-
-Rota correspondente: GET /api/v1/objeto/with-deleted
-
-Este método ignora o filtro automático de soft delete do CodeIgniter, retornando tanto registros ativos (deleted_at NULL) quanto deletados (deleted_at preenchido). Útil para administradores que precisam visualizar ou recuperar dados deletados.
-
-### findOnlyDeleted(?int $limit = null, ?int $offset = null): array
-
-Busca apenas os registros que foram marcados como deletados.
-
-Parâmetros:
-
-- $limit: Quantidade máxima de registros a retornar. Se null, retorna todos.
-- $offset: Quantidade de registros a pular antes de começar a retornar. Se null, começa do primeiro.
-
-Retorno: Array contendo apenas os registros deletados.
-
-Rota correspondente: GET /api/v1/objeto/only-deleted
-
-Este método aplica um filtro WHERE para retornar apenas registros onde deleted_at não é NULL. Útil para listar registros que podem ser restaurados ou para auditoria de exclusões.
-
-### findWithDeleted(int $id): ?array
-
-Busca um registro específico por ID, incluindo se estiver marcado como deletado.
-
-Parâmetros:
-
-- $id: ID do registro a ser buscado.
-
-Retorno: Array com os dados do registro se encontrado, ou null se não existir.
-
-Rota correspondente: POST /api/v1/objeto/{id}/with-deleted
-
-Este método permite recuperar dados de um registro específico mesmo que ele tenha sido deletado logicamente. Diferente do método find() nativo que ignora registros deletados, este método busca independentemente do status de deleted_at. Essencial para operações de restauração ou visualização de histórico.
-
-### restore(int $id): bool
-
-Restaura um registro que foi marcado como deletado, tornando-o ativo novamente.
-
-Parâmetros:
-
-- $id: ID do registro a ser restaurado.
-
-Retorno: true se a restauração foi bem sucedida, false caso contrário.
-
-Rota correspondente: PATCH /api/v1/objeto/{id}/restore
-
-Este método remove o valor do campo deleted_at, definindo-o como NULL novamente. Isso faz com que o registro volte a aparecer nas buscas normais e seja considerado ativo pelo sistema. A operação não afeta nenhum outro campo do registro.
-
-### hardDelete(int $id): bool
-
-Remove permanentemente um registro do banco de dados.
-
-Parâmetros:
-
-- $id: ID do registro a ser deletado permanentemente.
-
-Retorno: true se a exclusão foi bem sucedida, false caso contrário.
-
-Rota correspondente: DELETE /api/v1/objeto/{id}/hard
-
-Este método executa uma exclusão física do registro, removendo-o permanentemente da tabela. Mesmo com soft delete ativado no Model, este método força a exclusão permanente através do segundo parâmetro true do método delete() nativo. Esta operação é irreversível e deve ser usada com extrema cautela, geralmente restrita a administradores de alto nível.
-
-### clearDeleted(): int
-
-Remove permanentemente todos os registros que estão marcados como deletados.
-
-Parâmetros: Nenhum.
-
-Retorno: Número inteiro representando quantos registros foram removidos permanentemente.
-
-Rota correspondente: DELETE /api/v1/objeto/clear
-
-Este método realiza uma limpeza em massa, executando hard delete em todos os registros onde deleted_at não é NULL. Primeiro conta quantos registros serão afetados, depois executa a exclusão permanente e retorna a contagem. Útil para manutenção periódica do banco de dados, liberando espaço de registros que não precisam mais ser mantidos.
-
-### search(array $filters = [], array $options = []): array
-
-Realiza busca avançada com múltiplos filtros e opções.
-
-Parâmetros:
-
-- $filters: Array de filtros a serem aplicados. Pode ser simples ['campo' => 'valor'] ou complexo com operadores ['campo' => ['operator' => 'like', 'value' => 'texto']].
-- $options: Array de opções como ordenação, limite, offset e inclusão de deletados.
-
-Retorno: Array com os registros que atendem aos critérios de busca.
-
-Rota correspondente: POST /api/v1/objeto/search
-
-Este é o método mais complexo e versátil do Model. Permite realizar buscas extremamente flexíveis combinando múltiplos critérios. Os filtros suportam diversos operadores: igual (padrão), like/contains para busca parcial, starts_with para busca no início do texto, ends_with para busca no final, in e not_in para listas de valores, operadores de comparação maior que, menor que, diferente, etc. As opções permitem ordenar resultados por qualquer campo em ordem crescente ou decrescente, limitar quantidade de resultados, aplicar offset para paginação, e incluir registros deletados na busca através de 'with_deleted' => true.
-
-### getColumnsMetadata(): array
-
-Obtém metadados detalhados de todas as colunas da tabela.
-
-Parâmetros: Nenhum.
-
-Retorno: Array contendo informações detalhadas de cada coluna.
-
-Rota correspondente: GET /api/v1/objeto/columns
-
-Este método conecta diretamente ao banco de dados através do DBGroup configurado e utiliza o método getFieldData() nativo do CodeIgniter para obter informações completas sobre a estrutura da tabela. Para cada coluna, retorna: COLUMN_NAME com o nome do campo, COLUMN_TYPE com o tipo de dado SQL, IS_NULLABLE indicando se aceita valores NULL, COLUMN_KEY indicando se é chave primária (PRI) ou vazia se não for chave, COLUMN_DEFAULT com o valor padrão definido no banco ou null, MAX_LENGTH com o tamanho máximo permitido se aplicável. Extremamente útil para gerar interfaces dinâmicas, documentação automática ou validações baseadas na estrutura real do banco.
-
-### getColumnNames(): array
-
-Obtém apenas os nomes das colunas da tabela.
-
-Parâmetros: Nenhum.
-
-Retorno: Array simples contendo strings com os nomes das colunas.
-
-Rota correspondente: GET /api/v1/objeto/column-names
-
-Este método é uma versão simplificada do getColumnsMetadata(), retornando apenas os nomes dos campos sem informações adicionais. Conecta ao banco através do DBGroup, obtém os metadados e usa array_map para extrair apenas a propriedade 'name' de cada campo. Útil quando se precisa apenas saber quais campos existem na tabela, sem necessidade de informações detalhadas sobre tipos e configurações.
-
-### exists(int $id): bool
-
-Verifica se um registro com determinado ID existe na tabela.
-
-Parâmetros:
-
-- $id: ID do registro a ser verificado.
-
-Retorno: true se o registro existe, false caso contrário.
-
-Rota correspondente: Nenhuma rota direta, método auxiliar para uso interno.
-
-Este método utiliza o find() nativo do CodeIgniter e verifica se o resultado é diferente de null. Respeita o soft delete, ou seja, retorna false para registros que foram deletados logicamente. É um método auxiliar conveniente para validações em Services ou Controllers, evitando a necessidade de buscar o registro completo apenas para verificar sua existência.
-
-### countAllWithDeleted(): int
-
-Conta o total de registros na tabela, incluindo os deletados.
-
-Parâmetros: Nenhum.
-
-Retorno: Número inteiro representando a contagem total.
-
-Rota correspondente: Nenhuma rota direta, método auxiliar para uso interno.
-
-Este método ignora o filtro automático de soft delete do CodeIgniter e conta absolutamente todos os registros presentes fisicamente na tabela, independentemente do valor de deleted_at. Útil para estatísticas completas, relatórios administrativos ou monitoramento de crescimento real da base de dados.
-
-### countOnlyDeleted(): int
-
-Conta apenas os registros que foram marcados como deletados.
-
-Parâmetros: Nenhum.
-
-Retorno: Número inteiro representando quantos registros estão deletados.
-
-Rota correspondente: Nenhuma rota direta, método auxiliar para uso interno.
-
-Este método aplica um filtro WHERE para contar apenas registros onde deleted_at não é NULL. Útil para monitorar a quantidade de registros que podem ser restaurados ou permanentemente excluídos, ajudar em decisões de limpeza de banco de dados, ou gerar relatórios de exclusões realizadas.
+## 🔄 Callbacks do CodeIgniter 4
+
+**Callbacks automáticos disponíveis no Model:**
+
+```php
+protected $beforeInsert = [];                  # Antes de inserir
+protected $afterInsert = [];                   # Depois de inserir
+protected $beforeUpdate = [];                  # Antes de atualizar
+protected $afterUpdate = [];                   # Depois de atualizar
+protected $beforeFind = [];                    # Antes de buscar
+protected $afterFind = ['removeHiddenFields']; # Depois de buscar ✅ ATIVO
+protected $beforeDelete = [];                  # Antes de deletar
+protected $afterDelete = [];                   # Depois de deletar
+```
+
+### Callback Ativo
+
+**`afterFind` → `removeHiddenFields`**
+
+- Remove automaticamente campos sensíveis após qualquer busca
+- Executado em: `find()`, `findAll()`, `first()`, etc.
 
 ---
 
-## Métodos Nativos Herdados (Não Customizados)
+### 💡 Exemplos de Uso Futuro
 
-O ResourceModel herda todos os métodos nativos da classe Model do CodeIgniter 4.6. Os principais métodos herdados que podem ser utilizados diretamente são:
+#### 1️⃣ Hash de Senha Automático
 
-### find($id = null)
+**Antes de inserir/atualizar, hash a senha:**
 
-Busca um ou mais registros por ID. Se passar um ID, retorna um único registro. Se passar um array de IDs, retorna múltiplos registros. Se não passar parâmetro, retorna todos os registros ativos (respeitando soft delete).
+```php
+protected $beforeInsert = ['hashPassword'];
+protected $beforeUpdate = ['hashPassword'];
 
-### findAll(int $limit = 0, int $offset = 0)
+protected function hashPassword(array $data): array
+{
+    if (isset($data['data']['password'])) {
+        $data['data']['password'] = password_hash(
+            $data['data']['password'],
+            PASSWORD_DEFAULT
+        );
+    }
+    return $data;
+}
+```
 
-Busca todos os registros ativos da tabela. Parâmetros opcionais de limite e offset para paginação.
+**Uso:**
 
-### insert($data)
-
-Insere um novo registro na tabela. Retorna o ID do registro criado se bem sucedido, ou false em caso de erro.
-
-### update($id = null, $data = null)
-
-Atualiza um ou mais registros. Se passar ID como primeiro parâmetro, atualiza apenas aquele registro. Se passar array de IDs, atualiza múltiplos registros.
-
-### delete($id = null, bool $purge = false)
-
-Deleta um registro. Se $purge for false (padrão) e soft delete estiver ativo, faz soft delete. Se $purge for true, faz hard delete permanente.
-
-### save($data)
-
-Método inteligente que decide automaticamente se deve fazer insert ou update baseado na presença do campo de chave primária nos dados.
-
-### first()
-
-Retorna o primeiro registro encontrado.
-
-### builder()
-
-Retorna uma instância do Query Builder do CodeIgniter para construir queries customizadas complexas.
+```php
+$model->insert(['user' => 'joao', 'password' => '123456']);
+// Senha automaticamente hasheada antes de salvar
+```
 
 ---
 
-## Considerações Importantes
+#### 2️⃣ Validar Dados Antes de Inserir
 
-### Compatibilidade
+**Validação customizada antes de inserir:**
 
-Todos os recursos utilizados neste Model são 100% nativos do CodeIgniter 4.6. Não há overrides de métodos nativos que possam causar problemas de compatibilidade ou comportamentos inesperados.
+```php
+protected $beforeInsert = ['validateUserUnique'];
 
-### Segurança
+protected function validateUserUnique(array $data): array
+{
+    if (isset($data['data']['user'])) {
+        $exists = $this->where('user', $data['data']['user'])->first();
 
-A propriedade $allowedFields protege contra vulnerabilidades de mass assignment. A propriedade $hiddenFields (quando processada pela Library de formatação) protege contra exposição de dados sensíveis.
-
-### Soft Delete
-
-O sistema de soft delete está totalmente ativado e configurado. Métodos nativos como find(), findAll() e countAllResults() automaticamente ignoram registros deletados. Os métodos customizados com sufixo "WithDeleted" ou "OnlyDeleted" permitem acesso explícito a estes registros quando necessário.
-
-### Type Casting
-
-O array $casts garante que os tipos de dados sejam consistentes. Campos numéricos sempre retornam como números, campos de data sempre retornam como objetos Time do CodeIgniter, facilitando manipulações e evitando bugs relacionados a tipos de dados.
-
-### Múltiplas Conexões
-
-O sistema está preparado para trabalhar com três diferentes grupos de conexão de banco de dados através da propriedade $DBGroup. Cada Model pode facilmente ser configurado para usar qualquer uma das três conexões disponíveis.
-
-### Extensibilidade
-
-Este Model serve como base para todos os outros Models do sistema. Novos Models devem estender ResourceModel e apenas ajustar as propriedades básicas ($table, $DBGroup, $allowedFields, $casts, $hiddenFields) conforme necessário. Todos os métodos customizados já estarão disponíveis automaticamente.
-
-### Performance
-
-Os métodos foram otimizados para executar apenas as queries necessárias. Métodos de contagem usam countAllResults() que é mais eficiente que buscar todos os registros e contar no PHP. O uso do Query Builder garante queries parametrizadas e seguras contra SQL Injection.
+        if ($exists) {
+            throw new \Exception('Usuário já existe');
+        }
+    }
+    return $data;
+}
+```
 
 ---
 
-## Exemplo de Uso em Outro Model
+#### 3️⃣ Auditoria Automática (Quem Criou/Atualizou)
 
-Para criar um novo Model para outra tabela, basta estender ResourceModel e configurar as propriedades necessárias:
+**Registrar automaticamente quem fez a ação:**
 
-Criar arquivo: app/Models/v1/ProductModel.php
+```php
+protected $beforeInsert = ['addCreatedBy'];
+protected $beforeUpdate = ['addUpdatedBy'];
 
-Definir namespace: App\Models\v1
+protected function addCreatedBy(array $data): array
+{
+    $data['data']['created_by'] = session('user_id');
+    return $data;
+}
 
-Estender: class ProductModel extends ResourceModel
+protected function addUpdatedBy(array $data): array
+{
+    $data['data']['updated_by'] = session('user_id');
+    return $data;
+}
+```
 
-Configurar $DBGroup conforme o banco de dados correto.
+**Estrutura da tabela:**
 
-Configurar $table com o nome da tabela no banco.
-
-Configurar $allowedFields com os campos que podem ser preenchidos.
-
-Configurar $casts com os tipos de dados apropriados.
-
-Configurar $hiddenFields se houver campos sensíveis.
-
-Todos os métodos customizados (findAllWithDeleted, restore, search, etc) estarão automaticamente disponíveis sem necessidade de reescrevê-los.
+```sql
+ALTER TABLE user_management
+ADD COLUMN created_by INT,
+ADD COLUMN updated_by INT;
+```
 
 ---
 
-## Conclusão
+#### 4️⃣ Gerar Slug Automático
 
-O ResourceModel foi desenvolvido com foco total em compatibilidade, segurança e profissionalismo. Utiliza exclusivamente recursos nativos do CodeIgniter 4.6, garantindo estabilidade e manutenibilidade a longo prazo. Os métodos customizados seguem as melhores práticas e não interferem com funcionalidades nativas do framework. A documentação completa garante que qualquer desenvolvedor possa entender e utilizar o Model corretamente.
+**Criar slug a partir do nome:**
+
+```php
+protected $beforeInsert = ['generateSlug'];
+protected $beforeUpdate = ['generateSlug'];
+
+protected function generateSlug(array $data): array
+{
+    if (isset($data['data']['name']) && empty($data['data']['slug'])) {
+        $data['data']['slug'] = url_title(
+            $data['data']['name'],
+            '-',
+            true
+        );
+    }
+    return $data;
+}
+```
+
+---
+
+#### 5️⃣ Log de Atividades
+
+**Registrar todas as ações no banco:**
+
+```php
+protected $afterInsert = ['logActivity'];
+protected $afterUpdate = ['logActivity'];
+protected $afterDelete = ['logActivity'];
+
+protected function logActivity(array $data): array
+{
+    $logModel = new ActivityLogModel();
+
+    $logModel->insert([
+        'table' => $this->table,
+        'action' => $data['method'] ?? 'unknown',
+        'record_id' => $data['id'] ?? null,
+        'user_id' => session('user_id'),
+        'created_at' => date('Y-m-d H:i:s')
+    ]);
+
+    return $data;
+}
+```
+
+---
+
+#### 6️⃣ Normalizar Dados
+
+**Converter emails para minúsculo:**
+
+```php
+protected $beforeInsert = ['normalizeEmail'];
+protected $beforeUpdate = ['normalizeEmail'];
+
+protected function normalizeEmail(array $data): array
+{
+    if (isset($data['data']['email'])) {
+        $data['data']['email'] = strtolower(
+            trim($data['data']['email'])
+        );
+    }
+    return $data;
+}
+```
+
+---
+
+#### 7️⃣ Gerar UUID Automático
+
+**Criar UUID único para cada registro:**
+
+```php
+protected $beforeInsert = ['generateUuid'];
+
+protected function generateUuid(array $data): array
+{
+    if (empty($data['data']['uuid'])) {
+        $data['data']['uuid'] = sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
+    }
+    return $data;
+}
+```
+
+---
+
+#### 8️⃣ Sanitizar Dados de Entrada
+
+**Limpar HTML/scripts maliciosos:**
+
+```php
+protected $beforeInsert = ['sanitizeData'];
+protected $beforeUpdate = ['sanitizeData'];
+
+protected function sanitizeData(array $data): array
+{
+    $fieldsToSanitize = ['name', 'description', 'bio'];
+
+    foreach ($fieldsToSanitize as $field) {
+        if (isset($data['data'][$field])) {
+            $data['data'][$field] = strip_tags(
+                $data['data'][$field]
+            );
+        }
+    }
+
+    return $data;
+}
+```
+
+---
+
+#### 9️⃣ Enviar Notificação Após Criar
+
+**Email de boas-vindas automático:**
+
+```php
+protected $afterInsert = ['sendWelcomeEmail'];
+
+protected function sendWelcomeEmail(array $data): array
+{
+    if (isset($data['data']['email'])) {
+        $email = \Config\Services::email();
+
+        $email->setTo($data['data']['email']);
+        $email->setSubject('Bem-vindo!');
+        $email->setMessage('Sua conta foi criada com sucesso.');
+        $email->send();
+    }
+
+    return $data;
+}
+```
+
+---
+
+#### 🔟 Invalidar Cache Após Atualizar
+
+**Limpar cache quando dados mudarem:**
+
+```php
+protected $afterUpdate = ['clearCache'];
+protected $afterDelete = ['clearCache'];
+
+protected function clearCache(array $data): array
+{
+    $cache = \Config\Services::cache();
+    $cache->delete('users_list');
+    $cache->delete('user_' . ($data['id'][0] ?? ''));
+
+    return $data;
+}
+```
+
+---
+
+### 📝 Como Adicionar Múltiplos Callbacks
+
+**Você pode ter vários callbacks no mesmo evento:**
+
+```php
+protected $beforeInsert = [
+    'hashPassword',
+    'generateUuid',
+    'normalizeEmail',
+    'addCreatedBy'
+];
+
+protected $afterInsert = [
+    'logActivity',
+    'sendWelcomeEmail',
+    'clearCache'
+];
+```
+
+**Ordem de execução:** De cima para baixo
+
+---
+
+### ⚠️ Importante sobre Callbacks
+
+1. **Sempre retorne `$data`** ao final do callback
+2. **Estrutura do `$data`:**
+   ```php
+   [
+       'data' => [...],    // Dados sendo inseridos/atualizados
+       'method' => '...',  // insert/update/delete
+       'id' => [...]       // IDs afetados (em updates/deletes)
+   ]
+   ```
+3. **Erros:** Use `throw new \Exception()` para interromper operação
+4. **Performance:** Evite queries pesadas dentro de callbacks
+5. **Teste sempre:** Callbacks podem causar efeitos colaterais
+
+---
+
+## Campos Sensíveis (Hidden Fields)
+
+**Campos removidos automaticamente do retorno:**
+
+```php
+public $hiddenFields = [
+    'password',
+    'token',
+    'api_token',
+    'remember_token',
+];
+```
+
+**Como funciona:**
+
+- Executado automaticamente via callback `afterFind`
+- Remove campos antes de retornar dados
+- Performance: O(n) usando `array_diff_key`
+
+**Adicionar novos campos sensíveis:**
+
+```php
+public $hiddenFields = [
+    'password',
+    'token',
+    'cpf',        // Adicionar
+    'telefone',   // Adicionar
+];
+```
+
+---
+
+## Métodos de Paginação
+
+### `paginateWithMeta()`
+
+**Paginação completa com metadados e links de navegação**
+
+```php
+public function paginateWithMeta(
+    int $perPage = 15,
+    int $page = 1,
+    array $filters = [],
+    array $options = []
+): array
+```
+
+**Parâmetros:**
+
+- `$perPage` - Registros por página (padrão: 15)
+- `$page` - Página atual (padrão: 1)
+- `$filters` - Filtros de busca (opcional)
+- `$options` - Opções adicionais (opcional)
+
+**Opções disponíveis:**
+
+```php
+$options = [
+    'with_deleted' => true,           // Incluir deletados
+    'order_by' => 'created_at',       // Campo de ordenação
+    'order_direction' => 'DESC'        // Direção (ASC/DESC)
+];
+```
+
+**Retorno:**
+
+```php
+[
+    'data' => [...],  // Registros
+    'meta' => [
+        'current_page' => 1,
+        'per_page' => 15,
+        'total' => 150,
+        'total_pages' => 10,
+        'from' => 1,
+        'to' => 15,
+        'has_next_page' => true,
+        'has_previous_page' => false,
+        'links' => [
+            'first' => 'http://...',
+            'prev' => null,
+            'next' => 'http://...',
+            'last' => 'http://...'
+        ]
+    ]
+]
+```
+
+**Exemplo:**
+
+```php
+$result = $model->paginateWithMeta(20, 2);
+```
+
+---
+
+### `findAllWithDeleted()`
+
+**Busca todos incluindo deletados (com suporte a paginação)**
+
+```php
+public function findAllWithDeleted(
+    ?int $limit = null,
+    ?int $offset = null,
+    bool $paginated = false,
+    int $page = 1
+): array
+```
+
+**Modo paginado:**
+
+```php
+$result = $model->findAllWithDeleted(15, null, true, 1);
+```
+
+**Modo simples:**
+
+```php
+$result = $model->findAllWithDeleted(10, 0, false);
+```
+
+---
+
+### `findOnlyDeleted()`
+
+**Busca apenas registros deletados (com suporte a paginação)**
+
+```php
+public function findOnlyDeleted(
+    ?int $limit = null,
+    ?int $offset = null,
+    bool $paginated = false,
+    int $page = 1
+): array
+```
+
+**Exemplo paginado:**
+
+```php
+$result = $model->findOnlyDeleted(20, null, true, 2);
+```
+
+---
+
+## Métodos de Soft Delete
+
+### `findWithDeleted()`
+
+**Busca registro por ID incluindo deletados**
+
+```php
+public function findWithDeleted(int $id): ?array
+```
+
+**Exemplo:**
+
+```php
+$user = $model->findWithDeleted(5);
+```
+
+---
+
+### `restore()`
+
+**Restaura registro soft deleted**
+
+```php
+public function restore(int $id): bool
+```
+
+**Exemplo:**
+
+```php
+$restored = $model->restore(5);
+```
+
+---
+
+### `hardDelete()`
+
+**Exclusão permanente do banco**
+
+```php
+public function hardDelete(int $id): bool
+```
+
+**Exemplo:**
+
+```php
+$deleted = $model->hardDelete(5);
+```
+
+---
+
+### `clearDeleted()`
+
+**Remove permanentemente todos os registros deletados**
+
+```php
+public function clearDeleted(): int
+```
+
+**Retorno:** Quantidade de registros removidos
+
+**Exemplo:**
+
+```php
+$count = $model->clearDeleted(); // Retorna: 15
+```
+
+---
+
+## Métodos de Busca
+
+### `search()`
+
+**Busca avançada com filtros e operadores**
+
+```php
+public function search(
+    array $filters = [],
+    array $options = [],
+    bool $paginated = false,
+    int $page = 1,
+    int $perPage = 15
+): array
+```
+
+**Exemplo:**
+
+```php
+$filters = [
+    'user' => [
+        'operator' => 'like',
+        'value' => 'joao'
+    ],
+    'created_at' => [
+        'operator' => '>=',
+        'value' => '2024-01-01'
+    ]
+];
+
+$options = [
+    'order_by' => 'id',
+    'order_direction' => 'DESC'
+];
+
+$result = $model->search($filters, $options, true, 1, 20);
+```
+
+---
+
+### `exists()`
+
+**Verifica se registro existe por ID**
+
+```php
+public function exists(int $id): bool
+```
+
+**Exemplo:**
+
+```php
+if ($model->exists(5)) {
+    // Registro existe
+}
+```
+
+---
+
+## Métodos de Metadados
+
+### `getColumnsMetadata()`
+
+**Retorna metadados completos das colunas**
+
+```php
+public function getColumnsMetadata(): array
+```
+
+**Retorno:**
+
+```php
+[
+    [
+        'COLUMN_NAME' => 'id',
+        'COLUMN_TYPE' => 'int',
+        'IS_NULLABLE' => 'NO',
+        'COLUMN_KEY' => 'PRI',
+        'COLUMN_DEFAULT' => null,
+        'MAX_LENGTH' => null
+    ],
+    // ...
+]
+```
+
+---
+
+### `getColumnNames()`
+
+**Retorna apenas os nomes das colunas**
+
+```php
+public function getColumnNames(): array
+```
+
+**Retorno:**
+
+```php
+['id', 'user', 'password', 'created_at', 'updated_at', 'deleted_at']
+```
+
+---
+
+### `countAllWithDeleted()`
+
+**Conta total incluindo deletados**
+
+```php
+public function countAllWithDeleted(): int
+```
+
+---
+
+### `countOnlyDeleted()`
+
+**Conta apenas deletados**
+
+```php
+public function countOnlyDeleted(): int
+```
+
+---
+
+## Operadores de Filtro
+
+**Operadores disponíveis no método `search()`:**
+
+| Operador             | Descrição            | Exemplo                                                          |
+| -------------------- | -------------------- | ---------------------------------------------------------------- |
+| `=`                  | Igual (padrão)       | `['id' => 5]`                                                    |
+| `!=` ou `<>`         | Diferente            | `['status' => ['operator' => '!=', 'value' => 'active']]`        |
+| `>`                  | Maior que            | `['age' => ['operator' => '>', 'value' => 18]]`                  |
+| `>=`                 | Maior ou igual       | `['price' => ['operator' => '>=', 'value' => 100]]`              |
+| `<`                  | Menor que            | `['stock' => ['operator' => '<', 'value' => 10]]`                |
+| `<=`                 | Menor ou igual       | `['discount' => ['operator' => '<=', 'value' => 50]]`            |
+| `like` ou `contains` | Contém (%valor%)     | `['name' => ['operator' => 'like', 'value' => 'silva']]`         |
+| `starts_with`        | Começa com (valor%)  | `['email' => ['operator' => 'starts_with', 'value' => 'admin']]` |
+| `ends_with`          | Termina com (%valor) | `['domain' => ['operator' => 'ends_with', 'value' => '.com']]`   |
+| `in`                 | Dentro do array      | `['id' => ['operator' => 'in', 'value' => [1,2,3]]]`             |
+| `not_in`             | Fora do array        | `['status' => ['operator' => 'not_in', 'value' => ['banned']]]`  |
+
+---
+
+## Exemplos de Uso
+
+### Exemplo 1: Listagem Simples com Paginação
+
+```php
+$model = new ResourceModel();
+$result = $model->paginateWithMeta(15, 1);
+
+// Acessar dados
+$users = $result['data'];
+$meta = $result['meta'];
+```
+
+---
+
+### Exemplo 2: Busca com Filtros e Ordenação
+
+```php
+$filters = [
+    'user' => [
+        'operator' => 'like',
+        'value' => 'admin'
+    ]
+];
+
+$options = [
+    'order_by' => 'created_at',
+    'order_direction' => 'DESC'
+];
+
+$result = $model->search($filters, $options, true, 1, 20);
+```
+
+---
+
+### Exemplo 3: Restaurar Usuário Deletado
+
+```php
+// Verificar se existe (incluindo deletados)
+$user = $model->findWithDeleted(5);
+
+if ($user && $user['deleted_at'] !== null) {
+    // Restaurar
+    $model->restore(5);
+}
+```
+
+---
+
+### Exemplo 4: Busca com Múltiplos Filtros
+
+```php
+$filters = [
+    'user' => [
+        'operator' => 'like',
+        'value' => 'silva'
+    ],
+    'id' => [
+        'operator' => 'in',
+        'value' => [1, 2, 3, 5, 8]
+    ],
+    'created_at' => [
+        'operator' => '>=',
+        'value' => '2024-01-01'
+    ]
+];
+
+$result = $model->search($filters, [], true, 1, 25);
+```
+
+---
+
+### Exemplo 5: Limpar Registros Deletados
+
+```php
+// Contar quantos serão removidos
+$count = $model->countOnlyDeleted();
+
+// Confirmar e limpar
+if ($count > 0) {
+    $removed = $model->clearDeleted();
+    echo "Removidos: {$removed} registros";
+}
+```
+
+---
+
+### Exemplo 6: Paginação com Inclusão de Deletados
+
+```php
+$options = ['with_deleted' => true];
+$result = $model->paginateWithMeta(20, 1, [], $options);
+```
+
+---
+
+### Exemplo 7: Verificar Existência
+
+```php
+if ($model->exists(10)) {
+    echo "Usuário ID 10 existe";
+} else {
+    echo "Usuário não encontrado";
+}
+```
+
+---
+
+### Exemplo 8: Metadados da Tabela
+
+```php
+// Obter todas as colunas
+$columns = $model->getColumnNames();
+// ['id', 'user', 'password', 'created_at', ...]
+
+// Obter metadados completos
+$metadata = $model->getColumnsMetadata();
+```
+
+---
+
+## 🔒 Segurança
+
+**Campos sensíveis são removidos automaticamente:**
+
+- ✅ `password` nunca retorna
+- ✅ `token` nunca retorna
+- ✅ `api_token` nunca retorna
+- ✅ `remember_token` nunca retorna
+
+**Para adicionar novos campos sensíveis:**
+
+```php
+public $hiddenFields = [
+    'password',
+    'token',
+    'cpf',          // Novo
+    'telefone',     // Novo
+];
+```
+
+---
+
+## ⚡ Performance
+
+**Otimizações aplicadas:**
+
+- Remoção de campos sensíveis: `O(n)` com `array_diff_key`
+- Paginação: Query única com `countAllResults(false)`
+- Filtros: Query builder nativo do CI4
+- Links de navegação: Gerados em memória sem queries extras
+
+---
+
+## 📝 Notas Importantes
+
+1. **Soft Delete:** Sempre use `delete()` ao invés de `hardDelete()` para manter histórico
+2. **Paginação:** Limite máximo recomendado: 100 registros por página
+3. **Filtros:** Sempre valide dados antes de passar para o Model
+4. **Links:** URLs geradas automaticamente com `current_url()`
+5. **Hidden Fields:** Aplicado automaticamente em todas as buscas
+
+---
+
+## 🚀 Fluxo Recomendado
+
+**Controller → Service → Model**
+
+```php
+// Controller
+$page = $this->request->getGet('page') ?? 1;
+$limit = $this->request->getGet('limit') ?? 15;
+
+// Service
+$result = $this->service->index($page, $limit);
+
+// Service chama Model
+$data = $this->model->paginateWithMeta($limit, $page);
+```
+
+---
+
+## 📚 Referências
+
+- CodeIgniter 4 Model: https://codeigniter.com/user_guide/models/model.html
+- Query Builder: https://codeigniter.com/user_guide/database/query_builder.html
+- Soft Deletes: https://codeigniter.com/user_guide/models/model.html#usesoftdeletes
+
+---
+
+**Versão:** 1.0.0  
+**Última atualização:** 2025-11-24  
+**Autor:** Gustavo - PRODERJ

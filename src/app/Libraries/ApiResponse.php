@@ -220,6 +220,7 @@ class ApiResponse
             'to' => $paginationData['to'] ?? 0,
             'has_next_page' => $paginationData['has_next_page'] ?? false,
             'has_previous_page' => $paginationData['has_previous_page'] ?? false,
+            'links' => $paginationData['links'] ?? []
         ];
 
         // Metadata (informações técnicas)

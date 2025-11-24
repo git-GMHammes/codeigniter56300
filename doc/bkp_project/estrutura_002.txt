@@ -17,6 +17,7 @@ html/
     │   ├── API
     │   │   └── v1 # Versao 1 da API
     │   │       └── UserManagement
+    │   │           ├── ManagerController.ia
     │   │           └── ManagerController.php
     │   ├── BaseController.php
     │   └── Home.php
@@ -27,6 +28,8 @@ html/
     │   │   ├── UserCustomer
     │   │   │   └── ResourceModel.php
     │   │   └── UserManagement
+    │   │       ├── ResourceModel.bkp
+    │   │       ├── ResourceModel.ia
     │   │       ├── ResourceModel.md
     │   │       └── ResourceModel.php
     │   └── .gitkeep
@@ -46,10 +49,11 @@ html/
     └── Services # [3] Logica de negocio
         └── v1 # Versao 1 da API
             └── UserManagement
+                ├── ManagerService.ia
                 └── ManagerService.php
 
 ============================================================
-Gerado em: 2025-11-23 18:16:24
+Gerado em: 2025-11-24 01:37:38
 Diretorio base: /var/www/html
-Exibindo apenas: app/Routes, app/Requests, app/Controllers, app/Services, app/Models
+Exibindo apenas: app/Controllers, app/Models, app/Requests, app/Routes, app/Services
 ============================================================
