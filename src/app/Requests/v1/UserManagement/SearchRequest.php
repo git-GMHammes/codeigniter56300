@@ -4,7 +4,7 @@ namespace App\Requests\v1\UserManagement;
 
 use CodeIgniter\HTTP\IncomingRequest;
 
-class StoreRequest
+class SearchRequest
 {
     # Request do CodeIgniter
     # @var IncomingRequest
@@ -23,10 +23,23 @@ class StoreRequest
 
     # Valida dados para criacao de Usuario
     # @return array ['valid' => bool, 'errors' => array|null, 'data' => array|null]
-    public function validateCreate(): array
+    public function validateSearch(): array
     {
         // Captura dados do request
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
+
+        // Remove password se vier (segurança)
+        if (isset($data['password'])) {
+            return [
+                'valid' => false,
+                'errors' => [
+                    'Unprocessable Entity'
+                ],
+                'data' => [
+                    'O campo X não é permitido para esta requisição',
+                ]
+            ];
+        }
 
         // ========================================================================
         // CONFIGURAÃ‡ÃƒO DE VALIDAÃ‡ÃƒO
@@ -36,20 +49,28 @@ class StoreRequest
             'table' => 'user_management',
             'connection' => DB_GROUP_001,
             'rules' => [
-                'user' => 'required|min_length[6]|max_length[50]|is_unique[user_management.user]',
-                'password' => 'required|min_length[8]|max_length[200]',
+                'id' => 'permit_empty|numeric',
+                'user' => 'permit_empty|string|max_length[50]',
+                'created_at' => 'permit_empty|valid_date',
+                'updated_at' => 'permit_empty|valid_date',
+                'deleted_at' => 'permit_empty|valid_date',
             ],
             'messages' => [
-                'user' => [
-                    'required' => 'O campo Usuario e obrigatorio.',
-                    'min_length' => 'O Usuario deve ter no minimo 6 caracteres.',
-                    'max_length' => 'O Usuario deve ter no maximo 50 caracteres.',
-                    'is_unique' => 'Este Usuario ja esta cadastrado no sistema.',
+                'id' => [
+                    'numeric' => 'O campo ID deve ser numérico.'
                 ],
-                'password' => [
-                    'required' => 'O campo Senha e obrigatorio.',
-                    'min_length' => 'A Senha deve ter no minimo 8 caracteres.',
-                    'max_length' => 'A Senha deve ter no maximo 200 caracteres.',
+                'user' => [
+                    'string' => 'O campo usuário deve ser uma string.',
+                    'max_length' => 'O campo usuário deve ter no máximo 50 caracteres.',
+                ],
+                'created_at' => [
+                    'valid_date' => 'O campo created_at deve ser uma data válida.'
+                ],
+                'updated_at' => [
+                    'valid_date' => 'O campo updated_at deve ser uma data válida.'
+                ],
+                'deleted_at' => [
+                    'valid_date' => 'O campo deleted_at deve ser uma data válida.'
                 ],
             ]
         ];
@@ -70,11 +91,28 @@ class StoreRequest
         }
 
         // ========================================================================
-        // HASH DE PASSWORD (OBRIGATÓRIO PARA SEGURANÇA)
+        // PREPARA DADOS PARA BUSCA (adiciona operador LIKE em campos texto)
         // ========================================================================
 
-        if (isset($data['password'])) {
-            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $searchData = [];
+
+        foreach ($data as $field => $value) {
+            // Ignora campos vazios
+            if ($value === null || $value === '') {
+                continue;
+            }
+
+            // Campos de texto usam LIKE (busca parcial)
+            if (in_array($field, ['user'])) {
+                $searchData[$field] = [
+                    'value' => $value,
+                    'operator' => 'like'
+                ];
+            }
+            // Campos numéricos e datas usam igualdade exata
+            else {
+                $searchData[$field] = $value;
+            }
         }
 
         // ========================================================================
@@ -84,7 +122,7 @@ class StoreRequest
         return [
             'valid' => true,
             'errors' => null,
-            'data' => $data
+            'data' => $searchData
         ];
     }
 }

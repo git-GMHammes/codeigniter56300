@@ -60,7 +60,7 @@ class ResourceModel extends Model
     protected $beforeUpdate = [];
     protected $afterUpdate = [];
     protected $beforeFind = [];
-    protected $afterFind = ['removeHiddenFields'];
+    protected $afterFind = ['removeHiddenFields', 'formatAfterFind'];
     protected $beforeDelete = [];
     protected $afterDelete = [];
 
@@ -71,7 +71,7 @@ class ResourceModel extends Model
         'updated_at' => 'datetime',
     ];
 
-        # Campos sensíveis que serão removidos automaticamente do retorno
+    # Campos sensíveis que serão removidos automaticamente do retorno
     public $hiddenFields = [
         'password',
         'token',
@@ -89,14 +89,14 @@ class ResourceModel extends Model
     {
         $builder = $this->builder();
 
+        // Aplicar soft delete manualmente (excluir registros deletados)
+        if (!isset($options['with_deleted']) || $options['with_deleted'] !== true) {
+            $builder->where($this->table . '.' . $this->deletedField . ' IS NULL', null, false);
+        }
+
         // Aplicar filtros se existirem
         if (!empty($filters)) {
             $this->applyFilters($builder, $filters);
-        }
-
-        // Incluir deletados se solicitado
-        if (isset($options['with_deleted']) && $options['with_deleted'] === true) {
-            $this->tempUseSoftDeletes = false;
         }
 
         // Ordenação
@@ -185,7 +185,7 @@ class ResourceModel extends Model
 
             // Buscar dados
             $data = $builder->limit($perPage, $offset)->get()->getResultArray();
-            
+
             // Remover campos sensíveis
             $data = $this->removeHiddenFieldsFromArray($data);
 
@@ -193,7 +193,7 @@ class ResourceModel extends Model
             $totalPages = (int) ceil($total / $perPage);
             $from = $total > 0 ? $offset + 1 : 0;
             $to = min($offset + $perPage, $total);
-            
+
             // Gerar links de paginação
             $baseUrl = current_url();
             $queryParams = http_build_query(array_merge($_GET, ['limit' => $perPage]));
@@ -348,6 +348,21 @@ class ResourceModel extends Model
             ->update();
     }
 
+    # Atualiza registro APENAS se NÃO estiver soft deleted
+    # Rota: PUT /api/v1/objeto
+    public function updateNotDeleted(int $id, array $data): bool
+    {
+        // Verifica se o registro existe E não está deletado
+        $exists = $this->find($id);
+
+        if (!$exists) {
+            return false;
+        }
+
+        // Atualiza usando o método nativo
+        return $this->update($id, $data);
+    }
+
     # Hard delete - Exclusão permanente do banco
     # Rota: DELETE /api/v1/objeto/{id}/hard
     public function hardDelete(int $id): bool
@@ -357,15 +372,27 @@ class ResourceModel extends Model
 
     # Limpar todos os registros marcados como deletados
     # Rota: DELETE /api/v1/objeto/clear
-    public function clearDeleted(): int
+    public function clearDeleted(): array
     {
         $builder = $this->builder();
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
 
-        $count = $builder->countAllResults(false);
-        $builder->delete();
+        // Busca os IDs ANTES de deletar
+        $records = $builder->select($this->primaryKey)->get()->getResultArray();
+        $ids = array_column($records, $this->primaryKey);
+        $count = count($ids);
 
-        return $count;
+        // Deleta permanentemente
+        if ($count > 0) {
+            $builder = $this->builder();
+            $builder->where($this->deletedField . ' IS NOT NULL', null, false);
+            $builder->delete();
+        }
+
+        return [
+            'ids' => $ids,
+            'count' => $count
+        ];
     }
 
     # ============================================================
@@ -430,7 +457,7 @@ class ResourceModel extends Model
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
         return $builder->countAllResults();
     }
-    
+
     # ============================================================
     # CALLBACK AUTOMÁTICO - REMOÇÃO DE CAMPOS SENSÍVEIS
     # ============================================================
@@ -485,5 +512,56 @@ class ResourceModel extends Model
         }
 
         return $data;
+    }
+
+    /**
+     * Formata dados após busca do banco
+     * Remove campos sensíveis e padroniza formato de timestamps
+     */
+    protected function formatAfterFind(array $data): array
+    {
+        if (!isset($data['data'])) {
+            return $data;
+        }
+
+        // Registro único
+        if (isset($data['data']['id'])) {
+            $data['data'] = $this->formatRecord($data['data']);
+            return $data;
+        }
+
+        // Múltiplos registros
+        if (is_array($data['data'])) {
+            foreach ($data['data'] as $key => $record) {
+                if (is_array($record)) {
+                    $data['data'][$key] = $this->formatRecord($record);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Formata um único registro
+     */
+    private function formatRecord(array $record): array
+    {
+        // Remove password
+        unset($record['password']);
+
+        // Converte timestamps DateTime para string
+        foreach (['created_at', 'updated_at', 'deleted_at'] as $field) {
+            if (isset($record[$field]) && is_object($record[$field])) {
+                $record[$field] = $record[$field]->format('Y-m-d H:i:s');
+            }
+        }
+
+        // Converte ID para string (manter padrão da API)
+        if (isset($record['id'])) {
+            $record['id'] = (string) $record['id'];
+        }
+
+        return $record;
     }
 }
