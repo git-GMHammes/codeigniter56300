@@ -242,8 +242,8 @@ class ManagerController extends ResourceController
     }
 
     # ========================================================================
-    # EXCLUSÃO
-    # EXCLUSÃO
+    # EXCLUSÃO SOFT
+    # EXCLUSÃO HARD
     # ========================================================================
 
     # DELETE /api/v1/user-management/(:num)

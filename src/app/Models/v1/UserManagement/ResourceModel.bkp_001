@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\v1\UserCustomer;
+namespace App\Models\v1\UserManagement;
 
 use CodeIgniter\Model;
 
@@ -10,7 +10,7 @@ class ResourceModel extends Model
     protected $DBGroup = DB_GROUP_001;
 
     # Nome da tabela no banco de dados
-    protected $table = 'user_customer';
+    protected $table = 'user_management';
 
     # Chave primária da tabela
     protected $primaryKey = 'id';
@@ -38,17 +38,12 @@ class ResourceModel extends Model
 
     # Campos permitidos para mass assignment (proteção de segurança)
     protected $allowedFields = [
-        'user_id',
-        'name',
-        'cpf',
-        'whatsapp',
-        'profile',
-        'mail',
-        'phone',
-        'date_birth',
-        'zip_code',
-        'address'
+        'password',
+        'user'
     ];
+
+    # Permite valores NULL em campos que aceitam NULL
+    protected bool $allowEmptyInserts = true;
 
     # Regras de validação (validações complexas devem estar nos Requests)
     protected $validationRules = [];
@@ -70,19 +65,18 @@ class ResourceModel extends Model
     protected $afterDelete = [];
 
     # Type casting automático de campos (int, date, datetime, etc)
-    protected $casts = [
+    protected array $casts = [
         'id' => 'int',
-        'date_birth' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
     ];
 
-    # Campos sensíveis que serão removidos pela Library de formatação
-    # Esta propriedade é apenas referência, não é processada pelo Model
+    # Campos sensíveis que serão removidos automaticamente do retorno
     public $hiddenFields = [
-        'cpf',
-        'mail'
+        'password',
+        'token',
+        'api_token',
+        'remember_token',
     ];
 
     # ============================================================
@@ -251,7 +245,7 @@ class ResourceModel extends Model
         // Aplicar filtros
         if (!empty($filters)) {
             $this->applyFilters($builder, $filters);
-    }
+        }
 
         // Incluir deletados se solicitado
         if (isset($options['with_deleted']) && $options['with_deleted'] === true) {
@@ -342,7 +336,7 @@ class ResourceModel extends Model
         $result = $builder->where($this->primaryKey, $id)->get()->getRowArray();
 
         return $result ?: null;
-        }
+    }
 
     # Restaurar registro soft deleted (remove deleted_at)
     # Rota: PATCH /api/v1/objeto/{id}/restore
