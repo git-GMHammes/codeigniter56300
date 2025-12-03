@@ -22,5 +22,8 @@ class ResourceModel extends BaseResourceModel
         // 'deleted_at' => 'datetime',
     ];
 
-    public $hiddenFields = ['password', 'email'];
+    public $hiddenFields = [
+        'password',
+        'email'
+    ];
 }

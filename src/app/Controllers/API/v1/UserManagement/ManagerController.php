@@ -2,100 +2,64 @@
 
 namespace App\Controllers\API\v1\UserManagement;
 
-use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\API\v1\BaseManagerController;
 use App\Requests\v1\UserManagement\StoreRequest;
 use App\Requests\v1\UserManagement\SearchRequest;
-use App\Services\v1\UserManagement\ManagerService;
 use App\Requests\v1\UserManagement\ModifyRequest;
-use App\Libraries\ApiResponse;
+use App\Services\v1\UserManagement\ManagerService;
 
-# IMPORTS DOS REQUESTS (criar depois)
-# use App\Requests\v1\UserManagement\ModifyRequest;
-# use App\Requests\v1\UserManagement\SearchRequest;
-
-class ManagerController extends ResourceController
+class ManagerController extends BaseManagerController
 {
     protected $storeRequest;
     protected $searchRequest;
     protected $modifyRequest;
-    protected $service;
-    protected $apiResponse;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->storeRequest = new StoreRequest();
+        $this->searchRequest = new SearchRequest();
+        $this->modifyRequest = new ModifyRequest();
+        $this->service = new ManagerService();
+    }
 
     # ========================================================================
     # LISTAGEM
     # ========================================================================
 
-    public function __construct()
-    {
-        $this->storeRequest = new StoreRequest();
-        $this->searchRequest = new SearchRequest();
-        $this->modifyRequest = new ModifyRequest();
-        $this->service = new ManagerService();
-        $this->apiResponse = new ApiResponse();
-
-    }
-
     # GET /api/v1/user-management
     public function index()
     {
-        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
-        $perPage = min(100, max(1, (int) ($this->request->getGet('limit') ?? 15)));
+        $params = $this->getPaginationParams();
 
-        $result = $this->service->index($page, $perPage);
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message']);
-        }
-
-        $this->apiResponse->setPagination($result['data']['meta']);
-        $this->apiResponse->setUrlMetadata();
-
-        return $this->apiResponse->success(
-            $result['data']['data'],
-            'Registros recuperados com sucesso.'
+        return $this->executeService(
+            fn() => $this->service->index($params['page'], $params['perPage']),
+            'Registros recuperados com sucesso.',
+            true
         );
     }
 
     # GET /api/v1/user-management/with-deleted
     public function indexWithDeleted()
     {
-        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
-        $perPage = min(100, max(1, (int) ($this->request->getGet('limit') ?? 15)));
+        $params = $this->getPaginationParams();
 
-        $result = $this->service->indexWithDeleted($page, $perPage);
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message']);
-        }
-
-        $this->apiResponse->setPagination($result['data']['meta']);
-        $this->apiResponse->setUrlMetadata();
-
-        return $this->apiResponse->success(
-            $result['data']['data'],
-            'Registros (incluindo deletados) recuperados com sucesso.'
+        return $this->executeService(
+            fn() => $this->service->indexWithDeleted($params['page'], $params['perPage']),
+            'Registros (incluindo deletados) recuperados com sucesso.',
+            true
         );
     }
 
     # GET /api/v1/user-management/only-deleted
     public function indexOnlyDeleted()
     {
-        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
-        $perPage = min(100, max(1, (int) ($this->request->getGet('limit') ?? 15)));
+        $params = $this->getPaginationParams();
 
-        $result = $this->service->indexOnlyDeleted($page, $perPage);
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message']);
-        }
-
-        $this->apiResponse->setPagination($result['data']['meta']);
-        $this->apiResponse->setUrlMetadata();
-
-        return $this->apiResponse->success(
-            $result['data']['data'],
-            'Registros deletados recuperados com sucesso.'
+        return $this->executeService(
+            fn() => $this->service->indexOnlyDeleted($params['page'], $params['perPage']),
+            'Registros deletados recuperados com sucesso.',
+            true
         );
     }
 
@@ -106,67 +70,46 @@ class ManagerController extends ResourceController
     # GET /api/v1/user-management/(:num)
     public function show($id = null)
     {
-        if (!$id) {
-            return $this->apiResponse->badRequest('ID não fornecido.');
-        }
+        if ($error = $this->validateId($id))
+            return $error;
 
-        $result = $this->service->show($id);
-
-        if (!$result['success']) {
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        return $this->apiResponse->success($result['data'], 'Registro recuperado com sucesso.');
+        return $this->executeService(
+            fn() => $this->service->show($id),
+            'Registro recuperado com sucesso.'
+        );
     }
 
     # POST /api/v1/user-management/(:num)/with-deleted
     public function showWithDeleted($id = null)
     {
-        if (!$id) {
-            return $this->apiResponse->badRequest('ID não fornecido.');
-        }
+        if ($error = $this->validateId($id))
+            return $error;
 
-        $result = $this->service->showWithDeleted($id);
-
-        if (!$result['success']) {
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        $this->apiResponse->setUrlMetadata();
-
-        return $this->apiResponse->success($result['data'], 'Registro (incluindo deletado) recuperado com sucesso.');
+        return $this->executeService(
+            fn() => $this->service->showWithDeleted($id),
+            'Registro (incluindo deletado) recuperado com sucesso.'
+        );
     }
 
     # POST /api/v1/user-management/search
     public function search()
     {
-        // [1] VALIDAÇÃO
-        $validation = $this->searchRequest->validateSearch();
+        $validation = $this->validateRequest($this->searchRequest, 'validateSearch');
+        if ($validation['hasError'])
+            return $validation['response'];
 
-        if (!$validation['valid']) {
-            return $this->apiResponse->validationError(
-                $validation['errors'],
-                'Dados de busca inválidos.'
-            );
-        }
+        $params = $this->getPaginationParams();
 
-        // [2] PARÂMETROS DE PAGINAÇÃO
-        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
-        $perPage = min(100, max(1, (int) ($this->request->getGet('limit') ?? 15)));
-
-        // [3] SERVICE
-        $result = $this->service->search($validation['data'], $page, $perPage);
+        $result = $this->service->search($validation['data'], $params['page'], $params['perPage']);
 
         if (!$result['success']) {
             return $this->apiResponse->internalError($result['message']);
         }
 
-        // [4] VERIFICA SE ENCONTROU RESULTADOS
         if (empty($result['data']['data']) || $result['data']['meta']['total'] === 0) {
             return $this->apiResponse->notFound('Nenhum registro encontrado com os critérios informados.');
         }
 
-        // [5] RESPOSTA
         $this->apiResponse->setPagination($result['data']['meta']);
         $this->apiResponse->setUrlMetadata();
 
@@ -183,112 +126,64 @@ class ManagerController extends ResourceController
     # POST /api/v1/user-management
     public function store()
     {
-        // [1] VALIDAÇÃO
-        $validation = $this->storeRequest->validateCreate();
+        $validation = $this->validateRequest($this->storeRequest, 'validateCreate');
+        if ($validation['hasError'])
+            return $validation['response'];
 
-        if (!$validation['valid']) {
-            return $this->apiResponse->validationError(
-                $validation['errors'],
-                'Dados de entrada inválidos.'
-            );
-        }
-
-        // [2] VERIFICAÇÃO EXTRA
-        if (empty($validation['data']) || !is_array($validation['data'])) {
-            return $this->apiResponse->internalError(
-                'Erro ao processar dados de entrada.'
-            );
-        }
-
-        // [3] SERVICE
-        $result = $this->service->store($validation['data']);
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message']);
-        }
-
-        // [4] SUCESSO
-        return $this->apiResponse->created(
-            $result['data'],
-            'Usuário criado com sucesso.'
+        return $this->executeService(
+            fn() => $this->service->store($validation['data']),
+            'Usuário criado com sucesso.',
+            false,
+            201
         );
     }
 
     # PUT /api/v1/user-management
     public function modify()
     {
-        // [1] VALIDAÇÃO
-        $validation = $this->modifyRequest->validateUpdate();
+        $validation = $this->validateRequest($this->modifyRequest, 'validateUpdate');
+        if ($validation['hasError'])
+            return $validation['response'];
 
-        if (!$validation['valid']) {
-            return $this->apiResponse->validationError(
-                $validation['errors'],
-                'Dados de entrada inválidos.'
-            );
-        }
-
-        // [2] SERVICE
-        $result = $this->service->modify($validation['data']);
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message']);
-        }
-
-        // [3] SUCESSO
-        return $this->apiResponse->success(
-            $result['data'],
+        return $this->executeService(
+            fn() => $this->service->modify($validation['data']),
             'Usuário atualizado com sucesso.'
         );
     }
 
     # ========================================================================
-    # EXCLUSÃO SOFT
-    # EXCLUSÃO HARD
+    # EXCLUSÃO
     # ========================================================================
 
     # DELETE /api/v1/user-management/(:num)
     public function delete($id = null)
     {
-        if (!$id) {
-            return $this->apiResponse->badRequest('ID não fornecido.');
-        }
+        if ($error = $this->validateId($id))
+            return $error;
 
-        $result = $this->service->delete($id);
-
-        if (!$result['success']) {
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        return $this->apiResponse->success($result['data'], 'Registro deletado com sucesso.');
+        return $this->executeService(
+            fn() => $this->service->delete($id),
+            'Registro deletado com sucesso.'
+        );
     }
 
     # DELETE /api/v1/user-management/(:num)/hard
     public function hardDelete($id = null)
     {
-        if (!$id) {
-            return $this->apiResponse->badRequest('ID não fornecido.');
-        }
+        if ($error = $this->validateId($id))
+            return $error;
 
-        $result = $this->service->hardDelete($id);
-
-        if (!$result['success']) {
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        return $this->apiResponse->success($result['data'], 'Registro excluído permanentemente com sucesso.');
+        return $this->executeService(
+            fn() => $this->service->hardDelete($id),
+            'Registro excluído permanentemente com sucesso.'
+        );
     }
 
     # DELETE /api/v1/user-management/clear
     public function clearDeleted()
     {
-        $result = $this->service->clearDeleted();
-
-        if (!$result['success']) {
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        return $this->apiResponse->success(
-            $result['data'],
+        return $this->executeService(
+            fn() => $this->service->clearDeleted(),
             'Registros soft deleted limpos com sucesso.'
         );
     }
@@ -300,19 +195,11 @@ class ManagerController extends ResourceController
     # PATCH /api/v1/user-management/(:num)/restore
     public function restore($id = null)
     {
-        if (!$id) {
-            return $this->apiResponse->badRequest('ID não fornecido.');
-        }
+        if ($error = $this->validateId($id))
+            return $error;
 
-        $result = $this->service->restore((int) $id);
-
-        if (!$result['success']) {
-            // Segue padrão dos outros métodos: quando falha retornar notFound com a mensagem
-            return $this->apiResponse->notFound($result['message']);
-        }
-
-        return $this->apiResponse->success(
-            $result['data'],
+        return $this->executeService(
+            fn() => $this->service->restore((int) $id),
             'Registro restaurado com sucesso.'
         );
     }
@@ -324,14 +211,8 @@ class ManagerController extends ResourceController
     # GET /api/v1/user-management/columns
     public function getColumnsMetadata()
     {
-        $result = $this->service->getColumnsMetadata();
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message'] ?? 'Erro ao recuperar metadados.');
-        }
-
-        return $this->apiResponse->success(
-            $result['data'],
+        return $this->executeService(
+            fn() => $this->service->getColumnsMetadata(),
             'Metadados das colunas recuperados com sucesso.'
         );
     }
@@ -339,14 +220,8 @@ class ManagerController extends ResourceController
     # GET /api/v1/user-management/column-names
     public function getColumnNames()
     {
-        $result = $this->service->getColumnNames();
-
-        if (!$result['success']) {
-            return $this->apiResponse->internalError($result['message'] ?? 'Erro ao recuperar nomes das colunas.');
-        }
-
-        return $this->apiResponse->success(
-            $result['data'],
+        return $this->executeService(
+            fn() => $this->service->getColumnNames(),
             'Nomes das colunas recuperados com sucesso.'
         );
     }
