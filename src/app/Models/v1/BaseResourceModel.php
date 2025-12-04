@@ -237,74 +237,70 @@ abstract class BaseResourceModel extends Model
     # ============================================================
 
     /**
-     * Buscar registro por ID incluindo deletados
-     * Rota: POST /api/v1/objeto/{id}/with-deleted
+     * Busca um registro específico incluindo deletados
+     * Rota: POST /api/v1/objeto/(:num)/with-deleted
      */
     public function findWithDeleted(int $id): ?array
     {
         $builder = $this->builder();
         $result = $builder->where($this->primaryKey, $id)->get()->getRowArray();
 
-        if (!$result) {
-            return null;
-        }
-
-        return $this->formatRecord($result);
+        return $result ?: null;
     }
 
     /**
-     * Restaurar registro soft deleted (remove deleted_at)
-     * Rota: PATCH /api/v1/objeto/{id}/restore
-     */
-    public function restore(int $id): bool
-    {
-        $builder = $this->builder();
-        return $builder->where($this->primaryKey, $id)
-            ->set($this->deletedField, null)
-            ->update();
-    }
-
-    /**
-     * Atualiza registro APENAS se NÃO estiver soft deleted
+     * Atualiza um registro se ele NÃO estiver deletado
      * Rota: PUT /api/v1/objeto
      */
     public function updateNotDeleted(int $id, array $data): bool
     {
-        // Verifica se o registro existe E não está deletado
-        $exists = $this->find($id);
+        $builder = $this->builder();
+        $builder->where($this->primaryKey, $id);
+        $builder->where($this->deletedField . ' IS NULL', null, false);
 
-        if (!$exists) {
-            return false;
-        }
-
-        // Atualiza usando o método nativo
-        return $this->update($id, $data);
+        return $builder->update($data);
     }
 
     /**
-     * Hard delete - Exclusão permanente do banco
-     * Rota: DELETE /api/v1/objeto/{id}/hard
+     * Hard Delete - Exclui permanentemente do banco
+     * Rota: DELETE /api/v1/objeto/(:num)/hard
      */
     public function hardDelete(int $id): bool
     {
-        return $this->delete($id, true);
+        $builder = $this->builder();
+        return $builder->where($this->primaryKey, $id)->delete();
     }
 
     /**
-     * Limpar todos os registros marcados como deletados
+     * Restaura um registro soft deleted
+     * Rota: PATCH /api/v1/objeto/(:num)/restore
+     */
+    public function restore(int $id): bool
+    {
+        $builder = $this->builder();
+        $builder->where($this->primaryKey, $id);
+
+        return $builder->update([
+            $this->deletedField => null,
+            $this->updatedField => date('Y-m-d H:i:s')
+        ]);
+    }
+
+    /**
+     * Limpa TODOS os registros soft deleted (hard delete em lote)
      * Rota: DELETE /api/v1/objeto/clear
      */
     public function clearDeleted(): array
     {
+        // Primeiro, busca os IDs dos registros deletados
         $builder = $this->builder();
         $builder->where($this->deletedField . ' IS NOT NULL', null, false);
+        $deletedRecords = $builder->get()->getResultArray();
 
-        // Busca os IDs ANTES de deletar
-        $records = $builder->select($this->primaryKey)->get()->getResultArray();
-        $ids = array_column($records, $this->primaryKey);
+        $ids = array_column($deletedRecords, $this->primaryKey);
         $count = count($ids);
 
-        // Deleta permanentemente
+        // Depois, faz o hard delete
         if ($count > 0) {
             $builder = $this->builder();
             $builder->where($this->deletedField . ' IS NOT NULL', null, false);
@@ -315,6 +311,78 @@ abstract class BaseResourceModel extends Model
             'ids' => $ids,
             'count' => $count
         ];
+    }
+
+    # ============================================================
+    # MÉTODOS DE VERIFICAÇÃO DE FOREIGN KEYS
+    # ============================================================
+
+    /**
+     * Verifica se existem dependências de foreign keys para um ID
+     * Retorna array com informações sobre tabelas relacionadas
+     * 
+     * @param int $id ID do registro a verificar
+     * @return array Lista de dependências encontradas
+     */
+    public function checkForeignKeyDependencies(int $id): array
+    {
+        $db = \Config\Database::connect($this->DBGroup);
+        $database = $db->getDatabase();
+
+        // Busca foreign keys que REFERENCIAM esta tabela
+        $sql = "
+            SELECT 
+                kcu.TABLE_NAME as dependent_table,
+                kcu.COLUMN_NAME as dependent_column,
+                kcu.CONSTRAINT_NAME as constraint_name,
+                rc.UPDATE_RULE as update_rule,
+                rc.DELETE_RULE as delete_rule
+            FROM 
+                INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu
+            JOIN 
+                INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS rc
+                ON kcu.CONSTRAINT_NAME = rc.CONSTRAINT_NAME
+                AND kcu.CONSTRAINT_SCHEMA = rc.CONSTRAINT_SCHEMA
+            WHERE 
+                kcu.REFERENCED_TABLE_SCHEMA = ?
+                AND kcu.REFERENCED_TABLE_NAME = ?
+                AND kcu.REFERENCED_COLUMN_NAME = ?
+        ";
+
+        $foreignKeys = $db->query($sql, [$database, $this->table, $this->primaryKey])->getResultArray();
+
+        $dependencies = [];
+
+        foreach ($foreignKeys as $fk) {
+            // Conta quantos registros relacionados existem
+            $countQuery = "SELECT COUNT(*) as count FROM {$fk['dependent_table']} WHERE {$fk['dependent_column']} = ?";
+            $count = $db->query($countQuery, [$id])->getRowArray()['count'] ?? 0;
+
+            if ($count > 0) {
+                $dependencies[] = [
+                    'table' => $fk['dependent_table'],
+                    'column' => $fk['dependent_column'],
+                    'constraint' => $fk['constraint_name'],
+                    'count' => (int) $count,
+                    'delete_rule' => $fk['delete_rule'],
+                    'update_rule' => $fk['update_rule']
+                ];
+            }
+        }
+
+        return $dependencies;
+    }
+
+    /**
+     * Verifica se um ID pode ser deletado (sem dependências)
+     * 
+     * @param int $id ID do registro a verificar
+     * @return bool True se pode deletar, False se tem dependências
+     */
+    public function canBeDeleted(int $id): bool
+    {
+        $dependencies = $this->checkForeignKeyDependencies($id);
+        return empty($dependencies);
     }
 
     # ============================================================

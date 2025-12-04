@@ -103,19 +103,24 @@ class ManagerService extends BaseManagerService
     public function delete(int $id): array
     {
         try {
+            // Verifica se o registro existe
             $exists = $this->model->find($id);
 
             if (!$exists) {
                 return $this->errorResponse('Registro não encontrado.');
             }
 
+            // Soft delete não precisa verificar FK (apenas marca como deletado)
             $deleted = $this->model->delete($id);
 
             if (!$deleted) {
                 return $this->errorResponse('Erro ao deletar registro.');
             }
 
-            return $this->successResponse(['id' => $id]);
+            return $this->successResponse(
+                ['id' => $id],
+                'Registro marcado como deletado com sucesso (soft delete).'
+            );
         } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -125,20 +130,51 @@ class ManagerService extends BaseManagerService
     public function hardDelete(int $id): array
     {
         try {
+            // Verifica se o registro existe
             $exists = $this->model->find($id);
 
             if (!$exists) {
-                return $this->errorResponse('Registro não encontrado ou já está deletado. Use /restore antes de excluir permanentemente.');
+                return $this->errorResponse(
+                    'Registro não encontrado ou já está deletado. Use /restore antes de excluir permanentemente.'
+                );
             }
 
+            // ===================================================================
+            // NOVA VERIFICAÇÃO: Checa dependências ANTES de tentar deletar
+            // ===================================================================
+            $dependencyError = $this->checkDependenciesBeforeDelete($id);
+
+            if ($dependencyError) {
+                return $dependencyError;
+            }
+
+            // Se passou na verificação, tenta o hard delete
             $deleted = $this->model->hardDelete($id);
 
             if (!$deleted) {
                 return $this->errorResponse('Erro ao deletar permanentemente.');
             }
 
-            return $this->successResponse(['id' => $id]);
+            return $this->successResponse(
+                ['id' => $id],
+                'Registro excluído permanentemente com sucesso.'
+            );
+
         } catch (\Throwable $e) {
+            // ===================================================================
+            // CAPTURA ERROS DE FK QUE POSSAM TER ESCAPADO
+            // ===================================================================
+            if ($this->isForeignKeyError($e)) {
+                // Tenta buscar dependências detalhadas
+                try {
+                    $dependencies = $this->model->checkForeignKeyDependencies($id);
+                    return $this->foreignKeyErrorResponse($id, $dependencies, $e);
+                } catch (\Throwable $e2) {
+                    // Se falhar ao buscar dependências, usa apenas a exceção original
+                    return $this->foreignKeyErrorResponse($id, null, $e);
+                }
+            }
+
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -153,11 +189,75 @@ class ManagerService extends BaseManagerService
                 return $this->errorResponse('Nenhum registro soft deleted encontrado para limpar.');
             }
 
+            // ===================================================================
+            // VERIFICA DEPENDÊNCIAS PARA CADA ID ANTES DE LIMPAR
+            // ===================================================================
+            $cannotDelete = [];
+
+            foreach ($result['ids'] as $deletedId) {
+                $dependencies = $this->model->checkForeignKeyDependencies($deletedId);
+
+                if (!empty($dependencies)) {
+                    $cannotDelete[$deletedId] = $dependencies;
+                }
+            }
+
+            // Se algum registro não pode ser deletado por FK
+            if (!empty($cannotDelete)) {
+                $message = sprintf(
+                    'Foram encontrados %d registro%s soft deleted, mas %d dele%s não pode%s ser excluído%s permanentemente devido a dependências de foreign key.',
+                    $result['count'],
+                    $result['count'] > 1 ? 's' : '',
+                    count($cannotDelete),
+                    count($cannotDelete) > 1 ? 's' : '',
+                    count($cannotDelete) > 1 ? 'm' : '',
+                    count($cannotDelete) > 1 ? 's' : ''
+                );
+
+                return [
+                    'success' => false,
+                    'message' => $message,
+                    'error_type' => 'foreign_key_constraint',
+                    'data' => [
+                        'total_soft_deleted' => $result['count'],
+                        'cannot_delete_count' => count($cannotDelete),
+                        'ids_with_dependencies' => $cannotDelete,
+                        'suggestions' => [
+                            'Remova os registros relacionados antes de limpar',
+                            'Considere manter estes registros como soft deleted',
+                            'Execute /clear novamente após resolver as dependências'
+                        ]
+                    ]
+                ];
+            }
+
             return $this->successResponse([
                 'IDs' => $result['ids'],
                 'deleted_count' => $result['count']
-            ]);
+            ], sprintf(
+                '%d registro%s soft deleted excluído%s permanentemente com sucesso.',
+                $result['count'],
+                $result['count'] > 1 ? 's' : '',
+                $result['count'] > 1 ? 's' : ''
+            ));
+
         } catch (\Throwable $e) {
+            // Captura erros de FK durante clearDeleted
+            if ($this->isForeignKeyError($e)) {
+                return [
+                    'success' => false,
+                    'message' => 'Erro ao limpar registros deletados devido a restrições de foreign key. Alguns registros possuem dependências em outras tabelas.',
+                    'error_type' => 'foreign_key_constraint',
+                    'data' => [
+                        'raw_error' => $e->getMessage(),
+                        'suggestions' => [
+                            'Remova as dependências manualmente antes de limpar',
+                            'Use /hard em IDs específicos para identificar quais possuem dependências'
+                        ]
+                    ]
+                ];
+            }
+
             return $this->errorResponse($e->getMessage());
         }
     }

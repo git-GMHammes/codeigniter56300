@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\v1\UserManagement;
+namespace App\Services\v1\UserCustomer;
 
 use App\Services\v1\BaseManagerService;
-use App\Models\v1\UserManagement\ResourceModel;
+use App\Models\v1\UserCustomer\ResourceModel;
 
 class ManagerService extends BaseManagerService
 {

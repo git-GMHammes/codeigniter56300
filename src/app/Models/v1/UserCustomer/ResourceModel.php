@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\v1\UserManagement;
+namespace App\Models\v1\UserCustomer;
 
 use App\Models\v1\BaseResourceModel;
 
