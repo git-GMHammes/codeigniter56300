@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Requests\v1\UserManagement;
-
+use App\Validators\v1\UserManagement\StoreValidator;
 use CodeIgniter\HTTP\IncomingRequest;
 
 class StoreRequest
