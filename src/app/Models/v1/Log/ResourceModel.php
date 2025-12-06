@@ -7,7 +7,7 @@ use App\Models\v1\BaseResourceModel;
 class ResourceModel extends BaseResourceModel
 {
     protected $DBGroup = DB_GROUP_001;
-    protected $table = 'log';
+    protected $table = 'logs';
 
     protected $allowedFields = [
         'level',
