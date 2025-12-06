@@ -894,4 +894,4 @@ $data = $this->model->paginateWithMeta($limit, $page);
 
 **Versão:** 1.0.0  
 **Última atualização:** 2025-11-24  
-**Autor:** Gustavo - PRODERJ
+**Autor:** Gustavo - HABILIDADE

@@ -3,7 +3,7 @@
 ## Informações Gerais
 
 - **Versão:** 1.0.0
-- **Autor:** Gustavo - PRODERJ
+- **Autor:** Gustavo - HABILIDADE
 - **Data:** 22/11/2025
 - **Base URL:** `{{www}}/api/v1`
 
@@ -164,5 +164,5 @@ _Adicione aqui informações sobre autenticação se necessário (JWT, API Key, 
 
 ---
 
-**Desenvolvido por:** Gustavo - PRODERJ  
+**Desenvolvido por:** Gustavo - HABILIDADE  
 **Projeto:** CodeIgniter 4 - User Management API

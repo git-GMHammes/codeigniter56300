@@ -7,19 +7,20 @@ use App\Models\v1\BaseResourceModel;
 class ResourceModel extends BaseResourceModel
 {
     protected $DBGroup = DB_GROUP_001;
-    protected $table = 'user_customer';
+    protected $table = 'user_customer_management';
 
     protected $allowedFields = [
-        'user_id',
-        'name',
-        'profile',
-        'phone',
-        'date_birth',
-        'zip_code',
-        'address',
-        'cpf',
-        'whatsapp',
-        'mail',
+        'uc_id',
+        'um_user',
+        'uc_name',
+        'uc_cpf',
+        'uc_whatsapp',
+        'uc_profile',
+        'uc_mail',
+        'uc_phone',
+        'uc_date_birth',
+        'uc_zip_code',
+        'uc_address',
     ];
 
     protected array $casts = [
@@ -30,9 +31,9 @@ class ResourceModel extends BaseResourceModel
     ];
 
     public $hiddenFields = [
-        'cpf',
-        'whatsapp',
-        'date_birth',
-        'mail'
+        'uc_name',
+        'uc_cpf',
+        'uc_whatsapp',
+        'uc_mail',
     ];
 }

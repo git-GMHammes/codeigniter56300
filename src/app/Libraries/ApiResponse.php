@@ -11,7 +11,7 @@ use CodeIgniter\HTTP\ResponseInterface;
  * Segue o padrão definido com http_code, status, message, api_data, data e metadata
  * 
  * @package    App\Libraries
- * @author     Gustavo - PRODERJ
+ * @author     Gustavo - HABILIDADE
  * @version    1.0.0
  * @since      23/11/2025
  */

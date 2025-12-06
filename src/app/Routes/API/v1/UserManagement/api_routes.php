@@ -4,7 +4,7 @@
  * Rotas da API - Módulo User Management (v1)
  * 
  * @package    App\Routes\v1
- * @author     Gustavo - PRODERJ
+ * @author     Gustavo - HABILIDADE
  * @version    1.0.0
  * @since      22/11/2025
  */

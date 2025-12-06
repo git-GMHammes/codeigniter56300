@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Models\v1\UserCustomer;
+namespace App\Models\v1\Log;
 
 use App\Models\v1\BaseResourceModel;
 
 class ResourceModel extends BaseResourceModel
 {
     protected $DBGroup = DB_GROUP_001;
-    protected $table = 'user_customer';
+    protected $table = 'log';
 
     protected $allowedFields = [
+        'level',
+        'event',
+        'resource_type',
+        'resource_id',
         'user_id',
-        'name',
-        'profile',
-        'phone',
-        'date_birth',
-        'zip_code',
-        'address',
-        'cpf',
-        'whatsapp',
-        'mail',
+        'method',
+        'ip',
+        'user_agent',
+        'application',
+        'payload',
+        'meta',
+        'tags',
+        'actor_type'
     ];
 
     protected array $casts = [
@@ -30,9 +33,8 @@ class ResourceModel extends BaseResourceModel
     ];
 
     public $hiddenFields = [
-        'cpf',
-        'whatsapp',
-        'date_birth',
-        'mail'
+        'payload',
+        'meta',
+        'tags',
     ];
 }
