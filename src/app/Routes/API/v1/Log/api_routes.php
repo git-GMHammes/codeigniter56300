@@ -19,78 +19,50 @@ use CodeIgniter\Router\RouteCollection;
 # LISTAGEM
 # ========================================================================
 
-# GET /api/v1/customer-management
+# GET /api/v1/log-management
 # Lista todos os registros ativos (sem deleted_at)
-$routes->get('customer-management', 'API\v1\Log\ManagerController::index', ['as' => 'api.v1.customer-management.index']);
+$routes->get('log-management', 'API\v1\Log\ManagerController::index', ['as' => 'api.v1.log-management.index']);
 
-# GET /api/v1/customer-management/with-deleted
-# Lista todos os registros incluindo os marcados como deletados
-$routes->get('customer-management/with-deleted', 'API\v1\Log\ManagerController::indexWithDeleted', ['as' => 'api.v1.customer-management.with-deleted']);
-
-# GET /api/v1/customer-management/only-deleted
+# GET /api/v1/log-management/only-deleted
 # Lista apenas os registros marcados como deletados
-$routes->get('customer-management/only-deleted', 'API\v1\Log\ManagerController::indexOnlyDeleted', ['as' => 'api.v1.customer-management.only-deleted']);
+$routes->get('log-management/only-deleted', 'API\v1\Log\ManagerController::indexOnlyDeleted', ['as' => 'api.v1.log-management.only-deleted']);
 
 # ========================================================================
 # BUSCA
 # ========================================================================
 
-# GET /api/v1/customer-management/(:num)
+# GET /api/v1/log-management/(:num)
 # Busca um registro específico por ID (apenas ativos)
-$routes->get('customer-management/(:num)', 'API\v1\Log\ManagerController::show/$1', ['as' => 'api.v1.customer-management.show']);
+$routes->get('log-management/(:num)', 'API\v1\Log\ManagerController::show/$1', ['as' => 'api.v1.log-management.show']);
 
-# POST /api/v1/customer-management/(:num)/with-deleted
+# POST /api/v1/log-management/(:num)/with-deleted
 # Busca um registro específico por ID incluindo deletados
-$routes->post('customer-management/(:num)/with-deleted', 'API\v1\Log\ManagerController::showWithDeleted/$1', ['as' => 'api.v1.customer-management.show-with-deleted']);
+$routes->post('log-management/(:num)/with-deleted', 'API\v1\Log\ManagerController::showWithDeleted/$1', ['as' => 'api.v1.log-management.show-with-deleted']);
 
-# POST /api/v1/customer-management/search
+# POST /api/v1/log-management/search
 # Busca avançada com múltiplos filtros, operadores e opções
-$routes->post('customer-management/search', 'API\v1\Log\ManagerController::search', ['as' => 'api.v1.customer-management.search']);
+$routes->post('log-management/search', 'API\v1\Log\ManagerController::search', ['as' => 'api.v1.log-management.search']);
 
 # ========================================================================
 # MANIPULAÇÃO
 # ========================================================================
 
-# POST /api/v1/customer-management
+# POST /api/v1/log-management
 # Cria um novo registro
-$routes->post('customer-management', 'API\v1\Log\ManagerController::store', ['as' => 'api.v1.customer-management.create']);
+$routes->post('log-management', 'API\v1\Log\ManagerController::store', ['as' => 'api.v1.log-management.create']);
 
-# PUT /api/v1/customer-management
+# PUT /api/v1/log-management
 # Atualiza um registro existente
-$routes->put('customer-management', 'API\v1\Log\ManagerController::modify', ['as' => 'api.v1.customer-management.update']);
-
-# ========================================================================
-# EXCLUSÃO
-# ========================================================================
-
-# DELETE /api/v1/customer-management/(:num)
-# Soft delete - marca o registro como deletado (deleted_at)
-$routes->delete('customer-management/(:num)', 'API\v1\Log\ManagerController::delete/$1', ['as' => 'api.v1.customer-management.delete']);
-
-# DELETE /api/v1/customer-management/(:num)/hard
-# Hard delete - exclui permanentemente do banco de dados
-$routes->delete('customer-management/(:num)/hard', 'API\v1\Log\ManagerController::hardDelete/$1', ['as' => 'api.v1.customer-management.hard-delete']);
-
-# DELETE /api/v1/customer-management/clear
-# Limpa todos os registros marcados como deletados (hard delete em lote)
-$routes->delete('customer-management/clear', 'API\v1\Log\ManagerController::clearDeleted', ['as' => 'api.v1.customer-management.clear-deleted']);
-
-# ========================================================================
-# RESTAURAÇÃO
-# ========================================================================
-
-# PATCH /api/v1/customer-management/(:num)/restore
-# Restaura um registro soft deleted (remove deleted_at)
-$routes->patch('customer-management/(:num)/restore', 'API\v1\Log\ManagerController::restore/$1', ['as' => 'api.v1.customer-management.restore']);
+$routes->put('log-management', 'API\v1\Log\ManagerController::modify', ['as' => 'api.v1.log-management.update']);
 
 # ========================================================================
 # METADADOS
 # ========================================================================
 
-# GET /api/v1/customer-management/columns
+# GET /api/v1/log-management/columns
 # Retorna metadados completos das colunas da tabela
-$routes->get('customer-management/columns', 'API\v1\Log\ManagerController::getColumnsMetadata', ['as' => 'api.v1.customer-management.columns']);
+$routes->get('log-management/columns', 'API\v1\Log\ManagerController::getColumnsMetadata', ['as' => 'api.v1.log-management.columns']);
 
-# GET /api/v1/customer-management/column-names
+# GET /api/v1/log-management/column-names
 # Retorna apenas os nomes das colunas da tabela
-$routes->get('customer-management/column-names', 'API\v1\Log\ManagerController::getColumnNames', ['as' => 'api.v1.customer-management.column-names']);
+$routes->get('log-management/column-names', 'API\v1\Log\ManagerController::getColumnNames', ['as' => 'api.v1.log-management.column-names']);
