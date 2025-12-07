@@ -469,50 +469,33 @@ abstract class BaseResourceModel extends Model
     {
         foreach ($filters as $field => $value) {
             if (is_array($value)) {
-                $operator = $value['operator'] ?? '=';
-                $filterValue = $value['value'] ?? null;
+                // ...  código existente para operadores estruturados ... 
+            } else {
+                // Detecta se o campo é string no banco
+                $db = \Config\Database::connect($this->DBGroup);
+                $fieldData = $db->getFieldData($this->table);
+                $isTextField = false;
 
-                if ($filterValue !== null) {
-                    switch (strtolower($operator)) {
-                        case 'like':
-                        case 'contains':
-                            $builder->like($field, $filterValue);
-                            break;
-                        case 'starts_with':
-                            $builder->like($field, $filterValue, 'after');
-                            break;
-                        case 'ends_with':
-                            $builder->like($field, $filterValue, 'before');
-                            break;
-                        case 'in':
-                            $builder->whereIn($field, $filterValue);
-                            break;
-                        case 'not_in':
-                            $builder->whereNotIn($field, $filterValue);
-                            break;
-                        case '!=':
-                        case '<>':
-                            $builder->where($field . ' !=', $filterValue);
-                            break;
-                        case '>':
-                            $builder->where($field . ' >', $filterValue);
-                            break;
-                        case '>=':
-                            $builder->where($field . ' >=', $filterValue);
-                            break;
-                        case '<':
-                            $builder->where($field . ' <', $filterValue);
-                            break;
-                        case '<=':
-                            $builder->where($field . ' <=', $filterValue);
-                            break;
-                        default:
-                            $builder->where($field, $filterValue);
-                            break;
+                foreach ($fieldData as $f) {
+                    if ($f->name === $field && in_array($f->type, ['varchar', 'text', 'char'])) {
+                        $isTextField = true;
+                        break;
                     }
                 }
-            } else {
-                $builder->where($field, $value);
+
+                // Se tem wildcards OU é campo de texto, usa LIKE
+                if (is_string($value) && ($isTextField || strpos($value, '%') !== false || strpos($value, '*') !== false)) {
+                    $value = str_replace('*', '%', $value);
+
+                    // Se não tem wildcards, adiciona automaticamente
+                    if (strpos($value, '%') === false) {
+                        $value = '%' . $value . '%';
+                    }
+
+                    $builder->like($field, $value);
+                } else {
+                    $builder->where($field, $value);
+                }
             }
         }
     }

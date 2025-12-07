@@ -12,6 +12,7 @@ class ResourceModel extends BaseResourceModel
     protected $allowedFields = [
         'uc_id',
         'um_user',
+        'uc_user_id',
         'uc_name',
         'uc_cpf',
         'uc_whatsapp',
@@ -22,16 +23,15 @@ class ResourceModel extends BaseResourceModel
         'uc_zip_code',
         'uc_address',
     ];
-
+    
     protected array $casts = [
         'id' => 'int',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         // 'deleted_at' => 'datetime',
     ];
-
+    
     public $hiddenFields = [
-        'uc_name',
         'uc_cpf',
         'uc_whatsapp',
         'uc_mail',

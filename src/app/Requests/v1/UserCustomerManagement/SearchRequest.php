@@ -75,7 +75,7 @@ class SearchRequest
             }
 
             // Campos de texto usam LIKE (busca parcial)
-            if (in_array($field, ['user'])) {
+            if (in_array($field, ['uc_name'])) {
                 $searchData[$field] = [
                     'value' => $value,
                     'operator' => 'like'

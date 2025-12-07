@@ -13,7 +13,6 @@ class ManagerController extends BaseManagerController
     protected $searchRequest;
     // protected $storeRequest;
     // protected $modifyRequest;
-// 
     public function __construct()
     {
         parent::__construct();

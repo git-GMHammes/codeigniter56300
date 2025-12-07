@@ -39,6 +39,10 @@ $routes->get('log-management/(:num)', 'API\v1\Log\ManagerController::show/$1', [
 # Busca um registro específico por ID incluindo deletados
 $routes->post('log-management/(:num)/with-deleted', 'API\v1\Log\ManagerController::showWithDeleted/$1', ['as' => 'api.v1.log-management.show-with-deleted']);
 
+# GET /api/v1/log-management/(:num)/with-deleted
+# Busca um registro específico por ID incluindo deletados
+$routes->get('log-management/with-deleted', 'API\v1\Log\ManagerController::showWithDeleted/$1', ['as' => 'api.v1.log-management.show-with-deleted']);
+
 # POST /api/v1/log-management/search
 # Busca avançada com múltiplos filtros, operadores e opções
 $routes->post('log-management/search', 'API\v1\Log\ManagerController::search', ['as' => 'api.v1.log-management.search']);

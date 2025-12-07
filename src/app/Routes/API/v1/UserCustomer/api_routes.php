@@ -27,6 +27,10 @@ $routes->get('customer-management', 'API\v1\UserCustomer\ManagerController::inde
 # Lista todos os registros incluindo os marcados como deletados
 $routes->get('customer-management/with-deleted', 'API\v1\UserCustomer\ManagerController::indexWithDeleted', ['as' => 'api.v1.customer-management.with-deleted']);
 
+# POST /api/v1/customer-management/(:num)/with-deleted
+# Busca um registro específico por ID incluindo deletados
+$routes->post('customer-management/(:num)/with-deleted', 'API\v1\Log\ManagerController::showWithDeleted/$1', ['as' => 'api.v1.customer-management.show-with-deleted']);
+
 # GET /api/v1/customer-management/only-deleted
 # Lista apenas os registros marcados como deletados
 $routes->get('customer-management/only-deleted', 'API\v1\UserCustomer\ManagerController::indexOnlyDeleted', ['as' => 'api.v1.customer-management.only-deleted']);
