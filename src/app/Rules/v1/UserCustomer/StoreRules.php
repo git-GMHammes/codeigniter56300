@@ -69,6 +69,13 @@ class StoreRules
                     'valid_email' => 'O campo E-mail deve ser um e-mail válido.',
                     'is_unique' => 'Este E-mail já está cadastrado no sistema.'
                 ],
+                'password' => [
+                    'required' => 'O campo Senha é obrigatório.',
+                    'string' => 'O campo Senha deve ser uma string.',
+                    'min_length' => 'O campo Senha deve ter no mínimo 8 caracteres.',
+                    'max_length' => 'O campo Senha deve ter no máximo 255 caracteres.'
+                ],
+
             ]
         ];
     }

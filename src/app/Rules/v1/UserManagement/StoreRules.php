@@ -12,6 +12,7 @@ class StoreRules
             'rules' => [
                 'user' => 'required|min_length[6]|max_length[50]|is_unique[user_management.user]',
                 'password' => 'required|min_length[8]|max_length[200]',
+                'password_confirm' => 'required|string|matches[password]',
             ],
             'messages' => [
                 'user' => [
@@ -24,6 +25,11 @@ class StoreRules
                     'required' => 'O campo Senha e obrigatorio.',
                     'min_length' => 'A Senha deve ter no minimo 8 caracteres.',
                     'max_length' => 'A Senha deve ter no maximo 200 caracteres.',
+                ],
+                'password_confirm' => [
+                    'required' => 'O campo Confirmação de Senha é obrigatório.',
+                    'string' => 'O campo Confirmação de Senha deve ser uma string.',
+                    'matches' => 'As senhas não conferem.  Por favor, digite senhas idênticas.'
                 ],
             ]
         ];
