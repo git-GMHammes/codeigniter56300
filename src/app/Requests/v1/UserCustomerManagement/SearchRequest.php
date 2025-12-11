@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Requests\v1\UserCustomerManagement;
+
 use App\Rules\v1\UserCustomerManagement\SearchRules;
 use CodeIgniter\HTTP\IncomingRequest;
 
@@ -14,47 +15,47 @@ class SearchRequest
     # @var \CodeIgniter\Validation\Validation
     protected $validation;
 
-    # Construtor
     public function __construct()
     {
         $this->request = service('request');
         $this->validation = service('validation');
     }
 
-    # Valida dados para criacao de Usuario
-    # @return array ['valid' => bool, 'errors' => array|null, 'data' => array|null]
+     # Valida dados para busca.
+     # Retorna padronizado:
+     #  - valid: bool
+     #  - errors: array|null
+     #  - data: array|null  (os filtros prontos para serem consumidos pelo model)
     public function validateSearch(): array
     {
-        // Captura dados do request
+        # Captura dados do request (JSON ou form)
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
 
-        // Remove password se vier (segurança)
+        # Se não vier nada, normaliza para array vazio
+        if (!is_array($data)) {
+            $data = [];
+        }
+
+        # Bloqueia campos sensíveis explicitamente (ex.: password)
         if (isset($data['password'])) {
             return [
                 'valid' => false,
                 'errors' => [
-                    'Unprocessable Entity'
+                    'password' => 'O campo "password" não é permitido para esta requisição de busca.'
                 ],
-                'data' => [
-                    'O campo X não é permitido para esta requisição',
-                ]
+                'data' => null
             ];
         }
 
-        // ========================================================================
-        // CONFIGURAÃ‡ÃƒO DE VALIDAÃ‡ÃƒO
-        // ========================================================================
-
+        # Carrega regras específicas do módulo (se existir)
         $config = SearchRules::get();
 
-        // ========================================================================
-        // VALIDAÇÃO COM CONEXÃO ESPECÍFICA
-        // ========================================================================
+        # Configura regras no validador
+        $this->validation->setRules($config['rules'] ?? [], $config['messages'] ?? []);
 
-        $this->validation->setRules($config['rules'], $config['messages']);
-
-        // Executa validação NA CONEXÃO CORRETA
-        if (!$this->validation->run($data, null, $config['connection'])) {
+        # Executa validação (mantendo compatibilidade com sua infra)
+        # Nota: se seu framework usa outro signature para run(), ajuste conforme necessário
+        if (!$this->validation->run($data, null, $config['connection'] ?? null)) {
             return [
                 'valid' => false,
                 'errors' => $this->validation->getErrors(),
@@ -62,34 +63,23 @@ class SearchRequest
             ];
         }
 
-        // ========================================================================
-        // PREPARA DADOS PARA BUSCA (adiciona operador LIKE em campos texto)
-        // ========================================================================
-
+        # Remove campos vazios (null ou string vazia)
         $searchData = [];
-
         foreach ($data as $field => $value) {
-            // Ignora campos vazios
             if ($value === null || $value === '') {
                 continue;
             }
 
-            // Campos de texto usam LIKE (busca parcial)
-            if (in_array($field, ['uc_name'])) {
-                $searchData[$field] = [
-                    'value' => $value,
-                    'operator' => 'like'
-                ];
-            }
-            // Campos numéricos e datas usam igualdade exata
-            else {
+            # Se o cliente passou um operador estruturado (opcional), aceite-o
+            # Ex.: "field": { "operator": "like", "value": "abc" }
+            if (is_array($value) && array_key_exists('operator', $value) && array_key_exists('value', $value)) {
                 $searchData[$field] = $value;
+                continue;
             }
-        }
 
-        // ========================================================================
-        // RETORNO
-        // ========================================================================
+            # Caso normal: envia o valor cru e deixa o Model decidir (LIKE para campos texto)
+            $searchData[$field] = $value;
+        }
 
         return [
             'valid' => true,
