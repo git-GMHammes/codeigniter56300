@@ -20,3 +20,5 @@ doc/MySQL/**
 !doc/MySQL/202512120800.sql
 
 src/app/Config/**
+
+doc/**
