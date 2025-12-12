@@ -1,0 +1,50 @@
+/* C:\laragon\www\sgcpro\src\public\script\react_modelo_v1\frontend\src\components\Footer\styles.css */
+
+.footer {
+  background: linear-gradient(to right, #330033, #14007A);
+  padding: 15px 20px;
+  color: white;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Quando o footer não está fixo, garantimos alguma margem superior */
+.footer:not(.fixed-bottom) {
+  margin-top: 20px;
+}
+
+/* Estilo para o footer quando fixo na parte inferior */
+.footer.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+/* Em telas pequenas (celulares), nunca deixamos o footer fixo */
+@media (max-width: 768px) {
+  .footer.fixed-bottom {
+      position: relative !important;
+      min-height: auto;
+  }
+}
+
+/* Para garantir espaço adequado quando o footer está fixo */
+.has-fixed-footer {
+  padding-bottom: 90px; /* Ajuste conforme a altura do seu footer */
+}
+
+/* Estilos para os ícones de redes sociais */
+.footer .bi {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.footer a:hover .bi {
+  color: #90caf9;
+}
+
+/* Estilo para o badge do texto de endereço */
+.footer .badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: normal;
+}

@@ -1,0 +1,33 @@
+/* C:\laragon\www\sgcpro\src\public\script\react_modelo_v1\frontend\src\components\Header\styles.css */
+
+.header {
+  background: linear-gradient(to right, #330033, #14007A);
+  padding: 10px 10px;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Em telas desktop, o header é fixo no topo */
+@media (min-width: 769px) {
+  .header {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* Em telas mobile, o header NÃO é fixo e flui normalmente com o conteúdo */
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+  }
+}
+
+.logo {
+  height: 36px;
+}
+
+/* Ajustes para o dropdown */
+.dropdown-menu {
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

@@ -47,17 +47,17 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     # Busca avançada com múltiplos filtros, operadores e opções
     $routes->post('user-management/search', 'API\v1\UserManagement\ManagerController::search', ['as' => 'api.v1.user-management.search']);
 
-    # ========================================================================  # MANIPULAÇÃO # ========================================================================
-
-    # POST /api/v1/user-management  
-    # Cria um novo registro
-    $routes->post('user-management', 'API\v1\UserManagement\ManagerController::store', ['as' => 'api.v1.user-management.create']);
+    # ========================================================================  
+    # MANIPULAÇÃO 
+    # ========================================================================
 
     # PUT /api/v1/user-management   
     # Atualiza um registro existente
     $routes->put('user-management', 'API\v1\UserManagement\ManagerController::modify', ['as' => 'api.v1.user-management.update']);
 
-    # ========================================================================  # EXCLUSÃO    # ========================================================================
+    # ========================================================================  
+    # EXCLUSÃO    
+    # ========================================================================
 
     # DELETE /api/v1/user-management/(:num) 
     # Soft delete - marca o registro como deletado (deleted_at)
@@ -95,3 +95,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 # POST /api/v1/user-management/login
 # Autenticar usuário e gerar token de acesso
 $routes->post('user-management/login', 'API\v1\UserManagement\AuthController::login', ['as' => 'api.v1.user-management.login']);
+
+# POST /api/v1/user-management  
+# Cria um novo registro
+$routes->post('user-management', 'API\v1\UserManagement\ManagerController::store', ['as' => 'api.v1.user-management.create']);

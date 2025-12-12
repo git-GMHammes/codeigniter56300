@@ -56,10 +56,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     # MANIPULAÇÃO
     # ========================================================================
 
-    # POST /api/v1/customer-management
-    # Cria um novo registro
-    $routes->post('customer-management', 'API\v1\UserCustomer\ManagerController::store', ['as' => 'api.v1.customer-management.create']);
-
     # PUT /api/v1/customer-management
     # Atualiza um registro existente
     $routes->put('customer-management', 'API\v1\UserCustomer\ManagerController::modify', ['as' => 'api.v1.customer-management.update']);
@@ -100,3 +96,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     # Retorna apenas os nomes das colunas da tabela
     $routes->get('customer-management/column-names', 'API\v1\UserCustomer\ManagerController::getColumnNames', ['as' => 'api.v1.customer-management.column-names']);
 });
+
+# ========================================================================
+# MANIPULAÇÃO
+# ========================================================================
+
+# POST /api/v1/customer-management
+# Cria um novo registro
+$routes->post('customer-management', 'API\v1\UserCustomer\ManagerController::store', ['as' => 'api.v1.customer-management.create']);
