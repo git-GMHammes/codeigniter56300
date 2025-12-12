@@ -39,8 +39,9 @@ class Autoload extends AutoloadConfig
      */
     public $psr4 = [
         APP_NAMESPACE => APPPATH,
+        // ...
+        'Firebase\\JWT\\' => APPPATH . 'ThirdParty/Firebase/JWT/src/',
     ];
-
     /**
      * -------------------------------------------------------------------
      * Class Map

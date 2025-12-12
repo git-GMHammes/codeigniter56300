@@ -29,11 +29,28 @@ class LoginRequest
      */
     public function validateLogin(): array
     {
-        // Captura dados do request (JSON ou form)
-        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+        $jsonError = null;
+        $data = [];
 
-        if (!is_array($data)) {
-            $data = [];
+        // Tenta obter JSON de forma segura — getJSON pode lançar exceção em caso de JSON inválido
+        try {
+            $json = $this->request->getJSON(true);
+        } catch (\Throwable $e) {
+            // captura erro (ex.: Syntax error) e registra para feedback de validação
+            $json = null;
+            $jsonError = $e->getMessage();
+        }
+
+        // Se getJSON devolveu array usamos ele, senão tentamos POST (form-data)
+        if (is_array($json) && !empty($json)) {
+            $data = $json;
+        } else {
+            $post = $this->request->getPost();
+            if (is_array($post) && !empty($post)) {
+                $data = $post;
+            } else {
+                $data = [];
+            }
         }
 
         // Regras simples de login
@@ -56,10 +73,18 @@ class LoginRequest
 
         $this->validation->setRules($rules, $messages);
 
+        // Executa validação
         if (!$this->validation->run($data)) {
+            $errors = $this->validation->getErrors();
+
+            // Se houve erro de JSON, acrescentamos info para o cliente (não exponha detalhes sensíveis)
+            if ($jsonError !== null) {
+                $errors['_json'] = 'Corpo JSON inválido: ' . $jsonError;
+            }
+
             return [
                 'valid' => false,
-                'errors' => $this->validation->getErrors(),
+                'errors' => $errors,
                 'data' => null
             ];
         }

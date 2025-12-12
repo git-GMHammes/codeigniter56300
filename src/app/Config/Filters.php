@@ -35,7 +35,8 @@ class Filters extends BaseFilters
         'forcehttps' => ForceHTTPS::class,
         'pagecache' => PageCache::class,
         'performance' => PerformanceMetrics::class,
-        'logrequest' => LogRequestFilter::class, // Aponta para App\Filters\v1\LogRequestFilter
+        'logrequest' => LogRequestFilter::class,
+        'auth' => \App\Filters\v1\AuthFilter::class,
     ];
 
     /**

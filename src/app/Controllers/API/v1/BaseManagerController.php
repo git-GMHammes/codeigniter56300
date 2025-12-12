@@ -9,12 +9,12 @@ abstract class BaseManagerController extends ResourceController
 {
     protected $service;
     protected $apiResponse;
-    
+
     public function __construct()
     {
         $this->apiResponse = new ApiResponse();
     }
-    
+
     /**
      * Valida se ID foi fornecido
      */
@@ -25,7 +25,7 @@ abstract class BaseManagerController extends ResourceController
         }
         return null;
     }
-    
+
     /**
      * Extrai parâmetros de paginação da query string
      */
@@ -36,40 +36,41 @@ abstract class BaseManagerController extends ResourceController
             'perPage' => min(100, max(1, (int) ($this->request->getGet('limit') ?? 15)))
         ];
     }
-    
+
     /**
      * Executa método do service e retorna resposta padronizada
      */
     protected function executeService(callable $serviceCall, string $successMessage, bool $withPagination = false, int $successCode = 200)
     {
         $result = $serviceCall();
-        
+
         if (!$result['success']) {
             return $this->apiResponse->notFound($result['message']);
         }
-        
+
         if ($withPagination && isset($result['data']['meta'])) {
             $this->apiResponse->setPagination($result['data']['meta']);
             $this->apiResponse->setUrlMetadata();
             return $this->apiResponse->success($result['data']['data'], $successMessage);
         }
-        
+
         $this->apiResponse->setUrlMetadata();
-        
+
         if ($successCode === 201) {
             return $this->apiResponse->created($result['data'], $successMessage);
         }
-        
+
         return $this->apiResponse->success($result['data'], $successMessage);
     }
-    
+
     /**
      * Executa validação e retorna erros se houver
      */
     protected function validateRequest($request, string $method): ?array
     {
-        $validation = $request->$method();
         
+        $validation = $request->$method(); // Aqui um ERRO GRAVE ocorre
+
         if (!$validation['valid']) {
             return [
                 'hasError' => true,
@@ -79,14 +80,14 @@ abstract class BaseManagerController extends ResourceController
                 )
             ];
         }
-        
+
         if (empty($validation['data']) || !is_array($validation['data'])) {
             return [
                 'hasError' => true,
                 'response' => $this->apiResponse->internalError('Erro ao processar dados de entrada.')
             ];
         }
-        
+
         return [
             'hasError' => false,
             'data' => $validation['data']

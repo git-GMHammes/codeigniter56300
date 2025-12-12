@@ -26,4 +26,16 @@ class ResourceModel extends BaseResourceModel
         'password',
         'email'
     ];
+
+    /**
+     * Busca usuário pelo campo 'user' (login)
+     */
+    public function findByUser(string $user): ?array
+    {
+        $builder = $this->builder();
+        $builder->where('user', $user);
+        $row = $builder->get()->getRowArray();
+
+        return $row ?: null;
+    }
 }

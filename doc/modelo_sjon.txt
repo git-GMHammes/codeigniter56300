@@ -1,0 +1,61 @@
+{
+    "http_code": 200,
+    "status": "success",
+    "message": "Login realizado com sucesso.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-12-11 20:36:42"
+    },
+    "data": [
+            ... dados de retorno
+    ],
+    "pagination": {
+        "total_pages": 1,
+        "from": 1,
+        "to": 1,
+        "has_next_page": false,
+        "has_previous_page": false,
+        "links": {
+            "first": "http://localhost/index.php/api/v1/user-management/login",
+            "prev": null,
+            "next": null,
+            "last": "http://localhost/index.php/api/v1/user-management/login"
+        }
+    },
+    "metadata": {
+        "page": 1,
+        "limit": 5,
+        "total": 1,
+        "url": {
+            "base_url": "http://localhost/",
+            "get_uri": [
+                "api",
+                "v1",
+                "user-management",
+                "login"
+            ]
+        }
+    }
+}
+
+{
+    "http_code": 401,
+    "status": "error",
+    "message": "Credenciais inválidas. Verifique seus dados.",
+    "api_data": {
+        "version": "1.0.0",
+        "date_time": "2025-12-11 20:38:57"
+    },
+    "data": [],
+    "metadata": {
+        "url": {
+            "base_url": "http://localhost/",
+            "get_uri": [
+                "api",
+                "v1",
+                "user-management",
+                "login"
+            ]
+        }
+    }
+}
