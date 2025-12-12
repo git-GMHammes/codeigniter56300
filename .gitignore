@@ -14,3 +14,4 @@ src/app/Models/v1/UserManagement/ResourceModel.ia
 src/app/Services/v1/UserManagement/ManagerService.ia
 doc/MySQL/**
 !doc/MySQL/202512120800.sql
+src/app/Config/Constants.php
