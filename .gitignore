@@ -1,3 +1,4 @@
+# git update-index --skip-worktree src/app/Config/Constants.php
 *.bkp
 *.ia
 src/public/info.php
