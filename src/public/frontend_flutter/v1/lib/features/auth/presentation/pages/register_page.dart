@@ -5,7 +5,7 @@ import '../../data/repositories/auth_repository_impl.dart';
 
 class RegisterPage extends StatefulWidget {
   final String baseUrl;
-  const RegisterPage({Key? key, required this.baseUrl}) : super(key: key);
+  const RegisterPage({super.key, required this.baseUrl});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -67,11 +67,19 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     try {
       final customerId = await controller.registerPart2(userId: createdUserId!);
+
+      if (!mounted) {
+        return;
+      } // <--- protege contra uso de context se State já foi disposed
+
       _showMessage(
         'Perfil criado (customer id: $customerId). Cadastro concluído.',
       );
       Navigator.of(context).pop();
     } catch (e) {
+      if (!mounted) {
+        return;
+      }
       _showMessage('Erro ao completar perfil: ${e.toString()}');
     }
   }

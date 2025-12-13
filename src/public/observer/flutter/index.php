@@ -229,10 +229,10 @@ function printType1ChildrenNumbered(
         $relPrint = str_replace('/', '\\', $rel);
 
         if ($isDir) {
-            $emit("-> " . $relPrint);
+            $emit(" " . $relPrint);
             printType1ChildrenNumbered($baseDir, $full, $rootName, $ignoreNames, $ignoreExts, $onlyExts, $emit);
         } else {
-            $emit("-> " . $relPrint . formatFileSuffix($name));
+            $emit(" " . $relPrint . formatFileSuffix($name));
         }
     }
 }

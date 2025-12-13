@@ -3,6 +3,19 @@
 use CodeIgniter\Boot;
 use Config\Paths;
 
+// CORS básico — ajuste origin conforme necessário
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: http://localhost:56300");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    header("Access-Control-Allow-Credentials: true");
+    header("Vary: Origin");
+}
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 /*
  *---------------------------------------------------------------
  * CHECK PHP VERSION
