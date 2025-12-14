@@ -26,7 +26,6 @@ doc/**
 
 # Ignorar todo o build do frontend (dist)
 src/public/frontend_flutter/dist/
-src/public/frontend_flutter/dist/
 src/public/frontend_flutter/v1/android/
 src/public/frontend_flutter/v1/ios/
 src/public/frontend_flutter/v1/linux/
