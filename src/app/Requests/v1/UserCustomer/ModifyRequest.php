@@ -25,14 +25,70 @@ class ModifyRequest
     # @return array ['valid' => bool, 'errors' => array|null, 'data' => array|null]
     public function validateUpdate(): array
     {
-        // Captura dados do request
-        $data = $this->request->getJSON(true) ?? $this->request->getRawInput();
+        // Captura dados do request: respeita content-type para evitar exception em multipart/form-data
+        $contentType = $this->request->getHeaderLine('Content-Type') ?: $this->request->getContentType();
+        $data = [];
+
+        if ($this->request->is('json') || stripos($contentType, 'application/json') !== false) {
+            try {
+                $data = $this->request->getJSON(true);
+            } catch (\Throwable $e) {
+                return [
+                    'valid' => false,
+                    'errors' => ['json' => 'JSON inválido: ' . $e->getMessage()],
+                    'data' => null
+                ];
+            }
+        } else {
+            // Tenta obter dados em diferentes formas para manter compatibilidade:
+            // - getPost() para multipart/form-data
+            // - getRawInput() como fallback
+            $data = $this->request->getPost() ?? $this->request->getRawInput();
+
+            // Se por algum motivo $data vier vazio mas houver body JSON, tenta decodificar raw input
+            if (empty($data)) {
+                $raw = $this->request->getRawInput();
+                if (is_string($raw) && $raw !== '') {
+                    $try = json_decode($raw, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($try)) {
+                        $data = $try;
+                    }
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // Suporte compatível: decodifica campo 'payload' quando o cliente envia
+        // todo o JSON dentro de um campo do form (payload => '{"id":..., ...}')
+        // ---------------------------------------------------------------------
+        if (is_array($data) && isset($data['payload']) && is_string($data['payload'])) {
+            $decoded = json_decode($data['payload'], true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                unset($data['payload']);
+                // Prioriza os campos decodificados do payload
+                $data = array_merge($data, $decoded);
+            } else {
+                return [
+                    'valid' => false,
+                    'errors' => ['payload' => 'JSON inválido em payload.'],
+                    'data' => null
+                ];
+            }
+        }
+
+        // Se $data for string (raw body) e parecer JSON, tenta decodificar
+        if (is_string($data)) {
+            $try = json_decode($data, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($try)) {
+                $data = $try;
+            }
+        }
 
         // ========================================================================
         // VALIDAÇÃO DE ID (OBRIGATÓRIO)
         // ========================================================================
 
-        if (!isset($data['id']) || empty($data['id'])) {
+        if (!isset($data['id']) || $data['id'] === '' || $data['id'] === null) {
             return [
                 'valid' => false,
                 'errors' => [

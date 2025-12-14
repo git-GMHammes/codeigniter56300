@@ -10,7 +10,7 @@ class StoreRules
             'table' => 'user_customer',
             'connection' => DB_GROUP_001,
             'rules' => [
-                'user_id' => 'required|numeric|is_not_unique[user_management.id]',
+                'user_id' => 'required|numeric|is_not_unique[user_management.id]|is_unique[user_customer.user_id]',
                 'name' => 'required|string|min_length[3]|max_length[150]',
                 'profile' => 'permit_empty|string|max_length[200]',
                 'phone' => 'permit_empty|string|max_length[50]',
@@ -25,7 +25,9 @@ class StoreRules
                 'user_id' => [
                     'required' => 'O campo User ID é obrigatório.',
                     'numeric' => 'O campo User ID deve ser numérico.',
-                    'is_not_unique' => 'Usuário informado não existe.'
+                    'is_not_unique' => 'Usuário informado não existe.',
+                    'is_unique' => 'Este usuário já possui um cadastro de cliente ativo.'
+
                 ],
                 'name' => [
                     'required' => 'O campo Nome é obrigatório.',

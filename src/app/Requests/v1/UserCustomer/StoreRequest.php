@@ -25,11 +25,56 @@ class StoreRequest
     # @return array ['valid' => bool, 'errors' => array|null, 'data' => array|null]
     public function validateCreate(): array
     {
-        // Captura dados do request
-        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+        // Captura dados do request: respeita content-type para evitar exception em multipart/form-data
+        $contentType = $this->request->getHeaderLine('Content-Type') ?: $this->request->getContentType();
+        $data = [];
+
+        if ($this->request->is('json') || stripos($contentType, 'application/json') !== false) {
+            // Corpo JSON — pode lançar exceção se inválido, então captura
+            try {
+                $data = $this->request->getJSON(true);
+            } catch (\Throwable $e) {
+                return [
+                    'valid' => false,
+                    'errors' => ['json' => 'JSON inválido: ' . $e->getMessage()],
+                    'data' => null
+                ];
+            }
+        } else {
+            // Formulário (inclui multipart/form-data com arquivos) — pega campos POST
+            $data = $this->request->getPost() ?? $this->request->getRawInput();
+        }
+
+        // ---------------------------------------------------------------------
+        // Suporte compatível: decodifica campo 'payload' quando o cliente envia
+        // todo o JSON dentro de um campo do form (payload => '{"user_id":...}')
+        // ---------------------------------------------------------------------
+        if (is_array($data) && isset($data['payload']) && is_string($data['payload'])) {
+            $decoded = json_decode($data['payload'], true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                // Decodificado com sucesso: mescla o JSON com os outros campos do form,
+                // priorizando os campos decodificados do payload.
+                unset($data['payload']);
+                $data = array_merge($data, $decoded);
+            } else {
+                return [
+                    'valid' => false,
+                    'errors' => ['payload' => 'JSON inválido em payload.'],
+                    'data' => null
+                ];
+            }
+        }
+
+        // Se $data for string (raw body) e parecer JSON, tenta decodificar
+        if (is_string($data)) {
+            $try = json_decode($data, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($try)) {
+                $data = $try;
+            }
+        }
 
         // ========================================================================
-        // CONFIGURAÃ‡ÃƒO DE VALIDAÃ‡ÃƒO
+        // CONFIGURAÇÃO DE VALIDAÇÃO
         // ========================================================================
 
         $config = StoreRules::get();

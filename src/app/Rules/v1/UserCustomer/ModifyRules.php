@@ -11,7 +11,7 @@ class ModifyRules
             'connection' => DB_GROUP_001,
             'rules' => [
                 'id' => 'required|numeric|is_not_unique[user_customer.id]',
-                'user_id' => 'permit_empty|numeric|is_not_unique[user_management.id]',
+                'user_id' => 'permit_empty|numeric|is_not_unique[user_management.id]|is_unique[user_customer.user_id,id,{id}]',
                 'name' => 'permit_empty|string|min_length[3]|max_length[150]',
                 'profile' => 'permit_empty|string|max_length[200]',
                 'phone' => 'permit_empty|string|max_length[50]',
@@ -26,7 +26,9 @@ class ModifyRules
                 'id' => [
                     'required' => 'O campo ID é obrigatório.',
                     'numeric' => 'O campo ID deve ser numérico.',
-                    'is_not_unique' => 'Registro não encontrado.'
+                    'is_not_unique' => 'Registro não encontrado.',
+                    'is_unique' => 'Este usuário já possui um cadastro de cliente ativo.'
+
                 ],
                 'user_id' => [
                     'numeric' => 'O campo User ID deve ser numérico.',

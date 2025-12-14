@@ -37,17 +37,34 @@ class ManagerService extends BaseManagerService
     }
 
     # POST /api/v1/user-management
-    public function store(array $data): array
+    public function store(array $data, array $uploadedFiles = []): array
     {
+        $db = \Config\Database::connect(DB_GROUP_001);
+        $db->transStart();
         try {
             $id = $this->model->insert($data);
 
             if (!$id) {
+                $db->transRollback();
                 return $this->errorResponse('Erro ao inserir registro.');
             }
 
+            // se houver arquivos, usa UploadService (passando a mesma conexão)
+            if (!empty($uploadedFiles)) {
+                $uploadService = new UploadService();
+                // Passe a conexão $db para garantir que inserts de metadados participem da transação
+                $result = $uploadService->storeMultiple((int) $id, $uploadedFiles, [], $db);
+                if (!$result['success']) {
+                    // rollback geral, apaga registro criado
+                    $db->transRollback();
+                    return $this->errorResponse('Erro ao salvar arquivos: ' . json_encode($result['errors']));
+                }
+            }
+
+            $db->transComplete();
             return $this->successResponse(['id' => $id]);
         } catch (\Throwable $e) {
+            $db->transRollback();
             return $this->errorResponse($e->getMessage());
         }
     }
