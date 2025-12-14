@@ -4,14 +4,14 @@
 *.bkp
 *.ia
 src/public/info.php
-src/writable/debugbar/*
-src/writable/logs/*
+src/writable/debugbar/
+src/writable/logs/
 src/.env
 src/system/ThirdParty/_Jugwoko.php
+src/system/ThirdParty/Jugwoko.php
 src/system/HotReloader/_Puipuia.php
 src/system/HotReloader/Puipuia.php
-src/system/ThirdParty/Jugwoko.php
-src/public/observer/codeigniter/*
+src/public/observer/codeigniter/
 src/app/Libraries/ApiResponse.ia
 src/app/Models/v1/UserManagement/ResourceModel.ia
 src/app/Services/v1/UserManagement/ManagerService.ia
@@ -19,6 +19,16 @@ src/app/Services/v1/UserManagement/ManagerService.ia
 doc/MySQL/**
 !doc/MySQL/202512120800.sql
 
+# Cuidado: se quiser ignorar toda a pasta de configs
 src/app/Config/**
 
 doc/**
+
+# Ignorar todo o build do frontend (dist)
+src/public/frontend_flutter/dist/
+src/public/frontend_flutter/dist/
+src/public/frontend_flutter/v1/android/
+src/public/frontend_flutter/v1/ios/
+src/public/frontend_flutter/v1/linux/
+src/public/frontend_flutter/v1/macos/
+src/public/frontend_flutter/v1/windows/

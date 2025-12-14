@@ -34,6 +34,12 @@ $IGNORE_NAMES = [
     '.metadata',
     'build',
     'dist',
+    'android',
+    'ios',
+    'linux',
+    'macos',
+    'web',
+    'windows',
 ];
 
 // (Opcional) ignorar por extensão (sem ponto). vazio = não ignora extensão nenhuma

@@ -1,18 +1,8 @@
-﻿import 'package:flutter/material.dart';
-import 'routes/app_routes.dart';
-import 'routes/app_router.dart';
-import 'theme/app_theme.dart';
+﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
+// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\app\app.dart
 
-class App extends StatelessWidget {
-  const App({super.key});
+// Auto-generated: app.dart
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: AppRoutes.home,
-    );
-  }
-}
+import 'package:flutter/material.dart';
+
+// TODO: Configure MaterialApp and root widgets here.
