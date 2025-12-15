@@ -1,92 +1,96 @@
 LEITOR (index.php): /var/www/html/public/observer/flutter/index.php
 ALVO (relativo)   : /var/www/html/public/observer/flutter/../../frontend_flutter
 ALVO (realpath)   : /var/www/html/public/frontend_flutter
-TYPE              : 1
+TYPE              : 2
 
-001 -> frontend_flutter\v1
-002 ->  frontend_flutter\v1\assets
-003 ->  frontend_flutter\v1\assets\fonts
-004 ->  frontend_flutter\v1\assets\icons
-005 ->  frontend_flutter\v1\assets\images
-006 ->  frontend_flutter\v1\lib
-007 ->  frontend_flutter\v1\lib\app
-008 ->  frontend_flutter\v1\lib\app\config
-009 ->  frontend_flutter\v1\lib\app\config\env.dart (.dart)
-010 ->  frontend_flutter\v1\lib\app\di
-011 ->  frontend_flutter\v1\lib\app\di\injector.dart (.dart)
-012 ->  frontend_flutter\v1\lib\app\routes
-013 ->  frontend_flutter\v1\lib\app\routes\app_router.dart (.dart)
-014 ->  frontend_flutter\v1\lib\app\routes\app_routes.dart (.dart)
-015 ->  frontend_flutter\v1\lib\app\theme
-016 ->  frontend_flutter\v1\lib\app\theme\app_theme.dart (.dart)
-017 ->  frontend_flutter\v1\lib\app\app.dart (.dart)
-018 ->  frontend_flutter\v1\lib\core
-019 ->  frontend_flutter\v1\lib\core\constants
-020 ->  frontend_flutter\v1\lib\core\errors
-021 ->  frontend_flutter\v1\lib\core\network
-022 ->  frontend_flutter\v1\lib\core\network\http_client.dart (.dart)
-023 ->  frontend_flutter\v1\lib\core\network\interceptors.dart (.dart)
-024 ->  frontend_flutter\v1\lib\core\storage
-025 ->  frontend_flutter\v1\lib\core\storage\local_storage.dart (.dart)
-026 ->  frontend_flutter\v1\lib\core\utils
-027 ->  frontend_flutter\v1\lib\core\utils\extensions
-028 ->  frontend_flutter\v1\lib\core\utils\validators
-029 ->  frontend_flutter\v1\lib\features
-030 ->  frontend_flutter\v1\lib\features\auth
-031 ->  frontend_flutter\v1\lib\features\auth\data
-032 ->  frontend_flutter\v1\lib\features\auth\data\datasources
-033 ->  frontend_flutter\v1\lib\features\auth\data\datasources\auth_remote_datasource.dart (.dart)
-034 ->  frontend_flutter\v1\lib\features\auth\data\models
-035 ->  frontend_flutter\v1\lib\features\auth\data\models\create_user_response.dart (.dart)
-036 ->  frontend_flutter\v1\lib\features\auth\data\repositories
-037 ->  frontend_flutter\v1\lib\features\auth\data\repositories\auth_repository_impl.dart (.dart)
-038 ->  frontend_flutter\v1\lib\features\auth\di
-039 ->  frontend_flutter\v1\lib\features\auth\di\auth_injector.dart (.dart)
-040 ->  frontend_flutter\v1\lib\features\auth\domain
-041 ->  frontend_flutter\v1\lib\features\auth\domain\entities
-042 ->  frontend_flutter\v1\lib\features\auth\domain\repositories
-043 ->  frontend_flutter\v1\lib\features\auth\domain\repositories\auth_repository.dart (.dart)
-044 ->  frontend_flutter\v1\lib\features\auth\domain\usecases
-045 ->  frontend_flutter\v1\lib\features\auth\presentation
-046 ->  frontend_flutter\v1\lib\features\auth\presentation\controllers
-047 ->  frontend_flutter\v1\lib\features\auth\presentation\controllers\auth_controller.dart (.dart)
-048 ->  frontend_flutter\v1\lib\features\auth\presentation\pages
-049 ->  frontend_flutter\v1\lib\features\auth\presentation\pages\login_page.dart (.dart)
-050 ->  frontend_flutter\v1\lib\features\auth\presentation\pages\register_page.dart (.dart)
-051 ->  frontend_flutter\v1\lib\features\auth\presentation\widgets
-052 ->  frontend_flutter\v1\lib\features\home
-053 ->  frontend_flutter\v1\lib\features\home\data
-054 ->  frontend_flutter\v1\lib\features\home\data\datasources
-055 ->  frontend_flutter\v1\lib\features\home\data\models
-056 ->  frontend_flutter\v1\lib\features\home\data\repositories
-057 ->  frontend_flutter\v1\lib\features\home\domain
-058 ->  frontend_flutter\v1\lib\features\home\domain\entities
-059 ->  frontend_flutter\v1\lib\features\home\domain\repositories
-060 ->  frontend_flutter\v1\lib\features\home\domain\usecases
-061 ->  frontend_flutter\v1\lib\features\home\presentation
-062 ->  frontend_flutter\v1\lib\features\home\presentation\controllers
-063 ->  frontend_flutter\v1\lib\features\home\presentation\pages
-064 ->  frontend_flutter\v1\lib\features\home\presentation\pages\home_page.dart (.dart)
-065 ->  frontend_flutter\v1\lib\features\home\presentation\widgets
-066 ->  frontend_flutter\v1\lib\shared
-067 ->  frontend_flutter\v1\lib\shared\assets
-068 ->  frontend_flutter\v1\lib\shared\styles
-069 ->  frontend_flutter\v1\lib\shared\widgets
-070 ->  frontend_flutter\v1\lib\main.dart (.dart)
-071 ->  frontend_flutter\v1\test
-072 ->  frontend_flutter\v1\test\widget_test.dart (.dart)
-073 ->  frontend_flutter\v1\web
-074 ->  frontend_flutter\v1\web\icons
-075 ->  frontend_flutter\v1\web\icons\Icon-192.png (.png)
-076 ->  frontend_flutter\v1\web\icons\Icon-512.png (.png)
-077 ->  frontend_flutter\v1\web\icons\Icon-maskable-192.png (.png)
-078 ->  frontend_flutter\v1\web\icons\Icon-maskable-512.png (.png)
-079 ->  frontend_flutter\v1\web\favicon.png (.png)
-080 ->  frontend_flutter\v1\web\index.html (.html)
-081 ->  frontend_flutter\v1\web\manifest.json (.json)
-082 ->  frontend_flutter\v1\.gitignore (.gitignore)
-083 ->  frontend_flutter\v1\analysis_options.yaml (.yaml)
-084 ->  frontend_flutter\v1\frontend_flutter_v1.iml (.iml)
-085 ->  frontend_flutter\v1\pubspec.lock (.lock)
-086 ->  frontend_flutter\v1\pubspec.yaml (.yaml)
-087 ->  frontend_flutter\v1\README.md (.md)
+frontend_flutter/
+└── v1/
+    ├── lib/
+    │   ├── app/
+    │   │   ├── messaging/
+    │   │   │   ├── app_messenger.dart (.dart)
+    │   │   │   └── message_service.dart (.dart)
+    │   │   ├── router/
+    │   │   │   ├── app_router.dart (.dart)
+    │   │   │   └── app_routes.dart (.dart)
+    │   │   ├── theme/
+    │   │   │   ├── app_theme.dart (.dart)
+    │   │   │   └── color_schemes.dart (.dart)
+    │   │   └── app.dart (.dart)
+    │   ├── core/
+    │   │   ├── config/
+    │   │   │   └── env.dart (.dart)
+    │   │   ├── errors/
+    │   │   │   ├── app_exception.dart (.dart)
+    │   │   │   └── failure.dart (.dart)
+    │   │   ├── network/
+    │   │   │   ├── interceptors/
+    │   │   │   │   ├── auth_interceptor.dart (.dart)
+    │   │   │   │   └── logging_interceptor.dart (.dart)
+    │   │   │   ├── api_endpoints.dart (.dart)
+    │   │   │   └── dio_client.dart (.dart)
+    │   │   ├── utils/
+    │   │   │   ├── debouncer.dart (.dart)
+    │   │   │   └── validators.dart (.dart)
+    │   │   └── widgets/
+    │   │       ├── app_dialog.dart (.dart)
+    │   │       ├── app_loader.dart (.dart)
+    │   │       ├── app_scaffold.dart (.dart)
+    │   │       └── app_snackbar.dart (.dart)
+    │   ├── features/
+    │   │   ├── home/
+    │   │   │   ├── application/
+    │   │   │   │   └── home_controller.dart (.dart)
+    │   │   │   ├── data/
+    │   │   │   │   ├── datasources/
+    │   │   │   │   │   └── home_remote_ds.dart (.dart)
+    │   │   │   │   ├── models/
+    │   │   │   │   │   └── home_item_model.dart (.dart)
+    │   │   │   │   └── repositories/
+    │   │   │   │       └── home_repository_impl.dart (.dart)
+    │   │   │   ├── domain/
+    │   │   │   │   ├── entities/
+    │   │   │   │   │   └── home_item.dart (.dart)
+    │   │   │   │   ├── repositories/
+    │   │   │   │   │   └── home_repository.dart (.dart)
+    │   │   │   │   └── usecases/
+    │   │   │   │       └── get_home_feed.dart (.dart)
+    │   │   │   └── presentation/
+    │   │   │       ├── pages/
+    │   │   │       │   └── home_page.dart (.dart)
+    │   │   │       └── widgets/
+    │   │   └── user/
+    │   │       ├── application/
+    │   │       │   └── auth_controller.dart (.dart)
+    │   │       ├── data/
+    │   │       │   ├── datasources/
+    │   │       │   │   └── auth_remote_ds.dart (.dart)
+    │   │       │   ├── models/
+    │   │       │   │   └── user_model.dart (.dart)
+    │   │       │   └── repositories/
+    │   │       │       └── auth_repository_impl.dart (.dart)
+    │   │       ├── domain/
+    │   │       │   ├── entities/
+    │   │       │   │   └── user.dart (.dart)
+    │   │       │   ├── repositories/
+    │   │       │   │   └── auth_repository.dart (.dart)
+    │   │       │   └── usecases/
+    │   │       │       └── login.dart (.dart)
+    │   │       └── presentation/
+    │   │           ├── pages/
+    │   │           │   └── login_page.dart (.dart)
+    │   │           └── widgets/
+    │   ├── shared/
+    │   │   ├── utils/
+    │   │   │   └── readme.txt (.txt)
+    │   │   └── widgets/
+    │   │       └── placeholder_widget.dart (.dart)
+    │   └── main.dart (.dart)
+    ├── test/
+    │   └── widget_test.dart (.dart)
+    ├── .gitignore (.gitignore)
+    ├── analysis_options.yaml (.yaml)
+    ├── frontend_flutter_v1.iml (.iml)
+    ├── pubspec.lock (.lock)
+    ├── pubspec.yaml (.yaml)
+    └── README.md (.md)

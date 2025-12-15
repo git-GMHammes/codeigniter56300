@@ -31,3 +31,5 @@ src/public/frontend_flutter/v1/ios/
 src/public/frontend_flutter/v1/linux/
 src/public/frontend_flutter/v1/macos/
 src/public/frontend_flutter/v1/windows/
+src/writable/uploads/UserCustomer/**
+src/public/observer/flutter/**
