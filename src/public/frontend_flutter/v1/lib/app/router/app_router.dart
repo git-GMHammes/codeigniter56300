@@ -1,6 +1,31 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\app\router\app_router.dart
+﻿import 'package:flutter/material.dart';
+import 'app_routes.dart';
 
-// Auto-generated: app_router.dart
+class AppRouter {
+  /// onGenerateRoute para o MaterialApp. Faz matching exato por enquanto.
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
+    final routes = buildRouteMap();
+    final name = (settings.name ?? '').trim();
 
-// TODO: Configure your router (GoRouter / Navigator 2.0) here.
+    // Normalizar path (remover querystring / fragment)
+    final uri = Uri.parse(name.isEmpty ? '/' : name);
+    final path = uri.path.isEmpty ? '/' : uri.path;
+
+    // Tenta encontrar o builder exatamente
+    final builder = routes[path];
+    if (builder != null) {
+      return MaterialPageRoute(builder: builder, settings: settings);
+    }
+
+    // Poderíamos implementar matching com parâmetros (ex.: /user/:id) aqui.
+    // Fallback: 404 simples
+    return MaterialPageRoute(
+      builder:
+          (_) => Scaffold(
+            appBar: AppBar(title: const Text('Página não encontrada')),
+            body: Center(child: Text('Rota "$path" não encontrada.')),
+          ),
+      settings: settings,
+    );
+  }
+}

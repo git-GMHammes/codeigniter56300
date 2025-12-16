@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 // Importa o widget da casinha
-import '../widgets/home_header_card.dart';
-import '../widgets/home_row2_card.dart';
-import '../widgets/home_row3_card.dart';
+import '../../widgets/home_header_card.dart';
+import '../../widgets/home_row2_card.dart';
+import '../../widgets/home_row3_card.dart';
 
 // 2. CLASSE DA PÁGINA
 // StatelessWidget = widget que NÃO muda de estado
@@ -31,27 +31,16 @@ class HomePage extends StatelessWidget {
       // 8. CORPO DA PÁGINA
       body: const Padding(
         padding: EdgeInsets.all(12.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // BLOCO:  Casinha
-              SizedBox(height: 250, child: HomeHeaderCard()),
-              SizedBox(height: 12),
-              // BLOCO: Linha 2
-              SizedBox(height: 150, child: HomeRow2Card()),
-              SizedBox(height: 12),
-              // BLOCO:  Linha 3
-              SizedBox(height: 150, child: HomeRow3Card()),
-              SizedBox(height: 12),
-              // BLOCO:  Propagandas (altura fixa, sem Expanded)
-              SizedBox(
-                height: 100,
-                child: Center(
-                  child: Text('Espaço reservado para propagandas e avisos'),
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            // Renderiza a casinha
+            SizedBox(height: 250, child: HomeHeaderCard()),
+            SizedBox(height: 12),
+            SizedBox(height: 150, child: HomeRow2Card()),
+
+            // TODO: Grid de tiles virá aqui
+            Expanded(flex: 3, child: Center(child: Text('Espaço reservado para propagandas e avisos'))),
+          ],
         ),
       ),
     );
