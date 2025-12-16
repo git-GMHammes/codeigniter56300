@@ -6,8 +6,8 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = '';
-    public string $fromName   = '';
+    public string $fromEmail  = (defined('A5F2C9E4B7D1G6H3J8K0L2M5N1P4Q9R3') ? A5F2C9E4B7D1G6H3J8K0L2M5N1P4Q9R3 : 'email_padrao@example.com');
+    public string $fromName   = 'Habilidade .Com';
     public string $recipients = '';
 
     /**
@@ -18,7 +18,7 @@ class Email extends BaseConfig
     /**
      * The mail sending protocol: mail, sendmail, smtp
      */
-    public string $protocol = 'mail';
+    public string $protocol = 'smtp';
 
     /**
      * The server path to Sendmail.
@@ -28,22 +28,22 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = '';
+    public string $SMTPHost = (defined('C1F5B3E8A6D2G9H0J4K7L1M6N3P8Q0R5') ? C1F5B3E8A6D2G9H0J4K7L1M6N3P8Q0R5 : 'smtp.example.com');
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = '';
+    public string $SMTPUser = (defined('A5F2C9E4B7D1G6H3J8K0L2M5N1P4Q9R3') ? A5F2C9E4B7D1G6H3J8K0L2M5N1P4Q9R3 : 'email_padrao@example.com');
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = '';
+    public string $SMTPPass = (defined('E3C8A1F6B4D9G2H7J0K5L8M3N6P9Q2R7') ? E3C8A1F6B4D9G2H7J0K5L8M3N6P9Q2R7 : 'unknown_password');
 
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 25;
+    public int $SMTPPort = 587;
 
     /**
      * SMTP Timeout (in seconds)
@@ -77,7 +77,7 @@ class Email extends BaseConfig
     /**
      * Type of mail, either 'text' or 'html'
      */
-    public string $mailType = 'text';
+    public string $mailType = 'html';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)
@@ -87,7 +87,7 @@ class Email extends BaseConfig
     /**
      * Whether to validate the email address
      */
-    public bool $validate = false;
+    public bool $validate = true;
 
     /**
      * Email Priority. 1 = highest. 5 = lowest. 3 = normal
