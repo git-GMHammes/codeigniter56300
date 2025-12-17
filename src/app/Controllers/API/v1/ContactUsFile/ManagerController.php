@@ -23,7 +23,7 @@ class ManagerController extends BaseManagerController
     # LISTAGEM
     # ========================================================================
 
-    # GET /api/v1/contact-file-management
+    # GET /api/v1/contact-us-file-management
     public function index()
     {
         $params = $this->getPaginationParams();
@@ -35,7 +35,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-file-management/with-deleted
+    # GET /api/v1/contact-us-file-management/with-deleted
     public function indexWithDeleted()
     {
         $params = $this->getPaginationParams();
@@ -47,7 +47,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-file-management/only-deleted
+    # GET /api/v1/contact-us-file-management/only-deleted
     public function indexOnlyDeleted()
     {
         $params = $this->getPaginationParams();
@@ -63,7 +63,7 @@ class ManagerController extends BaseManagerController
     # BUSCA
     # ========================================================================
 
-    # GET /api/v1/contact-file-management/(:num)
+    # GET /api/v1/contact-us-file-management/(:num)
     public function show($id = null)
     {
         if ($error = $this->validateId($id))
@@ -75,7 +75,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/contact-file-management/(:num)/with-deleted
+    # POST /api/v1/contact-us-file-management/(:num)/with-deleted
     public function showWithDeleted($id = null)
     {
         if ($error = $this->validateId($id))
@@ -87,7 +87,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/contact-file-management/search
+    # POST /api/v1/contact-us-file-management/search
     public function search()
     {
         $validation = $this->validateRequest($this->searchRequest, 'validateSearch');
@@ -119,7 +119,7 @@ class ManagerController extends BaseManagerController
     # MANIPULAÇÃO
     # ========================================================================
 
-    # POST /api/v1/contact-file-management
+    # POST /api/v1/contact-us-file-management
     public function store()
     {
         $validation = $this->validateRequest($this->storeRequest, 'validateCreate');
@@ -139,7 +139,7 @@ class ManagerController extends BaseManagerController
     }
 
 
-    # PUT /api/v1/contact-file-management
+    # PUT /api/v1/contact-us-file-management
     public function modify()
     {
         $validation = $this->validateRequest($this->modifyRequest, 'validateUpdate');
@@ -156,7 +156,7 @@ class ManagerController extends BaseManagerController
     # EXCLUSÃO
     # ========================================================================
 
-    # DELETE /api/v1/contact-file-management/(:num)
+    # DELETE /api/v1/contact-us-file-management/(:num)
     public function delete($id = null)
     {
         if ($error = $this->validateId($id))
@@ -168,7 +168,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # DELETE /api/v1/contact-file-management/(:num)/hard
+    # DELETE /api/v1/contact-us-file-management/(:num)/hard
     public function hardDelete($id = null)
     {
         if ($error = $this->validateId($id))
@@ -180,7 +180,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # DELETE /api/v1/contact-file-management/clear
+    # DELETE /api/v1/contact-us-file-management/clear
     public function clearDeleted()
     {
         return $this->executeService(
@@ -193,7 +193,7 @@ class ManagerController extends BaseManagerController
     # RESTAURAÇÃO
     # ========================================================================
 
-    # PATCH /api/v1/contact-file-management/(:num)/restore
+    # PATCH /api/v1/contact-us-file-management/(:num)/restore
     public function restore($id = null)
     {
         if ($error = $this->validateId($id))
@@ -209,7 +209,7 @@ class ManagerController extends BaseManagerController
     # METADADOS
     # ========================================================================
 
-    # GET /api/v1/contact-file-management/columns
+    # GET /api/v1/contact-us-file-management/columns
     public function getColumnsMetadata()
     {
         return $this->executeService(
@@ -218,7 +218,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-file-management/column-names
+    # GET /api/v1/contact-us-file-management/column-names
     public function getColumnNames()
     {
         return $this->executeService(

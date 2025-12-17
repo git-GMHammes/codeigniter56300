@@ -26,7 +26,7 @@ class ManagerController extends BaseManagerController
     # LISTAGEM
     # ========================================================================
 
-    # GET /api/v1/user-customer-management
+    # GET /api/v1/user-customer
     public function index()
     {
         $params = $this->getPaginationParams();
@@ -38,7 +38,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/user-customer-management/with-deleted
+    # GET /api/v1/user-customer/with-deleted
     public function indexWithDeleted()
     {
         $params = $this->getPaginationParams();
@@ -50,7 +50,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/user-customer-management/only-deleted
+    # GET /api/v1/user-customer/only-deleted
     public function indexOnlyDeleted()
     {
         $params = $this->getPaginationParams();
@@ -66,7 +66,7 @@ class ManagerController extends BaseManagerController
     # BUSCA
     # ========================================================================
 
-    # GET /api/v1/user-customer-management/(:num)
+    # GET /api/v1/user-customer/(:num)
     public function show($id = null)
     {
         if ($error = $this->validateId($id))
@@ -78,7 +78,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/user-customer-management/(:num)/with-deleted
+    # POST /api/v1/user-customer/(:num)/with-deleted
     public function showWithDeleted($id = null)
     {
         if ($error = $this->validateId($id))
@@ -90,7 +90,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/user-customer-management/search
+    # POST /api/v1/user-customer/search
     public function search()
     {
         $validation = $this->validateRequest($this->searchRequest, 'validateSearch');
@@ -122,7 +122,7 @@ class ManagerController extends BaseManagerController
     # METADADOS
     # ========================================================================
 
-    # GET /api/v1/user-customer-management/columns
+    # GET /api/v1/user-customer/columns
     public function getColumnsMetadata()
     {
         return $this->executeService(
@@ -131,7 +131,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/user-customer-management/column-names
+    # GET /api/v1/user-customer/column-names
     public function getColumnNames()
     {
         return $this->executeService(

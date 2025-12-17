@@ -12,7 +12,7 @@ class ManagerService extends BaseManagerService
         $this->model = new ResourceModel();
     }
 
-    # GET /api/v1/contact-management
+    # GET /api/v1/contact-us
     public function index(int $page, int $perPage): array
     {
         return $this->execute(
@@ -20,7 +20,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/contact-management/with-deleted
+    # GET /api/v1/contact-us/with-deleted
     public function indexWithDeleted(int $page, int $perPage): array
     {
         return $this->execute(
@@ -28,7 +28,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/contact-management/only-deleted
+    # GET /api/v1/contact-us/only-deleted
     public function indexOnlyDeleted(int $page, int $perPage): array
     {
         return $this->execute(
@@ -36,7 +36,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # POST /api/v1/contact-management
+    # POST /api/v1/contact-us
     public function store(array $data, array $uploadedFiles = []): array
     {
         $db = \Config\Database::connect(DB_GROUP_001);
@@ -69,7 +69,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # GET /api/v1/contact-management/(:num)
+    # GET /api/v1/contact-us/(:num)
     public function show(int $id): array
     {
         return $this->executeWithValidation(
@@ -77,7 +77,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # POST /api/v1/contact-management/(:num)/with-deleted
+    # POST /api/v1/contact-us/(:num)/with-deleted
     public function showWithDeleted(int $id): array
     {
         return $this->executeWithValidation(
@@ -85,7 +85,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # POST /api/v1/contact-management/search
+    # POST /api/v1/contact-us/search
     public function search(array $filters, int $page, int $perPage): array
     {
         return $this->execute(
@@ -93,7 +93,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # PUT /api/v1/contact-management
+    # PUT /api/v1/contact-us
     public function modify(array $data): array
     {
         try {
@@ -116,7 +116,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # DELETE /api/v1/contact-management/(:num)
+    # DELETE /api/v1/contact-us/(:num)
     public function delete(int $id): array
     {
         try {
@@ -143,7 +143,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # DELETE /api/v1/contact-management/(:num)/hard
+    # DELETE /api/v1/contact-us/(:num)/hard
     public function hardDelete(int $id): array
     {
         try {
@@ -196,7 +196,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # DELETE /api/v1/contact-management/clear
+    # DELETE /api/v1/contact-us/clear
     public function clearDeleted(): array
     {
         try {
@@ -279,7 +279,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # PATCH /api/v1/contact-management/(:num)/restore
+    # PATCH /api/v1/contact-us/(:num)/restore
     public function restore(int $id): array
     {
         if ($id <= 0) {
@@ -311,7 +311,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # GET /api/v1/contact-management/columns
+    # GET /api/v1/contact-us/columns
     public function getColumnsMetadata(): array
     {
         return $this->execute(
@@ -319,7 +319,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/contact-management/column-names
+    # GET /api/v1/contact-us/column-names
     public function getColumnNames(): array
     {
         return $this->execute(

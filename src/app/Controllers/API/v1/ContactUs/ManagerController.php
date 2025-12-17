@@ -27,7 +27,7 @@ class ManagerController extends BaseManagerController
     # LISTAGEM
     # ========================================================================
 
-    # GET /api/v1/contact-management
+    # GET /api/v1/contact-us
     public function index()
     {
         $params = $this->getPaginationParams();
@@ -39,7 +39,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-management/with-deleted
+    # GET /api/v1/contact-us/with-deleted
     public function indexWithDeleted()
     {
         $params = $this->getPaginationParams();
@@ -51,7 +51,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-management/only-deleted
+    # GET /api/v1/contact-us/only-deleted
     public function indexOnlyDeleted()
     {
         $params = $this->getPaginationParams();
@@ -67,7 +67,7 @@ class ManagerController extends BaseManagerController
     # BUSCA
     # ========================================================================
 
-    # GET /api/v1/contact-management/(:num)
+    # GET /api/v1/contact-us/(:num)
     public function show($id = null)
     {
         if ($error = $this->validateId($id))
@@ -79,7 +79,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/contact-management/(:num)/with-deleted
+    # POST /api/v1/contact-us/(:num)/with-deleted
     public function showWithDeleted($id = null)
     {
         if ($error = $this->validateId($id))
@@ -91,7 +91,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # POST /api/v1/contact-management/search
+    # POST /api/v1/contact-us/search
     public function search()
     {
         $validation = $this->validateRequest($this->searchRequest, 'validateSearch');
@@ -123,7 +123,7 @@ class ManagerController extends BaseManagerController
     # MANIPULAÇÃO
     # ========================================================================
 
-    # POST /api/v1/contact-management
+    # POST /api/v1/contact-us
     public function store()
     {
         $validation = $this->validateRequest($this->storeRequest, 'validateCreate');
@@ -143,7 +143,7 @@ class ManagerController extends BaseManagerController
     }
 
 
-    # PUT /api/v1/contact-management
+    # PUT /api/v1/contact-us
     public function modify()
     {
         $validation = $this->validateRequest($this->modifyRequest, 'validateUpdate');
@@ -160,7 +160,7 @@ class ManagerController extends BaseManagerController
     # EXCLUSÃO
     # ========================================================================
 
-    # DELETE /api/v1/contact-management/(:num)
+    # DELETE /api/v1/contact-us/(:num)
     public function delete($id = null)
     {
         if ($error = $this->validateId($id))
@@ -172,7 +172,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # DELETE /api/v1/contact-management/(:num)/hard
+    # DELETE /api/v1/contact-us/(:num)/hard
     public function hardDelete($id = null)
     {
         if ($error = $this->validateId($id))
@@ -184,7 +184,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # DELETE /api/v1/contact-management/clear
+    # DELETE /api/v1/contact-us/clear
     public function clearDeleted()
     {
         return $this->executeService(
@@ -197,7 +197,7 @@ class ManagerController extends BaseManagerController
     # RESTAURAÇÃO
     # ========================================================================
 
-    # PATCH /api/v1/contact-management/(:num)/restore
+    # PATCH /api/v1/contact-us/(:num)/restore
     public function restore($id = null)
     {
         if ($error = $this->validateId($id))
@@ -213,7 +213,7 @@ class ManagerController extends BaseManagerController
     # METADADOS
     # ========================================================================
 
-    # GET /api/v1/contact-management/columns
+    # GET /api/v1/contact-us/columns
     public function getColumnsMetadata()
     {
         return $this->executeService(
@@ -222,7 +222,7 @@ class ManagerController extends BaseManagerController
         );
     }
 
-    # GET /api/v1/contact-management/column-names
+    # GET /api/v1/contact-us/column-names
     public function getColumnNames()
     {
         return $this->executeService(
