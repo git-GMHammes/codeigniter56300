@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules\v1\UserCustomerFile;
+namespace App\Rules\v1\ContactUsFile;
 
 class SearchRules
 {

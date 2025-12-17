@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\v1\ContactUsFile;
+namespace App\Services\v1\UserCustomerFile;
 
 use App\Services\v1\BaseManagerService;
 use App\Models\v1\UserCustomer\FileModel;
@@ -12,7 +12,7 @@ class ManagerService extends BaseManagerService
         $this->model = new FileModel();
     }
 
-    # GET /api/v1/user-customer-files
+    # GET /api/v1/contact-customer-files
     public function index(int $page, int $perPage): array
     {
         return $this->execute(
@@ -20,7 +20,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/user-customer-files/with-deleted
+    # GET /api/v1/contact-customer-files/with-deleted
     public function indexWithDeleted(int $page, int $perPage): array
     {
         return $this->execute(
@@ -28,7 +28,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/user-customer-files/only-deleted
+    # GET /api/v1/contact-customer-files/only-deleted
     public function indexOnlyDeleted(int $page, int $perPage): array
     {
         return $this->execute(
@@ -36,7 +36,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/user-customer-files/(:num)
+    # GET /api/v1/contact-customer-files/(:num)
     public function show(int $id): array
     {
         return $this->executeWithValidation(
@@ -44,7 +44,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # POST /api/v1/user-customer-files/(:num)/with-deleted
+    # POST /api/v1/contact-customer-files/(:num)/with-deleted
     public function showWithDeleted(int $id): array
     {
         return $this->executeWithValidation(
@@ -52,7 +52,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # POST /api/v1/user-customer-files/search
+    # POST /api/v1/contact-customer-files/search
     public function search(array $filters, int $page, int $perPage): array
     {
         return $this->execute(
@@ -60,7 +60,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # DELETE /api/v1/user-customer-files/(:num)
+    # DELETE /api/v1/contact-customer-files/(:num)
     public function delete(int $id): array
     {
         try {
@@ -85,7 +85,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # PATCH /api/v1/user-customer-files/(:num)/restore
+    # PATCH /api/v1/contact-customer-files/(:num)/restore
     public function restore(int $id): array
     {
         if ($id <= 0) {
@@ -117,7 +117,7 @@ class ManagerService extends BaseManagerService
         }
     }
 
-    # GET /api/v1/user-customer-files/columns
+    # GET /api/v1/contact-customer-files/columns
     public function getColumnsMetadata(): array
     {
         return $this->execute(
@@ -125,7 +125,7 @@ class ManagerService extends BaseManagerService
         );
     }
 
-    # GET /api/v1/user-customer-files/column-names
+    # GET /api/v1/contact-customer-files/column-names
     public function getColumnNames(): array
     {
         return $this->execute(
