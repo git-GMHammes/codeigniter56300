@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 // Importa o widget da casinha
-import '../../widgets/home_header_card.dart';
+import '../../../../../shared/widgets/navigation_header_card.dart';
 
 // 2. CLASSE DA PÁGINA
 // StatelessWidget = widget que NÃO muda de estado
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
             // Renderiza a casinha
             SizedBox(
               height: 250,
-              child:  HomeHeaderCard(),
+              child:  NavigationHeaderCard(),
             ),
             SizedBox(height:  12),
             // TODO: Grid de tiles virá aqui

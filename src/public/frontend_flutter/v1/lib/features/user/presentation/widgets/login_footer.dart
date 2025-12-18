@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import '../pages/register_page.dart';
 
 class LoginFooter extends StatelessWidget {
   const LoginFooter({super.key});
+
+  void _navigateToRegister(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +30,7 @@ class LoginFooter extends StatelessWidget {
           _FooterButton(
             icon: Icons.person_add_alt_1,
             label: 'Cadastrar',
-            onTap: () {},
+            onTap: () => _navigateToRegister(context),
             isDark: isDark,
           ),
           _FooterButton(

@@ -1,6 +1,19 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\data\models\user_model.dart
+﻿import '../../domain/entities/user.dart';
 
-// Auto-generated: user_model.dart
+class UserModel {
+  final int id;
 
-// TODO: User model
+  UserModel({required this.id});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+      };
+
+  User toEntity() => User(id: id);
+}

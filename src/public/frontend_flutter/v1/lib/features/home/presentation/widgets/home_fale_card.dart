@@ -18,8 +18,8 @@ class HomeFaleCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () {
-          Navigator.of(context).pushNamed('/home/fale');
+        onTap:  () {
+          Navigator.of(context).pushNamed('/contact');
         },
         child: Center(
           child: FittedBox(

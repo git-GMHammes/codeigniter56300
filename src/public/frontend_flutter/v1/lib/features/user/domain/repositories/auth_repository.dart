@@ -1,6 +1,11 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\domain\repositories\auth_repository.dart
+﻿import 'package:dartz/dartz.dart';
+import '../../../../core/errors/failure.dart';
+import '../entities/user.dart';
 
-// Auto-generated: auth_repository.dart
-
-// TODO: Auth repository contract
+abstract class AuthRepository {
+  Future<Either<Failure, User>> registerUser(
+    String user,
+    String password,
+    String passwordConfirm,
+  );
+}

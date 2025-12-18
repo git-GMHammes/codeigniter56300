@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 
-/// Widget da "casinha" - Card de cabeçalho da Home
-class HomeHeaderCard extends StatelessWidget {
-  const HomeHeaderCard({super.key});
+/// Widget de cabeçalho reutilizável entre módulos
+/// Pode ser usado como "Home" ou como "Voltar" dependendo do contexto
+class NavigationHeaderCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final String? navigateTo;
+  final VoidCallback? onTap;
+
+  const NavigationHeaderCard({
+    super.key,
+    this.icon = Icons.home_outlined,
+    this.title = 'Início',
+    this.subtitle = 'Painel principal',
+    this.navigateTo,
+    this.onTap,
+  });
+
+  /// Factory para botão de voltar à Home
+  const NavigationHeaderCard.backToHome({
+    super.key,
+    this.icon = Icons.home_outlined,
+    this.title = 'Início',
+    this.subtitle = 'Voltar ao painel',
+    this.navigateTo = '/home',
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +44,11 @@ class HomeHeaderCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {
-          // TODO: ação ao clicar
+          if (onTap != null) {
+            onTap!();
+          } else if (navigateTo != null) {
+            Navigator.of(context).pushNamed(navigateTo!);
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(18.0),
@@ -30,9 +58,8 @@ class HomeHeaderCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Ícone da casinha
                   Icon(
-                    Icons.home_outlined,
+                    icon,
                     size: 64,
                     color:
                         isDark
@@ -40,17 +67,15 @@ class HomeHeaderCard extends StatelessWidget {
                             : Colors.indigo.shade700,
                   ),
                   const SizedBox(height: 8),
-                  // Título
                   Text(
-                    'Início',
+                    title,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  // Subtítulo
                   Text(
-                    'Painel principal',
+                    subtitle,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.textTheme.bodySmall?.color?.withAlpha(178),
                     ),

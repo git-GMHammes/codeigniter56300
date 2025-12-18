@@ -133,6 +133,7 @@ class ManagerController extends BaseManagerController
         // Pegar arquivos enviados pelo campo 'files[]'
         // Retorna array de UploadedFile ou array vazia
         $files = $this->request->getFileMultiple('files');
+        $files = is_array($files) ? $files : [];
 
         return $this->executeService(
             fn() => $this->service->store($validation['data'], $files),

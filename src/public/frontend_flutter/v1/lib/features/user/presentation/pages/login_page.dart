@@ -2,68 +2,115 @@
 import '../widgets/login_head.dart';
 import '../widgets/login_card.dart';
 import '../widgets/login_footer.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
+  // ══════════════════════════════════════════════════════════════════════════
+  // NAVIGATION
+  // ══════════════════════════════════════════════════════════════════════════
+
+  /// Navega para a página de cadastro
+  void _navigateToRegister(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const RegisterPage()),
+    );
+  }
+
+  /// Navega para a página de recuperação de senha
+  void _navigateToForgotPassword(BuildContext context) {
+    // TODO: Implementar navegação para recuperação de senha
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Funcionalidade em desenvolvimento'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // BUILDERS
+  // ══════════════════════════════════════════════════════════════════════════
+
+  /// Links:  Cadastre-se e Esqueci minha senha
+  Widget _buildActionLinks(BuildContext context, ThemeData theme, bool isDark) {
+    final linkColor =
+        isDark ? Colors.purpleAccent.shade100 : Colors.indigo.shade700;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () => _navigateToRegister(context),
+          child: Text('Cadastre-se', style: TextStyle(color: linkColor)),
+        ),
+        const SizedBox(width: 12),
+        TextButton(
+          onPressed: () => _navigateToForgotPassword(context),
+          child: Text(
+            'Esqueci minha senha',
+            style: TextStyle(color: linkColor),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Conteúdo principal scrollável
+  Widget _buildContent(BuildContext context, ThemeData theme, bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // ─────────────────────────────────────────────────────────────────
+          // ESPAÇAMENTO SUPERIOR
+          // ─────────────────────────────────────────────────────────────────
+          const SizedBox(height: 8),
+
+          // ─────────────────────────────────────────────────────────────────
+          // CARD DE LOGIN (já contém o ícone do cadeado)
+          // ─────────────────────────────────────────────────────────────────
+          const LoginCard(),
+          const SizedBox(height: 18),
+
+          // ─────────────────────────────────────────────────────────────────
+          // LINKS DE AÇÃO
+          // ─────────────────────────────────────────────────────────────────
+          _buildActionLinks(context, theme, isDark),
+        ],
+      ),
+    );
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // BUILD PRINCIPAL
+  // ══════════════════════════════════════════════════════════════════════════
   @override
   Widget build(BuildContext context) {
-    // Detecta tema para cores adaptativas
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final background = theme.scaffoldBackgroundColor;
 
     return Scaffold(
-      backgroundColor: background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            // Head com <- Voltar | Nome da Tela atual
+            // ─────────────────────────────────────────────────────────────────
+            // HEADER
+            // ─────────────────────────────────────────────────────────────────
             const LoginHead(title: 'Login de acesso'),
-            // Conteúdo central
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 18,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Ícone de cadeado acima do quadro
-                    SizedBox(height: 8),
-                    Icon(
-                      Icons.lock_outline,
-                      size: 64,
-                      color:
-                          isDark
-                              ? Colors.purpleAccent.shade100
-                              : Colors.indigo.shade900,
-                    ),
-                    const SizedBox(height: 14),
-                    // Card 3D com formulário
-                    const LoginCard(),
-                    const SizedBox(height: 18),
-                    // Texto de ajuda/links destacado logo abaixo do card
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('Cadastre-se'),
-                        ),
-                        const SizedBox(width: 12),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('Esqueci minha senha'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Footer com menu/ícones (somente os botões relevantes para a tela)
+
+            // ─────────────────────────────────────────────────────────────────
+            // CONTEÚDO CENTRAL
+            // ─────────────────────────────────────────────────────────────────
+            Expanded(child: _buildContent(context, theme, isDark)),
+
+            // ─────────────────────────────────────────────────────────────────
+            // FOOTER
+            // ─────────────────────────────────────────────────────────────────
             const LoginFooter(),
           ],
         ),

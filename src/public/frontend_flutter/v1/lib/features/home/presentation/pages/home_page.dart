@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 // Importa o widget da casinha
-import '../widgets/home_header_card.dart';
+import '../../../../shared/widgets/navigation_header_card.dart';
 import '../widgets/home_row2_card.dart';
 import '../widgets/home_row3_card.dart';
 
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               // BLOCO:  Casinha
-              SizedBox(height: 250, child: HomeHeaderCard()),
+              SizedBox(height: 250, child: NavigationHeaderCard.backToHome()),
               SizedBox(height: 12),
               // BLOCO: Linha 2
               SizedBox(height: 150, child: HomeRow2Card()),

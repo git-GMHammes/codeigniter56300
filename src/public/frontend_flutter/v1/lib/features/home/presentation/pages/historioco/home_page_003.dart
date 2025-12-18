@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 // Importa o widget da casinha
-import '../../widgets/home_header_card.dart';
+import '../../../../../shared/widgets/navigation_header_card.dart';
 import '../../widgets/home_row2_card.dart';
-import '../../widgets/home_row3_card.dart';
+// import '../../widgets/home_row3_card.dart';
 
 // 2. CLASSE DA PÁGINA
 // StatelessWidget = widget que NÃO muda de estado
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             // Renderiza a casinha
-            SizedBox(height: 250, child: HomeHeaderCard()),
+            SizedBox(height: 250, child: NavigationHeaderCard()),
             SizedBox(height: 12),
             SizedBox(height: 150, child: HomeRow2Card()),
 

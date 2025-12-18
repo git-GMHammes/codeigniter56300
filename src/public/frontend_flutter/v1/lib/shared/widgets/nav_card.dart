@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
-class HomeServicosCard extends StatelessWidget {
-  const HomeServicosCard({super.key});
+/// Card de navegação reutilizável para qualquer módulo
+class NavCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final String navigateTo;
+  final VoidCallback? onTap;
+
+  const NavCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.navigateTo,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +32,7 @@ class HomeServicosCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () {
-          Navigator.of(context).pushNamed('/home/servicos');
-        },
+        onTap: onTap ?? () => Navigator.of(context).pushNamed(navigateTo),
         child: Center(
           child: FittedBox(
             fit: BoxFit.scaleDown,
@@ -28,7 +40,7 @@ class HomeServicosCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.build_circle_outlined,
+                  icon,
                   size: 52,
                   color:
                       isDark
@@ -37,14 +49,14 @@ class HomeServicosCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Serviços',
+                  title,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'O que oferecemos',
+                  subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.textTheme.bodySmall?.color?.withAlpha(178),
                     fontSize: 11,

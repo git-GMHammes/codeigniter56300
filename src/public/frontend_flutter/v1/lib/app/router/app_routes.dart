@@ -6,6 +6,8 @@ import 'route_model.dart';
 import '../../features/home/presentation/routes.dart' as home_routes;
 import '../../features/user/presentation/routes.dart' as user_routes;
 import '../../features/about/presentation/routes.dart' as about_routes;
+import '../../features/project/presentation/routes.dart' as project_routes;
+import '../../features/contact_us/presentation/routes.dart' as contact_us_routes;
 
 /// Junta as listas de cada módulo em _moduleRoutes.
 /// Cada arquivo de módulo deve exportar `List<ModuleRoute> moduleRoutes`.
@@ -13,6 +15,8 @@ final List<ModuleRoute> _moduleRoutes = [
   ...home_routes.moduleRoutes,
   ...user_routes.moduleRoutes,
   ...about_routes.moduleRoutes,
+  ...project_routes.moduleRoutes,
+  ...contact_us_routes.moduleRoutes,
 ];
 
 String _combine(String parent, String child) {

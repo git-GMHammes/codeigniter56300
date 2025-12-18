@@ -1,6 +1,35 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\data\repositories\auth_repository_impl.dart
+﻿import 'package:dartz/dartz.dart';
+import '../../../../core/errors/failure.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../models/user_model.dart';
+import '../datasources/auth_remote_ds.dart';
 
-// Auto-generated: auth_repository_impl.dart
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDataSource remote;
 
-// TODO: Auth repository implementation
+  AuthRepositoryImpl(this.remote);
+
+  @override
+  Future<Either<Failure, User>> registerUser(
+    String user,
+    String password,
+    String passwordConfirm,
+  ) async {
+    try {
+      final resp = await remote.registerUser(user, password, passwordConfirm);
+      if (resp['http_code'] == 201) {
+        final userModel = UserModel.fromJson(resp['data']);
+        return Right(userModel.toEntity());
+      } else if (resp['http_code'] == 422) {
+        final val = resp['data']['validation'] as Map<String, dynamic>;
+        final msg = val.values.join('\n');
+        return Left(Failure(msg));
+      } else {
+        return Left(Failure('Erro inesperado!'));
+      }
+    } catch (e) {
+      return Left(Failure('Erro de comunicação'));
+    }
+  }
+}

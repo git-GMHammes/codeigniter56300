@@ -1,6 +1,38 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\data\datasources\auth_remote_ds.dart
+﻿import 'package:dio/dio.dart';
+import '../../../../core/config/env.dart';
 
-// Auto-generated: auth_remote_ds.dart
+class AuthRemoteDataSource {
+  final Dio dio;
 
-// TODO: Auth remote data source
+  AuthRemoteDataSource({Dio? dio})
+      : dio = dio ??
+            Dio(
+              BaseOptions(
+                baseUrl: Env.baseUrl,
+                headers: {'Content-Type': 'application/json'},
+              ),
+            );
+
+  Future<Map<String, dynamic>> registerUser(
+    String user,
+    String password,
+    String passwordConfirm,
+  ) async {
+    try {
+      final response = await dio.post(
+        '/api/v1/user-management',
+        data: {
+          'user': user,
+          'password': password,
+          'password_confirm': passwordConfirm,
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return e.response!.data;
+      }
+      throw Exception('Erro de comunicação');
+    }
+  }
+}

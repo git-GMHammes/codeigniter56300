@@ -1,6 +1,15 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\application\auth_controller.dart
+﻿import '../domain/usecases/register_user.dart';
 
-// Auto-generated: auth_controller.dart
+class AuthController {
+  final RegisterUser registerUserUseCase;
 
-// TODO: Auth controller / session management
+  AuthController(this.registerUserUseCase);
+
+  Future<String?> registrar(String usuario, String senha, String confirmarSenha) async {
+    final result = await registerUserUseCase(usuario, senha, confirmarSenha);
+    return result.fold(
+      (failure) => failure.message,
+      (user) => null,
+    );
+  }
+}

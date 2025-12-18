@@ -1,6 +1,5 @@
-﻿// Arquivo gerado automaticamente em 2025-12-13 21:26:40
-// Caminho: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib\features\user\domain\entities\user.dart
-
-// Auto-generated: user.dart
-
-// TODO: User entity
+﻿// domain/entities/user.dart
+class User {
+  final int id;
+  User({required this.id});
+}
