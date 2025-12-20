@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/login_head.dart';
 import '../widgets/login_footer.dart';
-import '../widgets/register_card.dart';
+import '../widgets/register_card.bkp_002';
 
 /// Página de cadastro de novo usuário
 class RegisterPage extends StatelessWidget {
