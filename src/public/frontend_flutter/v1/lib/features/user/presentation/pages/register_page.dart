@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/login_head.dart';
 import '../widgets/login_footer.dart';
-import '../widgets/register_card.bkp_002';
+import '../widgets/register_card.dart';
 
 /// Página de cadastro de novo usuário
 class RegisterPage extends StatelessWidget {
@@ -18,19 +18,22 @@ class RegisterPage extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
-          children:  [
+          children: [
             // ─────────────────────────────────────────────────────────────────
             // HEADER
             // ─────────────────────────────────────────────────────────────────
             const LoginHead(title: 'Cadastro'),
 
             // ─────────────────────────────────────────────────────────────────
-            // CONTEÚDO CENTRAL
+            // CONTEÚDO CENTRAL - RegisterCard orquestra Step 1 e Step 2
             // ─────────────────────────────────────────────────────────────────
             Expanded(
-              child:  SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                child:  const RegisterCard(),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 18,
+                ),
+                child: const RegisterCard(), // Este widget controla os steps
               ),
             ),
 
