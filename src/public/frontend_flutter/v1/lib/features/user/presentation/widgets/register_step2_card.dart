@@ -7,7 +7,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart'; // Import para 
 class RegisterStep2Card extends StatefulWidget {
   final int userId;
   final VoidCallback onBack;
-  final void Function({
+  final Future<void> Function({
     required int userId,
     required String name,
     required String cpf,
@@ -17,7 +17,7 @@ class RegisterStep2Card extends StatefulWidget {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required String? profileImagePath,
+    required File? upload_files_path,
   })
   onComplete;
 
@@ -36,14 +36,14 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
-  late final MaskedTextController _cpfController; // Máscara para CPF
-  late final MaskedTextController _phoneController; // Máscara para Telefone
-  late final MaskedTextController _whatsappController; // Máscara para WhatsApp
-  late final MaskedTextController _zipCodeController; // Máscara para CEP
+  late final MaskedTextController _cpfController;
+  late final MaskedTextController _phoneController;
+  late final MaskedTextController _whatsappController;
+  late final MaskedTextController _zipCodeController;
   late final TextEditingController _mailController;
   late final TextEditingController _addressController;
 
-  String? _profileImageUrl;
+  File? _profileImage;
   bool _isWhatsAppCopied = false;
   bool _isLoading = false;
 
@@ -51,14 +51,10 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
   void initState() {
     super.initState();
     _nameController = TextEditingController();
-    _cpfController = MaskedTextController(mask: '000.000.000-00'); // CPF
-    _phoneController = MaskedTextController(
-      mask: '(00) 00000-0000',
-    ); // Telefone
-    _whatsappController = MaskedTextController(
-      mask: '(00) 00000-0000',
-    ); // WhatsApp
-    _zipCodeController = MaskedTextController(mask: '00000-000'); // CEP
+    _cpfController = MaskedTextController(mask: '000.000.000-00');
+    _phoneController = MaskedTextController(mask: '(00) 00000-0000');
+    _whatsappController = MaskedTextController(mask: '(00) 00000-0000');
+    _zipCodeController = MaskedTextController(mask: '00000-000');
     _mailController = TextEditingController();
     _addressController = TextEditingController();
   }
@@ -82,6 +78,25 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
+    // ========== INTERCEPTAÇÃO AQUI ==========
+    print('==========================================');
+    print('DADOS DO FORMULÁRIO (STEP 2):');
+    print('userId: ${widget.userId}');
+    print('name: ${_nameController.text.trim()}');
+    print('cpf: ${_cpfController.text.trim()}');
+    print('mail: ${_mailController.text.trim()}');
+    print('phone: ${_phoneController.text.trim()}');
+    print('whatsapp: ${_whatsappController.text.trim()}');
+    print('zipCode: ${_zipCodeController.text.trim()}');
+    print('address: ${_addressController.text.trim()}');
+    print('upload_files_path: ${_profileImage?.path}');
+    print('==========================================');
+
+    // DESCOMENTE AS 2 LINHAS ABAIXO PARA PARAR AQUI E NÃO ENVIAR
+    // setState(() => _isLoading = false);
+    // return;
+    // ========================================
+
     setState(() => _isLoading = false);
 
     widget.onComplete(
@@ -91,10 +106,10 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
       mail: _mailController.text.trim(),
       phone: _phoneController.text.trim(),
       whatsapp: _whatsappController.text.trim(),
-      dateBirth: null, // Implementar caso necessário
+      dateBirth: null,
       zipCode: _zipCodeController.text.trim(),
       address: _addressController.text.trim(),
-      profileImagePath: _profileImageUrl,
+      upload_files_path: _profileImage,
     );
   }
 
@@ -104,7 +119,7 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
     );
     if (pickedFile != null) {
       setState(() {
-        _profileImageUrl = pickedFile.path; // Define caminho da imagem
+        _profileImage = File(pickedFile.path); // ← Cria File
       });
     }
   }
@@ -149,14 +164,14 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
         GestureDetector(
           onTap: _selectPhoto,
           child: CircleAvatar(
-            radius: 48, // Tamanho do círculo
+            radius: 48,
             backgroundColor: Colors.grey.shade200,
             child:
-                _profileImageUrl == null
+                _profileImage == null
                     ? Icon(Icons.person, size: 48, color: Colors.grey.shade600)
                     : ClipOval(
                       child: Image.file(
-                        File(_profileImageUrl!), // Exibe a imagem escolhida
+                        _profileImage!,
                         fit: BoxFit.cover,
                         width: 96,
                         height: 96,
@@ -165,7 +180,7 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
           ),
         ),
         Positioned(
-          bottom: 0, // Ícone de câmera na diagonal abaixo
+          bottom: 0,
           right: 0,
           child: GestureDetector(
             onTap: _selectPhoto,
@@ -213,8 +228,9 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
           hint: 'seu@email.com',
           icon: Icons.email,
           validator: (value) {
-            if (value!.isEmpty || !value.contains('@'))
+            if (value!.isEmpty || !value.contains('@')) {
               return 'E-mail inválido';
+            }
             return null;
           },
         ),

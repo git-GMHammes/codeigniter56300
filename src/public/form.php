@@ -1,18 +1,39 @@
+<?php
+$addDiff = '005';
+?>
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8">
   <title>Enviar Cliente (POST) — 2 colunas + upload múltiplo</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 16px; }
-    form { max-width: 780px; margin: 0 auto; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 16px;
+    }
+
+    form {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
-    .field { margin-bottom: 12px; }
-    label { display: block; font-weight: bold; margin-bottom: 4px; }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
     input[type="text"],
     input[type="number"],
     input[type="email"],
@@ -22,11 +43,24 @@
       padding: 6px;
       box-sizing: border-box;
     }
-    .fullwidth { grid-column: 1 / -1; }
-    button { padding: 8px 12px; margin-top: 8px; }
-    #fileList { margin-top: 8px; font-size: 0.95em; color: #333; }
+
+    .fullwidth {
+      grid-column: 1 / -1;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-top: 8px;
+    }
+
+    #fileList {
+      margin-top: 8px;
+      font-size: 0.95em;
+      color: #333;
+    }
   </style>
 </head>
+
 <body>
   <h1>Enviar Cliente (POST)</h1>
 
@@ -44,12 +78,12 @@
 
       <div class="field">
         <label for="cpf">CPF</label>
-        <input id="cpf" name="cpf" type="text" value="123.456.789-05">
+        <input id="cpf" name="cpf" type="text" value="123.<?= $addDiff ?>.789-05">
       </div>
 
       <div class="field">
         <label for="whatsapp">WhatsApp</label>
-        <input id="whatsapp" name="whatsapp" type="text" value="5521988889995">
+        <input id="whatsapp" name="whatsapp" type="text" value="55219<?= $addDiff ?>89995">
       </div>
 
       <div class="field">
@@ -59,12 +93,12 @@
 
       <div class="field">
         <label for="mail">Mail</label>
-        <input id="mail" name="mail" type="email" value="joao.silva5.jr@email.com">
+        <input id="mail" name="mail" type="email" value="joao.silva5<?= $addDiff ?>.jr@email.com">
       </div>
 
       <div class="field">
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="text" value="(21) 98888-9995">
+        <input id="phone" name="phone" type="text" value="(21) <?= $addDiff ?>88-9995">
       </div>
 
       <div class="field">
@@ -87,10 +121,10 @@
         <input id="user_id_active" name="user_id_active" type="number" value="">
       </div>
 
-      <!-- Upload múltiplo - campo com vários arquivos (name="files[]") -->
+      <!-- Upload múltiplo - campo com vários arquivos (name="upload_files_path[]") -->
       <div class="field fullwidth">
-        <label for="files">Anexos (upload múltiplo)</label>
-        <input id="files" name="files[]" type="file" multiple>
+        <label for="upload_files_path">Anexos (upload múltiplo)</label>
+        <input id="upload_files_path" name="upload_files_path[]" type="file" multiple>
         <div id="fileList" aria-live="polite"></div>
       </div>
 
@@ -104,17 +138,17 @@
     (function () {
       const apiUrl = 'http://localhost:56300/api/v1/customer-management';
       const form = document.getElementById('customerForm');
-      const filesInput = document.getElementById('files');
+      const filesInput = document.getElementById('upload_files_path');
       const fileList = document.getElementById('fileList');
 
       // Mostrar nomes dos arquivos selecionados
       filesInput.addEventListener('change', () => {
-        const files = Array.from(filesInput.files || []);
+        const files = Array.from(filesInput.files); // Captura corretamente os arquivos selecionados
         if (files.length === 0) {
           fileList.textContent = 'Nenhum arquivo selecionado.';
           return;
         }
-        fileList.innerHTML = files.map(f => '- ' + f.name).join('<br>');
+        fileList.innerHTML = files.map(f => '- ' + f.name).join('<br>'); // Exibe os nomes dos arquivos
       });
 
       form.addEventListener('submit', async function (e) {
@@ -136,19 +170,18 @@
 
         // Usar FormData para suportar multipart com arquivos
         const formData = new FormData();
-        // anexa o JSON em um campo 'payload' (backend deve tratar)
-        formData.append('payload', JSON.stringify(payload));
+        formData.append('payload', JSON.stringify(payload)); // Adiciona os dados como JSON
 
-        // anexa todos os arquivos (campo name "files[]")
-        const files = filesInput.files || [];
+        // Anexa todos os arquivos (campo name "upload_files_path[]")
+        const files = filesInput.files; // Recupera os arquivos diretamente
         for (let i = 0; i < files.length; i++) {
-          formData.append('files[]', files[i], files[i].name);
+          formData.append('upload_files_path[]', files[i], files[i].name);
         }
 
         try {
           const response = await fetch(apiUrl, {
             method: 'POST',
-            body: formData // NÃO setar Content-Type — o browser faz com boundary
+            body: formData // Boundary será tratado automaticamente pelo navegador
           });
 
           const text = await response.text();
@@ -160,4 +193,5 @@
     })();
   </script>
 </body>
+
 </html>

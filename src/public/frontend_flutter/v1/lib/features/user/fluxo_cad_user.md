@@ -376,65 +376,65 @@ Future<Either<Failure, User>> call(
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│  1️⃣7️⃣  Tratamento da resposta                               │
-│     💾 auth_remote_ds.dart                                 │
-│     ├─ Status 201: Sucesso                                │
-│     │  └─ Converte JSON → UserModel                       │
-│     │     UserModel.fromJson(response.data)               │
-│     │                                                      │
-│     ├─ Status 4xx/5xx: Erro                                │
-│     │  └─ Lança exceção apropriada:                       │
-│     │     • ServerException                                │
-│     │     • ValidationException                            │
-│     └─── NetworkException (sem conexão)                   │
+│  1️⃣7️⃣  Tratamento da resposta                              
+│     💾 auth_remote_ds.dart                              
+│     ├─ Status 201: Sucesso                              
+│     │  └─ Converte JSON → UserModel                     
+│     │     UserModel.fromJson(response.data)             
+│     │                                                   
+│     ├─ Status 4xx/5xx: Erro                             
+│     │  └─ Lança exceção apropriada:                     
+│     │     • ServerException                             
+│     │     • ValidationException                         
+│     └─── NetworkException (sem conexão)                 
 └────────────────────────────────────────────────────────────┘
                           ↓
 ┌────────────────────────────────────────────────────────────┐
-│  1️⃣8️⃣  Repository processa resultado                        │
-│     💾 auth_repository_impl.dart                           │
-│     ├─ Sucesso:                                            │
-│     │  ├─ UserModel → User (Entity)                       │
-│     │  └─ Right(user)                                     │
-│     │                                                      │
-│     └─ Erro:                                               │
-│        ├─ ServerException → ServerFailure                 │
-│        ├─ NetworkException → NetworkFailure               │
-│        └─ Left(failure)                                   │
+│  1️⃣8️⃣  Repository processa resultado                     
+│     💾 auth_repository_impl.dart                       
+│     ├─ Sucesso:                                        
+│     │  ├─ UserModel → User (Entity)                    
+│     │  └─ Right(user)                                  
+│     │                                                  
+│     └─ Erro:                                           
+│        ├─ ServerException → ServerFailure              
+│        ├─ NetworkException → NetworkFailure            
+│        └─ Left(failure)                                
 └────────────────────────────────────────────────────────────┘
                           ↓
 ┌────────────────────────────────────────────────────────────┐
-│  1️⃣9️⃣  Use Case retorna resultado                           │
-│     📋 register_user.dart                                  │
-│     └─ Propaga Either<Failure, User>                      │
-│        para o Controller                                   │
+│  1️⃣9️⃣  Use Case retorna resultado                         
+│     📋 register_user.dart                                  
+│     └─ Propaga Either<Failure, User>                       
+│        para o Controller                                   
 └────────────────────────────────────────────────────────────┘
                           ↓
 ┌────────────────────────────────────────────────────────────┐
-│  2️⃣0️⃣  Controller atualiza estado                           │
-│     🎮 auth_controller.dart                                │
-│     ├─ setState(loading: false)                           │
-│     │                                                      │
-│     ├─ Sucesso:                                            │
-│     │  ├─ setState(user: userData)                        │
-│     │  ├─ Salva token (se retornado)                      │
-│     │  └─ Navega: Get.offAllNamed('/home')                │
-│     │                                                      │
-│     └─ Erro:                                               │
-│        ├─ setState(error: failure.message)                │
-│        └─ Exibe SnackBar com erro                         │
+│  2️⃣0️⃣  Controller atualiza estado                          
+│     🎮 auth_controller.dart                               
+│     ├─ setState(loading: false)                           
+│     │                                                      
+│     ├─ Sucesso:                                            
+│     │  ├─ setState(user: userData)                        
+│     │  ├─ Salva token (se retornado)                      
+│     │  └─ Navega: Get.offAllNamed('/home')                
+│     │                                                     
+│     └─ Erro:                                              
+│        ├─ setState(error: failure.message)                
+│        └─ Exibe SnackBar com erro                         
 └────────────────────────────────────────────────────────────┘
                           ↓
 ┌────────────────────────────────────────────────────────────┐
-│  2️⃣1️⃣  UI exibe feedback ao usuário                         │
-│     🎨 register_step2_card.dart                            │
-│     ├─ Sucesso:                                            │
-│     │  ├─ SnackBar: "✅ Cadastro realizado!"              │
-│     │  └─ Navegação automática para Home                  │
-│     │                                                      │
-│     └─ Erro:                                               │
-│        ├─ SnackBar: "❌ Erro ao cadastrar"                │
-│        ├─ Exibe mensagem específica do erro               │
-│        └─ Usuário permanece no Step 2                     │
+│  2️⃣1️⃣  UI exibe feedback ao usuário                       
+│     🎨 register_step2_card.dart                         
+│     ├─ Sucesso:                                         
+│     │  ├─ SnackBar: "✅ Cadastro realizado!"            
+│     │  └─ Navegação automática para Home                
+│     │                                                   
+│     └─ Erro:                                            
+│        ├─ SnackBar: "❌ Erro ao cadastrar"              
+│        ├─ Exibe mensagem específica do erro             
+│        └─ Usuário permanece no Step 2                   
 └────────────────────────────────────────────────────────────┘
 ```
 
@@ -453,102 +453,102 @@ Future<Either<Failure, User>> call(
            │ Acessa tela de cadastro
            ↓
     ┌──────────────────────────────────┐
-    │  📄 register_page.dart          │
-    │  (Scaffold principal)            │
+    │  📄 register_page.dart          
+    │  (Scaffold principal)            
     └──────┬───────────────────────────┘
            │
            ↓
     ╔══════════════════════════════════╗
-    ║      STEP 1: CREDENCIAIS         ║
-    ║  🔐 register_step1_card.dart    ║
+    ║      STEP 1: CREDENCIAIS         
+    ║  🔐 register_step1_card.dart    
     ╠══════════════════════════════════╣
-    ║  • Usuário                       ║
-    ║  • Senha                         ║
-    ║  • Confirmar Senha               ║
-    ║                                  ║
-    ║  [Validação Local]               ║
-    ║  [   Próximo →   ]               ║
+    ║  • Usuário                       
+    ║  • Senha                         
+    ║  • Confirmar Senha               
+    ║                                  
+    ║  [Validação Local]               
+    ║  [   Próximo →   ]               
     ╚══════════════╤═══════════════════╝
                    │
                    ↓
     ╔══════════════════════════════════╗
-    ║     STEP 2: DADOS PESSOAIS       ║
-    ║  📝 register_step2_card.dart    ║
+    ║     STEP 2: DADOS PESSOAIS       
+    ║  📝 register_step2_card.dart     
     ╠══════════════════════════════════╣
-    ║  • Foto (opcional)               ║
-    ║  • Nome Completo *               ║
-    ║  • CPF (opcional)                ║
-    ║  • E-mail (opcional)             ║
-    ║  • Telefone (opcional)           ║
-    ║  • WhatsApp (opcional)           ║
-    ║  • Data Nascimento (opcional)    ║
-    ║  • CEP (opcional)                ║
-    ║  • Endereço (opcional)           ║
-    ║                                  ║
-    ║  [Validação Local]               ║
-    ║  [← Voltar] [Finalizar Cadastro] ║
+    ║  • Foto (opcional)               
+    ║  • Nome Completo *               
+    ║  • CPF (opcional)                
+    ║  • E-mail (opcional)             
+    ║  • Telefone (opcional)           
+    ║  • WhatsApp (opcional)           
+    ║  • Data Nascimento (opcional)    
+    ║  • CEP (opcional)                
+    ║  • Endereço (opcional)           
+    ║                                  
+    ║  [Validação Local]               
+    ║  [← Voltar] [Finalizar Cadastro] 
     ╚══════════════╤═══════════════════╝
                    │ Submit
                    ↓
     ┌──────────────────────────────────┐
-    │  🎮 auth_controller.dart         │
-    │  • setState(loading: true)       │
-    │  • Combina dados dos 2 steps     │
+    │  🎮 auth_controller.dart         
+    │  • setState(loading: true)       
+    │  • Combina dados dos 2 steps     
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  📋 register_user.dart           │
-    │  (Use Case)                      │
-    │  • Aplica regras de negócio      │
+    │  📋 register_user.dart           
+    │  (Use Case)                      
+    │  • Aplica regras de negócio      
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  📋 auth_repository.dart         │
-    │  (Interface)                     │
+    │  📋 auth_repository.dart         
+    │  (Interface)                     
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  💾 auth_repository_impl.dart    │
-    │  • Implementação concreta        │
+    │  💾 auth_repository_impl.dart    
+    │  • Implementação concreta        
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  💾 auth_remote_ds.dart          │
-    │  • DioClient HTTP                │
+    │  💾 auth_remote_ds.dart          
+    │  • DioClient HTTP                
     └──────┬───────────────────────────┘
            │ POST /api/auth/register
            ↓
     ┌──────────────────────────────────┐
-    │  🌐 API BACKEND                  │
-    │  • Valida dados                  │
-    │  • Salva no banco                │
-    │  • Retorna User ou Erro          │
+    │  🌐 API BACKEND                  
+    │  • Valida dados                  
+    │  • Salva no banco                
+    │  • Retorna User ou Erro          
     └──────┬───────────────────────────┘
            │ Response
            ↓
     ┌──────────────────────────────────┐
-    │  Tratamento de Resposta          │
-    │  ├─ 201: UserModel               │
-    │  └─ 4xx/5xx: Exception           │
+    │  Tratamento de Resposta          
+    │  ├─ 201: UserModel               
+    │  └─ 4xx/5xx: Exception           
     └──────┬───────────────────────────┘
            │ Either<Failure, User>
            ↓
     ┌──────────────────────────────────┐
-    │  🎮 auth_controller.dart         │
-    │  • setState(loading: false)      │
-    │  • Sucesso: navega para /home    │
-    │  • Erro: exibe mensagem          │
+    │  🎮 auth_controller.dart         
+    │  • setState(loading: false)      
+    │  • Sucesso: navega para /home    
+    │  • Erro: exibe mensagem          
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  🎨 UI Feedback                  │
-    │  ├─ ✅ Cadastro realizado!       │
-    │  └─ ❌ Erro ao cadastrar         │
+    │  🎨 UI Feedback                  
+    │  ├─ ✅ Cadastro realizado!       
+    │  └─ ❌ Erro ao cadastrar         
     └──────────────────────────────────┘
 ```
 
@@ -760,7 +760,7 @@ class RegisterStep2Card extends StatefulWidget {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required String? profileImagePath,
+    required String? upload_files_path,
   }) onComplete;
   
   @override

@@ -1,4 +1,5 @@
-﻿import 'package:dartz/dartz.dart';
+﻿import 'dart:io';
+import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -13,7 +14,7 @@ class AuthRepositoryImpl implements AuthRepository {
   // ════════════════════════════════════════════════════════════════════════
   // STEP 1: Registrar credenciais (user_management)
   // ════════════════════════════════════════════════════════════════════════
-  
+
   @override
   Future<Either<Failure, User>> registerUser(
     String user,
@@ -22,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       final resp = await remote.registerUser(user, password, passwordConfirm);
-      
+
       if (resp['http_code'] == 201) {
         // Sucesso - extrai o ID
         final userModel = UserModel.fromJson(resp);
@@ -43,7 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
   // ════════════════════════════════════════════════════════════════════════
   // STEP 2: Registrar dados pessoais (user_customer)
   // ════════════════════════════════════════════════════════════════════════
-  
+
   @override
   Future<Either<Failure, void>> registerCustomer({
     required int userId,
@@ -55,12 +56,12 @@ class AuthRepositoryImpl implements AuthRepository {
     DateTime? dateBirth,
     String? zipCode,
     String? address,
-    String? profileImagePath,
+    File? upload_files_path,
   }) async {
     try {
-      // Cria o model com os dados
-      final customer = UserCustomerModel(
-        userId: userId,  // ← user_id do Step 1
+      // Envia para a API
+      final resp = await remote.registerCustomer(
+        userId: userId,
         name: name,
         cpf: cpf,
         mail: mail,
@@ -69,11 +70,8 @@ class AuthRepositoryImpl implements AuthRepository {
         dateBirth: dateBirth,
         zipCode: zipCode,
         address: address,
-        profile: profileImagePath,
+        upload_files_path: upload_files_path,
       );
-
-      // Envia para a API
-      final resp = await remote.registerCustomer(customer);
 
       if (resp['http_code'] == 201) {
         // Sucesso

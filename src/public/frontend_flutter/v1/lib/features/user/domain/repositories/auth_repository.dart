@@ -1,4 +1,5 @@
-﻿import 'package:dartz/dartz.dart';
+﻿import 'dart:io';
+import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/user.dart';
 
@@ -31,6 +32,6 @@ abstract class AuthRepository {
     DateTime? dateBirth, // Opcional
     String? zipCode, // Opcional
     String? address, // Opcional
-    String? profileImagePath, // Opcional
+    File? upload_files_path, // Opcional
   });
 }

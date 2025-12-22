@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'register_step1_card.dart';
 import 'register_step2_card.dart';
@@ -117,7 +118,7 @@ class _RegisterCardState extends State<RegisterCard> {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required String? profileImagePath,
+    required File? upload_files_path,
   }) async {
     // ignore: avoid_print
     print('📝 Step 2: Cadastrando dados pessoais...');
@@ -144,7 +145,7 @@ class _RegisterCardState extends State<RegisterCard> {
       dateBirth: dateBirth,
       zipCode: zipCode,
       address: address,
-      profileImagePath: profileImagePath,
+      upload_files_path: upload_files_path,
     );
 
     // Fecha loading
@@ -213,7 +214,7 @@ class _RegisterCardState extends State<RegisterCard> {
       }
 
       return RegisterStep2Card(
-        userId: _savedUserId!, // ← PASSA O ID PARA SER VISÍVEL!
+        userId: _savedUserId!,
         onBack: _handleStep2Back,
         onComplete: _handleStep2Complete,
       );
