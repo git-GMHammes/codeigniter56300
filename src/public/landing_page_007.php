@@ -398,7 +398,7 @@
         <div class="header-content">
             <div class="logo-container">
                 <div class="logo-wolf">
-                    <img src="./assets/imagens/logo_lobo_004.png" alt="Logo Habilidade.com">
+                    <img src="./assets/imagens/Eu.png" alt="Logo Habilidade.com">
                 </div>
 
                 <h2 class="company-name">
