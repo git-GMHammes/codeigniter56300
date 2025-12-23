@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/config/env.dart';
 
-class AuthRemoteDataSource {
+class RegisterRemoteDataSource {
   final Dio dio;
 
-  AuthRemoteDataSource({Dio? dio})
+  RegisterRemoteDataSource({Dio? dio})
     : dio =
           dio ??
           Dio(
@@ -62,7 +62,7 @@ class AuthRemoteDataSource {
     DateTime? dateBirth,
     String? zipCode,
     String? address,
-    File? upload_files_path,
+    File? uploadFilesPath,
   }) async {
     final uri = Uri.parse('${Env.baseUrl}/api/v1/customer-management');
 
@@ -83,11 +83,11 @@ class AuthRemoteDataSource {
     }
 
     // ✅ ADICIONAR ARQUIVO COM NOME CORRETO
-    if (upload_files_path != null) {
+    if (uploadFilesPath != null) {
       request.files.add(
         await http.MultipartFile.fromPath(
-          'upload_files_path[]',
-          upload_files_path.path,
+          'uploadFilesPath[]',
+          uploadFilesPath.path,
         ),
       );
     }

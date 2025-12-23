@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/user.dart';
 
-abstract class AuthRepository {
+abstract class RegisterRepository {
   // ════════════════════════════════════════════════════════════════════════
   // STEP 1: Registrar credenciais (user_management)
   // ════════════════════════════════════════════════════════════════════════
@@ -32,6 +32,6 @@ abstract class AuthRepository {
     DateTime? dateBirth, // Opcional
     String? zipCode, // Opcional
     String? address, // Opcional
-    File? upload_files_path, // Opcional
+    File? uploadFilesPath, // Opcional
   });
 }

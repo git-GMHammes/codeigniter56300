@@ -17,7 +17,7 @@ class RegisterStep2Card extends StatefulWidget {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required File? upload_files_path,
+    required File? uploadFilesPath,
   })
   onComplete;
 
@@ -89,7 +89,7 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
     print('whatsapp: ${_whatsappController.text.trim()}');
     print('zipCode: ${_zipCodeController.text.trim()}');
     print('address: ${_addressController.text.trim()}');
-    print('upload_files_path: ${_profileImage?.path}');
+    print('uploadFilesPath: ${_profileImage?.path}');
     print('==========================================');
 
     // DESCOMENTE AS 2 LINHAS ABAIXO PARA PARAR AQUI E NÃO ENVIAR
@@ -109,7 +109,7 @@ class _RegisterStep2CardState extends State<RegisterStep2Card> {
       dateBirth: null,
       zipCode: _zipCodeController.text.trim(),
       address: _addressController.text.trim(),
-      upload_files_path: _profileImage,
+      uploadFilesPath: _profileImage,
     );
   }
 

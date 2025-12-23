@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/user.dart';
-import '../repositories/auth_repository.dart';
+import '../repositories/register_repository.dart';
 
 class RegisterUser {
-  final AuthRepository repository;
+  final RegisterRepository repository;
 
   RegisterUser(this.repository);
 
@@ -38,7 +38,7 @@ class RegisterUser {
     DateTime? dateBirth,
     String? zipCode,
     String? address,
-    File? upload_files_path,
+    File? uploadFilesPath,
   }) {
     return repository.registerCustomer(
       userId: userId,
@@ -50,7 +50,7 @@ class RegisterUser {
       dateBirth: dateBirth,
       zipCode: zipCode,
       address: address,
-      upload_files_path: upload_files_path,
+      uploadFilesPath: uploadFilesPath,
     );
   }
 }

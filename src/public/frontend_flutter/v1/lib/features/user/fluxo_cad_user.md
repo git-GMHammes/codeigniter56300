@@ -31,7 +31,7 @@ features/user/
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `auth_controller.dart` | Controlador de autenticação (GetX/Provider) |
+| `register_controller.dart` | Controlador de autenticação (GetX/Provider) |
 
 **Responsabilidade:** Gerenciar estado da aplicação, coordenar Use Cases e reagir a eventos da UI.
 
@@ -42,7 +42,7 @@ features/user/
 | Arquivo | Descrição |
 |---------|-----------|
 | `register_user.dart` | Use Case de registro de usuário |
-| `auth_repository.dart` | Interface (contrato) do repositório |
+| `register_repository.dart` | Interface (contrato) do repositório |
 | `user.dart` | Entidade de domínio User |
 
 **Responsabilidade:** Conter regras de negócio puras, independentes de frameworks.
@@ -62,9 +62,9 @@ Future<Either<Failure, User>> call(
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `auth_repository_impl.dart` | Implementação concreta do repositório |
+| `register_repository_impl.dart` | Implementação concreta do repositório |
 | `user_model.dart` | Modelo de dados (DTO) - contém apenas `id` |
-| `auth_remote_ds.dart` | Data Source remoto (API) |
+| `register_remote_ds.dart` | Data Source remoto (API) |
 
 **Responsabilidade:** Implementar acesso a dados via API.
 
@@ -266,7 +266,7 @@ Future<Either<Failure, User>> call(
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  🔟  Controller recebe dados completos                    
-│     🎮 auth_controller.dart                               
+│     🎮 register_controller.dart                               
 │     ├─ setState(loading: true)                            
 │     ├─ Combina dados do Step 1 + Step 2                   
 │     └─ Chama o Use Case                                   
@@ -294,14 +294,14 @@ Future<Either<Failure, User>> call(
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  1️⃣2️⃣  Repository abstrato                                
-│     📋 auth_repository.dart (Interface)                      
+│     📋 register_repository.dart (Interface)                      
 │     └─ Define contrato:                                      
 │        Future<Either<Failure, User>> registerUser(...)     
 └────────────────────────────────────────────────────────────┘
                           ↓
 ┌────────────────────────────────────────────────────────────┐
 │  1️⃣3️⃣  Implementação concreta                               
-│     💾 auth_repository_impl.dart                          
+│     💾 register_repository_impl.dart                          
 │     ├─ Recebe dados do Use Case                           
 │     ├─ Prepara payload para API                           
 │     └─ Delega para Data Source                            
@@ -309,7 +309,7 @@ Future<Either<Failure, User>> call(
                           ↓
 ┌────────────────────────────────────────────────────────────┐
 │  1️⃣4️⃣  Data Source executa requisição                     
-│     💾 auth_remote_ds.dart                                 
+│     💾 register_remote_ds.dart                                 
 │     ├─ Usa DioClient configurado                           
 │     ├─ Endpoint: POST /api/auth/register                   
 │     ├─ Headers: Content-Type, Authorization (se houver)    
@@ -377,7 +377,7 @@ Future<Either<Failure, User>> call(
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  1️⃣7️⃣  Tratamento da resposta                              
-│     💾 auth_remote_ds.dart                              
+│     💾 register_remote_ds.dart                              
 │     ├─ Status 201: Sucesso                              
 │     │  └─ Converte JSON → UserModel                     
 │     │     UserModel.fromJson(response.data)             
@@ -391,7 +391,7 @@ Future<Either<Failure, User>> call(
                           ↓
 ┌────────────────────────────────────────────────────────────┐
 │  1️⃣8️⃣  Repository processa resultado                     
-│     💾 auth_repository_impl.dart                       
+│     💾 register_repository_impl.dart                       
 │     ├─ Sucesso:                                        
 │     │  ├─ UserModel → User (Entity)                    
 │     │  └─ Right(user)                                  
@@ -411,7 +411,7 @@ Future<Either<Failure, User>> call(
                           ↓
 ┌────────────────────────────────────────────────────────────┐
 │  2️⃣0️⃣  Controller atualiza estado                          
-│     🎮 auth_controller.dart                               
+│     🎮 register_controller.dart                               
 │     ├─ setState(loading: false)                           
 │     │                                                      
 │     ├─ Sucesso:                                            
@@ -491,7 +491,7 @@ Future<Either<Failure, User>> call(
                    │ Submit
                    ↓
     ┌──────────────────────────────────┐
-    │  🎮 auth_controller.dart         
+    │  🎮 register_controller.dart         
     │  • setState(loading: true)       
     │  • Combina dados dos 2 steps     
     └──────┬───────────────────────────┘
@@ -505,19 +505,19 @@ Future<Either<Failure, User>> call(
            │
            ↓
     ┌──────────────────────────────────┐
-    │  📋 auth_repository.dart         
+    │  📋 register_repository.dart         
     │  (Interface)                     
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  💾 auth_repository_impl.dart    
+    │  💾 register_repository_impl.dart    
     │  • Implementação concreta        
     └──────┬───────────────────────────┘
            │
            ↓
     ┌──────────────────────────────────┐
-    │  💾 auth_remote_ds.dart          
+    │  💾 register_remote_ds.dart          
     │  • DioClient HTTP                
     └──────┬───────────────────────────┘
            │ POST /api/auth/register
@@ -538,7 +538,7 @@ Future<Either<Failure, User>> call(
            │ Either<Failure, User>
            ↓
     ┌──────────────────────────────────┐
-    │  🎮 auth_controller.dart         
+    │  🎮 register_controller.dart         
     │  • setState(loading: false)      
     │  • Sucesso: navega para /home    
     │  • Erro: exibe mensagem          
@@ -760,7 +760,7 @@ class RegisterStep2Card extends StatefulWidget {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required String? upload_files_path,
+    required String? uploadFilesPath,
   }) onComplete;
   
   @override
@@ -819,8 +819,8 @@ class RegisterStep2Card extends StatefulWidget {
 ### **🎮 Controller**
 
 ```dart
-// auth_controller.dart
-class AuthController extends GetxController {
+// register_controller.dart
+class RegisterController extends GetxController {
   final RegisterUser registerUserUseCase;
   
   Rx<AuthState> state = AuthState.initial().obs;
@@ -863,7 +863,7 @@ class AuthController extends GetxController {
 ```dart
 // register_user.dart
 class RegisterUser {
-  final AuthRepository repository;
+  final RegisterRepository repository;
 
   RegisterUser(this.repository);
 
@@ -904,7 +904,7 @@ final step2Data = {
 };
 
 // 3. Controller dispara cadastro
-authController.register(
+RegisterController.register(
   user: step1Data['user'],
   password: step1Data['password'],
   passwordConfirm: step1Data['password'],
@@ -921,7 +921,7 @@ authController.register(
 
 // 4. UI reage ao estado
 Obx(() {
-  final currentState = authController.state.value;
+  final currentState = RegisterController.state.value;
   
   if (currentState.isLoading) {
     return CircularProgressIndicator();

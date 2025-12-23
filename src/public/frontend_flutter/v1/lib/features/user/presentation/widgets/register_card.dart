@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'register_step1_card.dart';
 import 'register_step2_card.dart';
 import '../../domain/usecases/register_user.dart';
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../data/datasources/auth_remote_ds.dart';
+import '../../data/repositories/register_repository_impl.dart';
+import '../../data/datasources/register_remote_ds.dart';
 import '../../../../core/config/env.dart';
 import 'package:dio/dio.dart';
 
@@ -33,8 +33,8 @@ class _RegisterCardState extends State<RegisterCard> {
   // ══════════════════════════════════════════════════════════════════════════
 
   late final RegisterUser _useCase = RegisterUser(
-    AuthRepositoryImpl(
-      AuthRemoteDataSource(dio: Dio(BaseOptions(baseUrl: Env.baseUrl))),
+    RegisterRepositoryImpl(
+      RegisterRemoteDataSource(dio: Dio(BaseOptions(baseUrl: Env.baseUrl))),
     ),
   );
 
@@ -118,7 +118,7 @@ class _RegisterCardState extends State<RegisterCard> {
     required DateTime? dateBirth,
     required String zipCode,
     required String address,
-    required File? upload_files_path,
+    required File? uploadFilesPath,
   }) async {
     // ignore: avoid_print
     print('📝 Step 2: Cadastrando dados pessoais...');
@@ -145,7 +145,7 @@ class _RegisterCardState extends State<RegisterCard> {
       dateBirth: dateBirth,
       zipCode: zipCode,
       address: address,
-      upload_files_path: upload_files_path,
+      uploadFilesPath: uploadFilesPath,
     );
 
     // Fecha loading

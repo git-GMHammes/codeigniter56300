@@ -8,19 +8,19 @@ Esta documentação descreve o **fluxo completo do cadastro de usuário**, segui
 
 ### **DATA**
 
-- [x] **Datasource:** `lib/features/user/data/datasources/auth_remote_ds.dart`
+- [x] **Datasource:** `lib/features/user/data/datasources/register_remote_ds.dart`
 - [x] **Model:** `lib/features/user/data/models/user_model.dart`
-- [x] **Repository Impl:** `lib/features/user/data/repositories/auth_repository_impl.dart`
+- [x] **Repository Impl:** `lib/features/user/data/repositories/register_repository_impl.dart`
 
 ### **DOMAIN**
 
 - [x] **Entity:** `lib/features/user/domain/entities/user.dart`
-- [x] **Repository (contrato):** `lib/features/user/domain/repositories/auth_repository.dart`
+- [x] **Repository (contrato):** `lib/features/user/domain/repositories/register_repository.dart`
 - [x] **Usecase:** `lib/features/user/domain/usecases/register_user.dart`
 
 ### **APPLICATION**
 
-- [x] **Controller:** `lib/features/user/application/auth_controller.dart`
+- [x] **Controller:** `lib/features/user/application/register_controller.dart`
 
 ### **CORE**
 
@@ -32,11 +32,11 @@ Esta documentação descreve o **fluxo completo do cadastro de usuário**, segui
 
 ```mermaid
 flowchart TD
-    Tela["register_page / Widget"] --> Controller["auth_controller.dart"]
+    Tela["register_page / Widget"] --> Controller["register_controller.dart"]
     Controller --> Usecase["register_user.dart"]
-    Usecase --> RepoContr["auth_repository.dart"]
-    RepoContr --> RepoImpl["auth_repository_impl.dart"]
-    RepoImpl --> DataSource["auth_remote_ds.dart"]
+    Usecase --> RepoContr["register_repository.dart"]
+    RepoContr --> RepoImpl["register_repository_impl.dart"]
+    RepoImpl --> DataSource["register_remote_ds.dart"]
     DataSource --> API["BACKEND (API)"]
     DataSource -->|resposta| RepoImpl
     RepoImpl -->|User/Failure| Usecase
@@ -51,10 +51,10 @@ flowchart TD
 ### 3.1. **[DATA] Datasource (Chamando a API)**
 
 ```dart
-// lib/features/user/data/datasources/auth_remote_ds.dart
-class AuthRemoteDataSource {
+// lib/features/user/data/datasources/register_remote_ds.dart
+class RegisterRemoteDataSource {
   final Dio dio;
-  AuthRemoteDataSource(this.dio);
+  RegisterRemoteDataSource(this.dio);
 
   Future<Map<String, dynamic>> registerUser(String user, String password, String passwordConfirm) async {
     // Faz requisição POST para o backend
@@ -86,17 +86,17 @@ class UserModel {
 ### 3.3. **[DATA] Repository Implementation e Error Handling**
 
 ```dart
-// lib/features/user/data/repositories/auth_repository_impl.dart
+// lib/features/user/data/repositories/register_repository_impl.dart
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/user.dart';
-import '../../domain/repositories/auth_repository.dart';
+import '../../domain/repositories/register_repository.dart';
 import '../models/user_model.dart';
-import '../datasources/auth_remote_ds.dart';
+import '../datasources/register_remote_ds.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource remote;
-  AuthRepositoryImpl(this.remote);
+class RegisterRepositoryImpl implements RegisterRepository {
+  final RegisterRemoteDataSource remote;
+  RegisterRepositoryImpl(this.remote);
 
   @override
   Future<Either<Failure, User>> registerUser(
@@ -138,12 +138,12 @@ class User {
 ### 3.5. **[DOMAIN] Contrato do Repositório**
 
 ```dart
-// lib/features/user/domain/repositories/auth_repository.dart
+// lib/features/user/domain/repositories/register_repository.dart
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../entities/user.dart';
 
-abstract class AuthRepository {
+abstract class RegisterRepository {
   Future<Either<Failure, User>> registerUser(
     String user, String password, String passwordConfirm
   );
@@ -159,10 +159,10 @@ abstract class AuthRepository {
 import 'package:dartz/dartz.dart';
 import '../../../core/errors/failure.dart';
 import '../entities/user.dart';
-import '../repositories/auth_repository.dart';
+import '../repositories/register_repository.dart';
 
 class RegisterUser {
-  final AuthRepository repository;
+  final RegisterRepository repository;
   RegisterUser(this.repository);
 
   Future<Either<Failure, User>> call(
@@ -178,12 +178,12 @@ class RegisterUser {
 ### 3.7. **[APPLICATION] Controller**
 
 ```dart
-// lib/features/user/application/auth_controller.dart
+// lib/features/user/application/register_controller.dart
 import '../domain/usecases/register_user.dart';
 
-class AuthController {
+class RegisterController {
   final RegisterUser registerUserUseCase;
-  AuthController(this.registerUserUseCase);
+  RegisterController(this.registerUserUseCase);
 
   Future<String?> registrar(String usuario, String senha, String confirmarSenha) async {
     final result = await registerUserUseCase(usuario, senha, confirmarSenha);
@@ -212,7 +212,7 @@ class Failure {
 ## 4. 🎯 Fluxo final na UI (Widget/page)
 
 ```dart
-final controller = AuthController(RegisterUser(AuthRepositoryImpl(remoteDataSource)));
+final controller = RegisterController(RegisterUser(RegisterRepositoryImpl(remoteDataSource)));
 
 // Ao clicar no botão "Registrar"
 final erro = await controller.registrar('username', 'senha123', 'senha123');

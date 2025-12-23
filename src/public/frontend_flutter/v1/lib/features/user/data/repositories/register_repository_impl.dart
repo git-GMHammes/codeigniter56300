@@ -2,14 +2,14 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../../domain/entities/user.dart';
-import '../../domain/repositories/auth_repository.dart';
+import '../../domain/repositories/register_repository.dart';
 import '../models/user_model.dart';
-import '../datasources/auth_remote_ds.dart';
+import '../datasources/register_remote_ds.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource remote;
+class RegisterRepositoryImpl implements RegisterRepository {
+  final RegisterRemoteDataSource remote;
 
-  AuthRepositoryImpl(this.remote);
+  RegisterRepositoryImpl(this.remote);
 
   // ════════════════════════════════════════════════════════════════════════
   // STEP 1: Registrar credenciais (user_management)
@@ -56,7 +56,7 @@ class AuthRepositoryImpl implements AuthRepository {
     DateTime? dateBirth,
     String? zipCode,
     String? address,
-    File? upload_files_path,
+    File? uploadFilesPath,
   }) async {
     try {
       // Envia para a API
@@ -70,7 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
         dateBirth: dateBirth,
         zipCode: zipCode,
         address: address,
-        upload_files_path: upload_files_path,
+        uploadFilesPath: uploadFilesPath,
       );
 
       if (resp['http_code'] == 201) {
