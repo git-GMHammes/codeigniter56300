@@ -845,6 +845,7 @@ src/system/ThirdParty/Escaper/*
 
 !src/system/ThirdParty/Kint/
 src/system/ThirdParty/Kint/*
+!src/system/ThirdParty/Kint/Utils.php
 !src/system/ThirdParty/Kint/CallFinder.php
 !src/system/ThirdParty/Kint/FacadeInterface.php
 !src/system/ThirdParty/Kint/init.php
@@ -933,6 +934,9 @@ src/system/ThirdParty/Kint/Renderer/Text/*
 src/system/ThirdParty/Kint/Renderer/*
 !src/system/ThirdParty/Kint/Renderer/TextRenderer.php
 
+!src/system/ThirdParty/Kint/resources/
+src/system/ThirdParty/Kint/resources/*
+
 !src/system/ThirdParty/Kint/resources/compiled/
 src/system/ThirdParty/Kint/resources/compiled/*
 !src/system/ThirdParty/Kint/resources/compiled/aante-dark.css
@@ -942,10 +946,6 @@ src/system/ThirdParty/Kint/resources/compiled/*
 !src/system/ThirdParty/Kint/resources/compiled/plain.css
 !src/system/ThirdParty/Kint/resources/compiled/solarized-dark.css
 !src/system/ThirdParty/Kint/resources/compiled/solarized.css
-
-!src/system/ThirdParty/Kint/
-src/system/ThirdParty/Kint/*
-!src/system/ThirdParty/Kint/Utils.php
 
 !src/system/ThirdParty/Kint/Value/
 src/system/ThirdParty/Kint/Value/*
