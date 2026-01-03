@@ -825,6 +825,9 @@ src/system/Test/*
 !src/system/Test/TestLogger.php
 !src/system/Test/TestResponse.php
 
+!src/system/ThirdParty/
+src/system/ThirdParty/*
+
 !src/system/ThirdParty/Escaper/
 src/system/ThirdParty/Escaper/*
 !src/system/ThirdParty/Escaper/Escaper.php
@@ -839,9 +842,6 @@ src/system/ThirdParty/Escaper/Exception/*
 !src/system/ThirdParty/Escaper/
 src/system/ThirdParty/Escaper/*
 !src/system/ThirdParty/Escaper/LICENSE.md
-
-!src/system/ThirdParty/
-src/system/ThirdParty/*
 
 !src/system/ThirdParty/Kint/
 src/system/ThirdParty/Kint/*
