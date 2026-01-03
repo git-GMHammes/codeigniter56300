@@ -58,6 +58,7 @@ doc/Script/vscode.txt
 !src/system/
 src/system/*
 
+!src/system/index.html
 !src/system/.htaccess
 !src/system/Common.php
 !src/system/ComposerScripts.php
@@ -671,10 +672,6 @@ src/system/Images/Handlers/*
 src/system/Images/*
 !src/system/Images/Image.php
 !src/system/Images/ImageHandlerInterface.php
-
-!src/system/
-src/system/*
-!src/system/index.html
 
 !src/system/Language/en/
 src/system/Language/en/*
