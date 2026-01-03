@@ -46,7 +46,7 @@ doc/Script/cmd_vscode.txt
 doc/Script/vscode.txt
 
 # ^!src/system/[^/]*\.php$
-# ^src/system/[^/]*\.php$
+# ^src/system[^/]*\.php$
 !src/system/
 src/system/*
 !src/system/.htaccess
@@ -121,7 +121,7 @@ src/system/CLI/*
 !src/system/CLI/InputOutput.php
 
 # ^!src/system/Commands/Cache[^/]*\.php$
-# ^src/system/Commands/Cache/[^/]*\.php$
+# ^src/system/Commands/Cache[^/]*\.php$
 
 !src/system/Commands/
 src/system/Commands/*
@@ -1012,6 +1012,9 @@ src/system/ThirdParty/Kint/Value/*
 !src/system/ThirdParty/Kint/Value/UninitializedValue.php
 !src/system/ThirdParty/Kint/Value/UnknownValue.php
 !src/system/ThirdParty/Kint/Value/VirtualValue.php
+
+# ^!src/system/ThirdParty/PSR/[^/]*\.php$
+# ^src/system/ThirdParty/PSR/[^/]*\.php$
 
 !src/system/ThirdParty/PSR/Log/
 src/system/ThirdParty/PSR/Log/*
