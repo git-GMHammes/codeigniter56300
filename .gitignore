@@ -1,7 +1,10 @@
 doc/*
+
 !doc/Dkr.txt
+
 !doc/bkp_project/
 doc/bkp_project/*
+
 !doc/bkp_project/estrutura_001.txt
 !doc/bkp_project/estrutura_002.txt
 !doc/bkp_project/estrutura_003.txt
@@ -10,8 +13,10 @@ doc/bkp_project/*
 doc/Descarte/001.txt
 doc/Descarte/GeraPodcast.txt
 doc/Descarte/LinguaPortuguesa.txt
+
 !doc/Flutter/
 doc/Flutter/*
+
 !doc/Flutter/cmd.txt
 !doc/Flutter/estrtutura_001_diagnostico.txt
 !doc/Flutter/estrtutura_002_base_project.txt
@@ -33,8 +38,10 @@ doc/POSTMAN/api_users_store_script.js
 doc/POSTMAN/HABILIDADE.postman_collection-001.json
 doc/POSTMAN/respostas1.txt
 doc/POSTMAN/respostas2.txt
+
 !doc/React/
 doc/React/*
+
 !doc/React/cmd.txt
 !doc/React/estrutura_001_base_project.txt
 !doc/React/estrutura_002_base_folder.txt
@@ -47,8 +54,10 @@ doc/Script/vscode.txt
 
 # ^!src/system/[^/]*\.php$
 # ^src/system[^/]*\.php$
+
 !src/system/
 src/system/*
+
 !src/system/.htaccess
 !src/system/Common.php
 !src/system/ComposerScripts.php
@@ -64,6 +73,7 @@ src/system/*
 
 !src/system/API/
 src/system/API/*
+
 !src/system/API/ResponseTrait.php
 
 !src/system/Autoloader/
@@ -75,6 +85,7 @@ src/system/Autoloader/*
 
 !src/system/Cache/
 src/system/Cache/*
+
 !src/system/Cache/CacheFactory.php
 !src/system/Cache/CacheInterface.php
 
@@ -84,10 +95,12 @@ src/system/Cache/Exceptions/*
 
 !src/system/Cache/
 src/system/Cache/*
+
 !src/system/Cache/FactoriesCache.php
 
 !src/system/Cache/FactoriesCache/
 src/system/Cache/FactoriesCache/*
+
 !src/system/Cache/FactoriesCache/FileVarExportHandler.php
 
 !src/system/Cache/Handlers/
@@ -102,10 +115,12 @@ src/system/Cache/Handlers/*
 
 !src/system/Cache/
 src/system/Cache/*
+
 !src/system/Cache/ResponseCache.php
 
 !src/system/CLI/
 src/system/CLI/*
+
 !src/system/CLI/BaseCommand.php
 !src/system/CLI/CLI.php
 !src/system/CLI/Commands.php
@@ -117,6 +132,7 @@ src/system/CLI/Exceptions/*
 
 !src/system/CLI/
 src/system/CLI/*
+
 !src/system/CLI/GeneratorTrait.php
 !src/system/CLI/InputOutput.php
 
@@ -125,16 +141,19 @@ src/system/CLI/*
 
 !src/system/Commands/
 src/system/Commands/*
+
 !src/system/Commands/Help.php
 !src/system/Commands/ListCommands.php
 
 !src/system/Commands/Cache/
 src/system/Commands/Cache/*
+
 !src/system/Commands/Cache/ClearCache.php
 !src/system/Commands/Cache/InfoCache.php
 
 !src/system/Commands/Database/
 src/system/Commands/Database/*
+
 !src/system/Commands/Database/CreateDatabase.php
 !src/system/Commands/Database/Migrate.php
 !src/system/Commands/Database/MigrateRefresh.php
@@ -536,27 +555,7 @@ src/system/HotReloader/*
 
 !src/system/HTTP/
 src/system/HTTP/*
-!src/system/HTTP/CLIRequest.php
-!src/system/HTTP/ContentSecurityPolicy.php
-!src/system/HTTP/Cors.php
-!src/system/HTTP/CURLRequest.php
-!src/system/HTTP/DownloadResponse.php
 
-!src/system/HTTP/Exceptions/
-src/system/HTTP/Exceptions/*
-!src/system/HTTP/Exceptions/BadRequestException.php
-!src/system/HTTP/Exceptions/ExceptionInterface.php
-!src/system/HTTP/Exceptions/HTTPException.php
-!src/system/HTTP/Exceptions/RedirectException.php
-
-!src/system/HTTP/Files/
-src/system/HTTP/Files/*
-!src/system/HTTP/Files/FileCollection.php
-!src/system/HTTP/Files/UploadedFile.php
-!src/system/HTTP/Files/UploadedFileInterface.php
-
-!src/system/HTTP/
-src/system/HTTP/*
 !src/system/HTTP/Header.php
 !src/system/HTTP/IncomingRequest.php
 !src/system/HTTP/Message.php
@@ -574,10 +573,30 @@ src/system/HTTP/*
 !src/system/HTTP/Response.php
 !src/system/HTTP/ResponseInterface.php
 !src/system/HTTP/ResponseTrait.php
-src/system/HTTP/SiteURI.php
+!src/system/HTTP/SiteURI.php
 !src/system/HTTP/SiteURIFactory.php
 !src/system/HTTP/URI.php
 !src/system/HTTP/UserAgent.php
+!src/system/HTTP/CLIRequest.php
+!src/system/HTTP/ContentSecurityPolicy.php
+!src/system/HTTP/Cors.php
+!src/system/HTTP/CURLRequest.php
+!src/system/HTTP/DownloadResponse.php
+
+!src/system/HTTP/Exceptions/
+src/system/HTTP/Exceptions/*
+
+!src/system/HTTP/Exceptions/BadRequestException.php
+!src/system/HTTP/Exceptions/ExceptionInterface.php
+!src/system/HTTP/Exceptions/HTTPException.php
+!src/system/HTTP/Exceptions/RedirectException.php
+
+!src/system/HTTP/Files/
+src/system/HTTP/Files/*
+
+!src/system/HTTP/Files/FileCollection.php
+!src/system/HTTP/Files/UploadedFile.php
+!src/system/HTTP/Files/UploadedFileInterface.php
 
 !src/system/I18n/Exceptions/
 src/system/I18n/Exceptions/*
