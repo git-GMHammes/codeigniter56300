@@ -598,6 +598,7 @@ src/system/Honeypot/Exceptions/*
 
 !src/system/HotReloader/
 src/system/HotReloader/*
+
 !src/system/HotReloader/DirectoryHasher.php
 !src/system/HotReloader/HotReloader.php
 !src/system/HotReloader/IteratorFilter.php
