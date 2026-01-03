@@ -896,6 +896,8 @@ src/system/ThirdParty/Kint/Parser/EnumPlugin.php
 
 !src/system/ThirdParty/Kint/Renderer/
 src/system/ThirdParty/Kint/Renderer/*
+
+!src/system/ThirdParty/Kint/Renderer/TextRenderer.php
 !src/system/ThirdParty/Kint/Renderer/AbstractRenderer.php
 !src/system/ThirdParty/Kint/Renderer/AssetRendererTrait.php
 !src/system/ThirdParty/Kint/Renderer/CliRenderer.php
@@ -929,10 +931,6 @@ src/system/ThirdParty/Kint/Renderer/Text/*
 !src/system/ThirdParty/Kint/Renderer/Text/PluginInterface.php
 !src/system/ThirdParty/Kint/Renderer/Text/SplFileInfoPlugin.php
 !src/system/ThirdParty/Kint/Renderer/Text/TracePlugin.php
-
-!src/system/ThirdParty/Kint/Renderer/
-src/system/ThirdParty/Kint/Renderer/*
-!src/system/ThirdParty/Kint/Renderer/TextRenderer.php
 
 !src/system/ThirdParty/Kint/resources/
 src/system/ThirdParty/Kint/resources/*
