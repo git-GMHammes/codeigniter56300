@@ -1016,6 +1016,9 @@ src/system/ThirdParty/Kint/Value/*
 # ^!src/system/ThirdParty/PSR/[^/]*\.php$
 # ^src/system/ThirdParty/PSR/[^/]*\.php$
 
+!src/system/ThirdParty/PSR/
+src/system/ThirdParty/PSR/*
+
 !src/system/ThirdParty/PSR/Log/
 src/system/ThirdParty/PSR/Log/*
 !src/system/ThirdParty/PSR/Log/AbstractLogger.php
