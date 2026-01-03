@@ -1,0 +1,29 @@
+# ----------------------------------------
+# https://nodejs.org/en/download
+# ----------------------------------------
+
+$PUBLIC_PATH="C:\laragon\www\codeigniter56300\src\public"
+$FRONTEND_DIR="frontend_react"
+$VERSION="v1"
+
+$nodeVerStr = (node -v 2>$null)
+if (-not $nodeVerStr) { Write-Host "Node.js nao encontrado no PATH." -ForegroundColor Red; return }
+
+$nodeVer = [version]($nodeVerStr.TrimStart("v"))
+$min20   = [version]"20.19.0"
+$min22   = [version]"22.12.0"
+$ok = (($nodeVer.Major -eq 20 -and $nodeVer -ge $min20) -or ($nodeVer.Major -ge 22 -and $nodeVer -ge $min22))
+if (-not $ok) { Write-Host "Node atual: $nodeVerStr. Vite requer 20.19+ ou 22.12+. Atualize o Node e rode de novo." -ForegroundColor Yellow; return }
+
+$BaseDir    = Join-Path $PUBLIC_PATH $FRONTEND_DIR
+$VersionDir = Join-Path $BaseDir $VERSION
+
+New-Item -ItemType Directory -Path $BaseDir -Force | Out-Null
+if (Test-Path $VersionDir) { Write-Host "Ja existe: $VersionDir (troque VERSION ou apague a pasta)" -ForegroundColor Yellow; return }
+
+Set-Location $BaseDir
+npm create vite@latest $VERSION -- --template react
+
+Set-Location $VersionDir
+npm install
+npm run dev

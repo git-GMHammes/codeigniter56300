@@ -1,0 +1,34 @@
+$PUBLIC_PATH="C:\laragon\www\codeigniter56300\src\public"
+$FRONTEND_DIR="frontend_react"
+$VERSION="v1"
+
+$BaseDir    = Join-Path $PUBLIC_PATH $FRONTEND_DIR
+$VersionDir = Join-Path $BaseDir $VERSION
+
+if (-not (Test-Path $VersionDir)) {
+  Write-Host "Pasta da versao nao existe: $VersionDir" -ForegroundColor Red
+  return
+}
+
+# Cria dentro do src\ se existir; senao cria na raiz da versao
+$TargetDir = (Join-Path $VersionDir "src")
+if (-not (Test-Path $TargetDir)) { $TargetDir = $VersionDir }
+
+$folders = @(
+  "middlewares",
+  "pages",
+  "routes",
+  "services",
+  "styles",
+  "utils",
+  "assets",
+  "components",
+  "config",
+  "contexts",
+  "hooks"
+)
+
+$dirs = $folders | ForEach-Object { Join-Path $TargetDir $_ }
+
+New-Item -ItemType Directory -Force -Path $dirs | Out-Null
+Write-Host "Pastas criadas/garantidas em: $TargetDir" -ForegroundColor Green

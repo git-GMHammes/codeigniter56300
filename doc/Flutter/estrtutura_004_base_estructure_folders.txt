@@ -1,0 +1,242 @@
+# Script PowerShell para gerar a estrutura base de pastas e arquivos Dart (salve como .ps1)
+# Execute: powershell -NoProfile -ExecutionPolicy Bypass -File .\estrtutura_004_base_build.ps1
+#
+# O script cria a árvore de diretórios e arquivos sob a pasta "lib" do projeto
+# Path base e variáveis estão no topo para facilitar reuso em outros projetos.
+# Observações:
+# - Não sobrescreve arquivos existentes por padrão. Para forçar sobrescrita, ajuste $OverwriteFiles = $true
+# - O arquivo main.dart não será sobrescrito automaticamente (ver configuração abaixo).
+# - Ajuste/expanda templates de arquivo conforme necessidade do seu time.
+
+# =========================
+# CONFIG (edite aqui)
+# =========================
+$PUBLIC_PATH   = "C:\laragon\www\codeigniter56300\src\public"
+$FRONTEND_DIR  = "frontend_flutter"
+$VERSION       = "v1"          # de qual versão DEV você vai gerar o build (será criada se não existir)
+$DIST_DIR      = "dist"        # destino final em PRD (sem v1/v2/v3) - (não usado automaticamente aqui)
+$RELEASE       = $true         # $true = --release (informativo)
+$CLEAN_DIST    = $true         # $true = apaga dist antes de copiar (informativo)
+$OverwriteFiles = $false       # Se true -> sobrescreve arquivos existentes (use com cuidado)
+$VerboseOutput  = $true        # Se true -> exibe log detalhado
+
+# =========================
+# Computed paths (não edite normalmente)
+# =========================
+$LIB_ROOT = Join-Path -Path $PUBLIC_PATH -ChildPath (Join-Path $FRONTEND_DIR (Join-Path $VERSION "lib"))
+# Exemplo: C:\laragon\www\codeigniter56300\src\public\frontend_flutter\v1\lib
+$MainFilePath = Join-Path $LIB_ROOT "main.dart"
+
+# =========================
+# Estrutura desejada (relativa a $LIB_ROOT)
+# =========================
+$Directories = @(
+    ".",
+
+    "app",
+    "app\router",
+    "app\theme",
+    "app\messaging",
+
+    "core",
+    "core\config",
+    "core\network",
+    "core\network\interceptors",
+    "core\errors",
+    "core\utils",
+    "core\widgets",
+
+    "features",
+    "features\home",
+    "features\home\presentation",
+    "features\home\presentation\pages",
+    "features\home\presentation\widgets",
+    "features\home\data",
+    "features\home\data\datasources",
+    "features\home\data\models",
+    "features\home\data\repositories",
+    "features\home\domain",
+    "features\home\domain\entities",
+    "features\home\domain\repositories",
+    "features\home\domain\usecases",
+    "features\home\application",
+
+    "features\user",
+    "features\user\presentation",
+    "features\user\presentation\pages",
+    "features\user\presentation\widgets",
+    "features\user\data",
+    "features\user\data\datasources",
+    "features\user\data\models",
+    "features\user\data\repositories",
+    "features\user\domain",
+    "features\user\domain\entities",
+    "features\user\domain\repositories",
+    "features\user\domain\usecases",
+    "features\user\application",
+
+    "shared",
+    "shared\widgets",
+    "shared\utils"
+)
+
+# =========================
+# Arquivos a criar (relativos a $LIB_ROOT) e templates simples
+# =========================
+# Observação: você pode adicionar/editar conteúdo dos templates conforme o padrão do seu time.
+$Files = @{
+    "app\app.dart"                   = "// Auto-generated: app.dart`n`nimport 'package:flutter/material.dart';`n`n// TODO: Configure MaterialApp and root widgets here.";
+    "app\router\app_router.dart"     = "// Auto-generated: app_router.dart`n`n// TODO: Configure your router (GoRouter / Navigator 2.0) here.";
+    "app\router\app_routes.dart"     = "// Auto-generated: app_routes.dart`n`n// TODO: Define route names/constants here.";
+    "app\theme\app_theme.dart"       = "// Auto-generated: app_theme.dart`n`nimport 'package:flutter/material.dart';`n`n// TODO: Define App Theme";
+    "app\theme\color_schemes.dart"   = "// Auto-generated: color_schemes.dart`n`n// TODO: Define color schemes";
+    "app\messaging\app_messenger.dart" = "// Auto-generated: app_messenger.dart`n`n// TODO: Messaging helper (Snackbars, toasts)";
+    "app\messaging\message_service.dart" = "// Auto-generated: message_service.dart`n`n// TODO: Message service / abstraction";
+
+    "core\config\env.dart"           = "// Auto-generated: env.dart`n`n// TODO: Environment and configuration values";
+    "core\network\dio_client.dart"   = "// Auto-generated: dio_client.dart`n`n// TODO: Dio client wrapper for API calls";
+    "core\network\api_endpoints.dart"= "// Auto-generated: api_endpoints.dart`n`n// TODO: API endpoint constants";
+    "core\network\interceptors\auth_interceptor.dart" = "// Auto-generated: auth_interceptor.dart`n`n// TODO: Auth interceptor for requests";
+    "core\network\interceptors\logging_interceptor.dart" = "// Auto-generated: logging_interceptor.dart`n`n// TODO: Logging interceptor";
+
+    "core\errors\app_exception.dart" = "// Auto-generated: app_exception.dart`n`n// TODO: Define application exceptions";
+    "core\errors\failure.dart"       = "// Auto-generated: failure.dart`n`n// TODO: Failure class for error handling";
+
+    "core\utils\validators.dart"     = "// Auto-generated: validators.dart`n`n// TODO: Input validators";
+    "core\utils\debouncer.dart"      = "// Auto-generated: debouncer.dart`n`n// TODO: Debouncer helper";
+
+    "core\widgets\app_scaffold.dart" = "import 'package:flutter/material.dart';`n`nclass AppScaffold extends StatelessWidget {`n  const AppScaffold({Key? key, required this.child}) : super(key: key);`n  final Widget child;`n  @override`n  Widget build(BuildContext context) {`n    return Scaffold(body: child);`n  }`n}";
+    "core\widgets\app_loader.dart"   = "import 'package:flutter/material.dart';`n`nclass AppLoader extends StatelessWidget {`n  const AppLoader({Key? key}) : super(key: key);`n  @override`n  Widget build(BuildContext context) {`n    return const Center(child: CircularProgressIndicator());`n  }`n}";
+    "core\widgets\app_dialog.dart"   = "// Auto-generated: app_dialog.dart`n`n// TODO: Global dialog helpers";
+    "core\widgets\app_snackbar.dart" = "// Auto-generated: app_snackbar.dart`n`n// TODO: Snackbar helper";
+
+    "features\home\presentation\pages\home_page.dart" = "import 'package:flutter/material.dart';`n`nclass HomePage extends StatelessWidget {`n  const HomePage({Key? key}) : super(key: key);`n  @override`n  Widget build(BuildContext context) {`n    return const Scaffold(body: Center(child: Text('Home Page')));`n  }`n}";
+    "features\home\data\datasources\home_remote_ds.dart" = "// Auto-generated: home_remote_ds.dart`n`n// TODO: Remote data source for Home";
+    "features\home\data\models\home_item_model.dart" = "// Auto-generated: home_item_model.dart`n`n// TODO: Model for home items";
+    "features\home\data\repositories\home_repository_impl.dart" = "// Auto-generated: home_repository_impl.dart`n`n// TODO: Repository implementation for Home";
+    "features\home\domain\entities\home_item.dart" = "// Auto-generated: home_item.dart`n`n// TODO: Domain entity for home item";
+    "features\home\domain\repositories\home_repository.dart" = "// Auto-generated: home_repository.dart`n`n// TODO: Repository contract for Home";
+    "features\home\domain\usecases\get_home_feed.dart" = "// Auto-generated: get_home_feed.dart`n`n// TODO: Usecase to get home feed";
+    "features\home\application\home_controller.dart" = "// Auto-generated: home_controller.dart`n`n// TODO: Controller / state management for Home";
+
+    # User module (skeleton similar to home)
+    "features\user\presentation\pages\login_page.dart" = "import 'package:flutter/material.dart';`n`nclass LoginPage extends StatelessWidget {`n  const LoginPage({Key? key}) : super(key: key);`n  @override`n  Widget build(BuildContext context) {`n    return const Scaffold(body: Center(child: Text('Login Page')));`n  }`n}";
+    "features\user\data\datasources\auth_remote_ds.dart" = "// Auto-generated: auth_remote_ds.dart`n`n// TODO: Auth remote data source";
+    "features\user\data\models\user_model.dart" = "// Auto-generated: user_model.dart`n`n// TODO: User model";
+    "features\user\data\repositories\auth_repository_impl.dart" = "// Auto-generated: auth_repository_impl.dart`n`n// TODO: Auth repository implementation";
+    "features\user\domain\entities\user.dart" = "// Auto-generated: user.dart`n`n// TODO: User entity";
+    "features\user\domain\repositories\auth_repository.dart" = "// Auto-generated: auth_repository.dart`n`n// TODO: Auth repository contract";
+    "features\user\domain\usecases\login.dart" = "// Auto-generated: login.dart`n`n// TODO: Login usecase";
+    "features\user\application\auth_controller.dart" = "// Auto-generated: auth_controller.dart`n`n// TODO: Auth controller / session management";
+
+    "shared\widgets\placeholder_widget.dart" = "import 'package:flutter/material.dart';`n`nclass PlaceholderWidget extends StatelessWidget {`n  const PlaceholderWidget({Key? key}) : super(key: key);`n  @override`n  Widget build(BuildContext context) => const SizedBox.shrink();`n}";
+    "shared\utils\readme.txt" = "Shared utils - place helpers here.";
+}
+
+# =========================
+# Helper functions
+# =========================
+function Write-LogVerbose {
+    param([string]$Message)
+    if ($VerboseOutput) { Write-Host $Message }
+}
+
+function Ensure-Directory {
+    param([string]$Path)
+    if (-not (Test-Path -Path $Path)) {
+        New-Item -ItemType Directory -Path $Path -Force | Out-Null
+        Write-LogVerbose "Criado diretório: $Path"
+    } else {
+        Write-LogVerbose "Já existe: $Path"
+    }
+}
+
+function To-PascalCase {
+    param([string]$s)
+    $parts = -split ($s -replace '[^a-zA-Z0-9]+', ' ')
+    $parts = $parts | Where-Object { $_ -ne '' }
+    $pascal = ($parts | ForEach-Object {
+        if ($_.Length -gt 0) { $_.Substring(0,1).ToUpper() + $_.Substring(1) } else { $_ }
+    }) -join ''
+    return $pascal
+}
+
+function Create-FileIfNeeded {
+    param([string]$FullPath, [string]$Content)
+    $shouldWrite = $true
+    if (Test-Path $FullPath) {
+        if ($OverwriteFiles) {
+            Remove-Item $FullPath -Force
+            Write-LogVerbose "Sobrescrevendo arquivo existente: $FullPath"
+        } else {
+            Write-LogVerbose "Pulando (existe): $FullPath"
+            $shouldWrite = $false
+        }
+    } else {
+        Write-LogVerbose "Criando arquivo: $FullPath"
+    }
+
+    if ($shouldWrite) {
+        $dir = Split-Path $FullPath -Parent
+        if (-not (Test-Path $dir)) {
+            New-Item -ItemType Directory -Path $dir -Force | Out-Null
+        }
+
+        # Conteúdo final com header
+        $header = "// Arquivo gerado automaticamente em $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n// Caminho: $FullPath`n`n"
+        $final = $header + ($Content -replace '`n', "`n")
+        Set-Content -Path $FullPath -Value $final -Encoding UTF8
+    }
+}
+
+# =========================
+# Execução
+# =========================
+Write-Host "== Gerador de estrutura Flutter =="
+Write-Host "Lib alvo: $LIB_ROOT"
+if (-not (Test-Path -Path $LIB_ROOT)) {
+    Write-Host "Diretório alvo não existe. Será criado: $LIB_ROOT"
+    New-Item -ItemType Directory -Path $LIB_ROOT -Force | Out-Null
+}
+
+# Criar diretórios
+foreach ($rel in $Directories) {
+    $target = if ($rel -eq ".") { $LIB_ROOT } else { Join-Path $LIB_ROOT $rel }
+    Ensure-Directory -Path $target
+}
+
+# Criar arquivos (respeitando OverwriteFiles)
+foreach ($kvp in $Files.GetEnumerator()) {
+    $relPath = $kvp.Key
+    $contentTemplate = $kvp.Value
+
+    $fullPath = Join-Path $LIB_ROOT $relPath
+
+    # Se for o main.dart, não sobrescrever por padrão e avisar onde está localizado
+    if ([IO.Path]::GetFileName($fullPath).ToLower() -eq "main.dart") {
+        if (Test-Path $fullPath) {
+            Write-LogVerbose "Main já existe em $fullPath - pulando criação."
+            continue
+        }
+    }
+
+    Create-FileIfNeeded -FullPath $fullPath -Content $contentTemplate
+}
+
+# Se main.dart não existir, criar um stub leve (mas por padrão não sobrescreve)
+if (-not (Test-Path $MainFilePath)) {
+    $mainStub = "import 'package:flutter/material.dart';`nimport 'app/app.dart' as app;`n`nvoid main() {`n  runApp(const app.App());`n}  "
+    Create-FileIfNeeded -FullPath $MainFilePath -Content $mainStub
+} else {
+    Write-LogVerbose "main.dart encontrado: $MainFilePath (não modificado)"
+}
+
+# Resumo final
+Write-Host "`n== Resumo =="
+Write-Host "Root (lib): $LIB_ROOT"
+Write-Host ("Total diretórios solicitados: {0}" -f $Directories.Count)
+Write-Host ("Total arquivos solicitados: {0}" -f $Files.Keys.Count)
+Write-Host "OverwriteFiles: $OverwriteFiles"
+Write-Host "`nOperação concluída."
+
+# Fim do script

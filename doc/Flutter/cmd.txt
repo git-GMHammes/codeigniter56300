@@ -1,0 +1,10 @@
+flutter clean
+ 
+flutter pub cache clean
+ 
+flutter pub get
+ 
+flutter analyze
+ 
+flutter run
+ 

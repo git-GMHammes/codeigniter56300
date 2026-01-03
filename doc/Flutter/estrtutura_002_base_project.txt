@@ -1,0 +1,176 @@
+# =========================
+# CONFIG (edite aqui)
+# =========================
+# $PUBLIC_PATH   = "C:\laragon\www\flutter001"
+$PUBLIC_PATH   = "C:\laragon\www\codeigniter56300\src\public"
+
+$FRONTEND_DIR  = "frontend_flutter"
+$VERSION       = "v1"          # ex: v1, v2, v3...
+$RESET         = $false        # $false = NÃO apaga; $true = apaga e recria do zero se existir
+
+# Plataformas a gerar (comma-separated). Exemplos:
+# "web"
+# "web,android"
+# "web,windows,linux,macos,android,ios"
+$PLATFORMS     = "web"         # recomendado pra ficar dentro do public
+
+# Novo: se $true, executa `flutter create --platforms=$PLATFORMS .` dentro do projeto
+# após a criação para garantir que plataformas faltantes sejam adicionadas
+# (útil para que `flutter devices` / `flutter run` enxerguem outras plataformas).
+$CREATE_DOT    = $true
+
+# Se $true, ao final do script também será executado um `flutter create .` diretamente no diretório do projeto.
+# Observação: isso será executado no $projDir usando Push-Location/Pop-Location — NÃO deixará um `flutter create .`
+# solto fora do diretório do projeto.
+$RUN_FINAL_CREATE = $true
+
+# =========================
+# SCRIPT (não mexa)
+# =========================
+if (-not (Get-Command flutter -ErrorAction SilentlyContinue)) {
+  Write-Host "ERRO: 'flutter' não está no PATH." -ForegroundColor Red
+  exit 1
+}
+
+# Função simples para checar sistema operacional atual
+function Get-HostOS {
+  if ([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform([System.Runtime.InteropServices.OSPlatform]::Windows)) { return "windows" }
+  if ([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform([System.Runtime.InteropServices.OSPlatform]::Linux))   { return "linux" }
+  if ([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform([System.Runtime.InteropServices.OSPlatform]::OSX))     { return "macos" }
+  return "unknown"
+}
+
+$HostOS = Get-HostOS
+
+$rootDir  = Join-Path $PUBLIC_PATH $FRONTEND_DIR
+$projDir  = Join-Path $rootDir $VERSION
+
+# nome do projeto (precisa ser válido no Flutter: minúsculo/underscore)
+$projName = ($FRONTEND_DIR + "_" + $VERSION) -replace '[^a-zA-Z0-9_]', '_'
+$projName = $projName.ToLower()
+
+# Normaliza lista de plataformas para passá-la ao flutter create
+$PLATFORMS_ARRAY = @()
+if ($PLATFORMS -ne $null -and $PLATFORMS.Trim() -ne "") {
+  $PLATFORMS_ARRAY = $PLATFORMS -split '\s*,\s*'
+  # remove entradas vazias e normaliza lower
+  $PLATFORMS_ARRAY = $PLATFORMS_ARRAY | Where-Object { $_ -ne '' } | ForEach-Object { $_.ToLower() }
+}
+
+New-Item -ItemType Directory -Path $rootDir -Force | Out-Null
+
+if (Test-Path $projDir) {
+  if ($RESET) {
+    # Confirmação interativa antes de remover para evitar exclusão acidental
+    $prompt = "RESET=$RESET irá remover RECURSIVAMENTE o diretório:`n$projDir`nDigite 'YES' para confirmar a remoção:"
+    $answer = Read-Host $prompt
+    if ($answer -ne 'YES') {
+      Write-Host "Remoção cancelada pelo usuário. Nada foi alterado." -ForegroundColor Yellow
+      exit 0
+    }
+    Remove-Item -Recurse -Force $projDir
+  } else {
+    Write-Host "Pasta já existe e RESET=$RESET. Nada a fazer: $projDir" -ForegroundColor Yellow
+    # Não sai mais aqui; queremos continuar para o bloco final que fará Set-Location e (opcional) flutter create .
+    # Se preferir manter o comportamento antigo (sair), descomente a próxima linha:
+    # exit 0
+  }
+}
+
+# Avisos sobre plataformas que não fazem sentido no host atual (apenas aviso)
+foreach ($p in $PLATFORMS_ARRAY) {
+  if ($p -eq 'ios' -or $p -eq 'macos') {
+    if ($HostOS -ne 'macos') {
+      Write-Host "AVISO: plataforma '$p' solicitada, mas o host atual é '$HostOS'. Gerar/remover arquivos de '$p' em outro SO pode falhar." -ForegroundColor Yellow
+    }
+  }
+  if ($p -eq 'windows') {
+    if ($HostOS -ne 'windows') {
+      Write-Host "AVISO: plataforma 'windows' solicitada, mas o host atual é '$HostOS'." -ForegroundColor Yellow
+    }
+  }
+  if ($p -eq 'linux') {
+    if ($HostOS -ne 'linux') {
+      Write-Host "AVISO: plataforma 'linux' solicitada, mas o host atual é '$HostOS'." -ForegroundColor Yellow
+    }
+  }
+}
+
+# Constrói string para --platforms (mantém comportamento original)
+$platformsArg = if ($PLATFORMS_ARRAY.Count -gt 0) { ($PLATFORMS_ARRAY -join ',') } else { 'web' }
+
+Write-Host "Criando/atualizando Flutter em: $projDir" -ForegroundColor Cyan
+# Cria o projeto (se não existir) ou garante arquivos básicos
+flutter create --platforms=$platformsArg --project-name $projName $projDir
+
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "ERRO: 'flutter create' falhou. Verifique a instalação do Flutter e tente novamente." -ForegroundColor Red
+  exit 1
+}
+
+# Opcional: rodar `flutter create --platforms=... .` dentro do projeto para adicionar/atualizar plataformas
+if ($CREATE_DOT) {
+  if (Test-Path $projDir) {
+    Write-Host "Executando 'flutter create --platforms=$platformsArg .' dentro de: $projDir" -ForegroundColor Cyan
+    Push-Location $projDir
+    flutter create --platforms=$platformsArg .
+    $rc = $LASTEXITCODE
+    Pop-Location
+    if ($rc -ne 0) {
+      Write-Host "Aviso: 'flutter create --platforms=... .' retornou código $rc. Verifique se há mensagens/erros." -ForegroundColor Yellow
+    }
+  } else {
+    Write-Host "Aviso: diretório do projeto não encontrado para executar 'flutter create .': $projDir" -ForegroundColor Yellow
+  }
+}
+
+Write-Host "`nOK! Estrutura inicial criada/atualizada em: $projDir" -ForegroundColor Green
+Write-Host "Para rodar:" -ForegroundColor Green
+Write-Host "cd `"$projDir`" ; flutter run -d chrome" -ForegroundColor Green
+
+# ------------------------------
+# Final seguro: entra no diretório do projeto e executa um `flutter create .`
+# conforme solicitado — sempre dentro do $projDir (Push-Location/Pop-Location).
+# ------------------------------
+
+# Permite override via variável de ambiente se preferir (útil para CI/CD)
+if ($env:PUBLIC_PATH -and $env:PUBLIC_PATH.Trim()) { $PUBLIC_PATH = $env:PUBLIC_PATH }
+if ($env:FRONTEND_DIR -and $env:FRONTEND_DIR.Trim()) { $FRONTEND_DIR = $env:FRONTEND_DIR }
+if ($env:VERSION -and $env:VERSION.Trim()) { $VERSION = $env:VERSION }
+
+$target = Join-Path $PUBLIC_PATH (Join-Path $FRONTEND_DIR $VERSION)
+
+if (-not (Test-Path $target)) {
+  Write-Host "ERRO: diretório não encontrado:" -ForegroundColor Red
+  Write-Host "  $target" -ForegroundColor Red
+  exit 1
+}
+
+# Muda para o diretório do projeto e exibe o PWD
+Write-Host "`nEntrando no diretório do projeto:" -ForegroundColor Cyan
+Write-Host "  $target" -ForegroundColor Cyan
+
+Push-Location $target
+try {
+  Write-Host "`nPasta atual:" -ForegroundColor Green
+  Write-Host "  $PWD" -ForegroundColor Cyan
+
+  if ($RUN_FINAL_CREATE) {
+    Write-Host "`nExecutando: flutter create ." -ForegroundColor Cyan
+    # Executa flutter create . no projDir (padrão). Não há --overwrite aqui — altere se quiser forçar.
+    flutter create .
+    $rcFinal = $LASTEXITCODE
+    if ($rcFinal -eq 0) {
+      Write-Host "Comando 'flutter create .' executado com sucesso (código 0)." -ForegroundColor Green
+    } else {
+      Write-Host "Aviso: 'flutter create .' retornou código $rcFinal. Verifique mensagens/erros." -ForegroundColor Yellow
+    }
+  } else {
+    Write-Host "`nRUN_FINAL_CREATE = $RUN_FINAL_CREATE, não executando 'flutter create .'." -ForegroundColor Yellow
+  }
+} finally {
+  Pop-Location
+}
+
+# Define o diretório atual (sessão do caller não será alterada se script for exec em escopo próprio).
+Write-Host "`nFim do script. Diretório alvo: $target" -ForegroundColor Green

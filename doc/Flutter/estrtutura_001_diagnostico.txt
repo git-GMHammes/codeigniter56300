@@ -1,0 +1,4 @@
+flutter doctor -v
+flutter doctor --android-licenses
+flutter devices
+ 

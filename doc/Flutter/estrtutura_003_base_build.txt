@@ -1,0 +1,98 @@
+# Script PowerShell para build Flutter (salve como .ps1)
+# Execute: powershell -NoProfile -ExecutionPolicy Bypass -File .\estrtutura_003_base_build.ps1
+
+# =========================
+# CONFIG (edite aqui)
+# =========================
+$PUBLIC_PATH   = "C:\laragon\www\codeigniter56300\src\public"
+$FRONTEND_DIR  = "frontend_flutter"
+$VERSION       = "v1"          # de qual versão DEV você vai gerar o build (será criada se não existir)
+$DIST_DIR      = "dist"        # destino final em PRD (sem v1/v2/v3)
+$RELEASE       = $true         # $true = --release
+$CLEAN_DIST    = $true         # $true = apaga dist antes de copiar
+
+# =========================
+# SCRIPT (não mexa)
+# =========================
+if (-not (Get-Command flutter -ErrorAction SilentlyContinue)) {
+  Write-Host "ERRO: 'flutter' não está no PATH." -ForegroundColor Red
+  exit 1
+}
+
+$frontendPath = Join-Path $PUBLIC_PATH $FRONTEND_DIR
+$projectDir   = Join-Path $frontendPath $VERSION
+$distPath     = Join-Path $frontendPath $DIST_DIR
+
+# Garante que a pasta frontend exista (cria se precisar)
+if (-not (Test-Path $frontendPath)) {
+  Write-Host "Pasta do frontend não encontrada. Criando: $frontendPath" -ForegroundColor Yellow
+  New-Item -ItemType Directory -Path $frontendPath -Force | Out-Null
+}
+
+# Se o projeto (versão) não existir, cria a pasta e inicializa um novo projeto Flutter
+if (-not (Test-Path $projectDir)) {
+  Write-Host "Projeto ($VERSION) não encontrado. Criando projeto em: $projectDir" -ForegroundColor Cyan
+  New-Item -ItemType Directory -Path $projectDir -Force | Out-Null
+
+  Push-Location $projectDir
+  Write-Host "Executando: flutter create . (inicializando projeto Flutter)" -ForegroundColor Cyan
+  flutter create . 
+  if ($LASTEXITCODE -ne 0) {
+    Pop-Location
+    Write-Host "ERRO: 'flutter create' falhou. Verifique a instalação do Flutter e tente novamente." -ForegroundColor Red
+    exit 1
+  }
+  Pop-Location
+}
+
+# A partir daqui o projeto existe
+Push-Location $projectDir
+
+Write-Host "Buildando (WEB) a partir de: $projectDir" -ForegroundColor Cyan
+
+# base-href: inclui versão para que o build saiba onde será servido
+# Ex.: http://localhost/frontend_flutter/v1/dist/
+$baseHref = "/$FRONTEND_DIR/$VERSION/$DIST_DIR/"
+
+if ($RELEASE) {
+  flutter build web --release --base-href $baseHref
+} else {
+  flutter build web --base-href $baseHref
+}
+
+if ($LASTEXITCODE -ne 0) {
+  Pop-Location
+  Write-Host "ERRO: 'flutter build' falhou. Verifique mensagens acima." -ForegroundColor Red
+  exit 1
+}
+
+$buildWeb = Join-Path $projectDir -ChildPath "build\web"
+if (-not (Test-Path $buildWeb)) {
+  Pop-Location
+  Write-Host "ERRO: build\web não encontrado. O build falhou." -ForegroundColor Red
+  exit 1
+}
+
+Write-Host "Publicando em: $distPath" -ForegroundColor Cyan
+
+# Garante que a pasta frontend exista (novamente, por segurança)
+if (-not (Test-Path $frontendPath)) {
+  New-Item -ItemType Directory -Path $frontendPath -Force | Out-Null
+}
+
+# Remove dist antigo se solicitado
+if ((Test-Path $distPath) -and $CLEAN_DIST) {
+  Remove-Item -Recurse -Force $distPath
+}
+
+# Cria dist
+New-Item -ItemType Directory -Path $distPath -Force | Out-Null
+
+# Copia todo o conteúdo do build\web para o dist
+Copy-Item -Recurse -Force (Join-Path $buildWeb "*") $distPath
+
+Pop-Location
+
+Write-Host "`nOK! Dist atualizada." -ForegroundColor Green
+Write-Host "Abra: http://localhost/$FRONTEND_DIR/$VERSION/$DIST_DIR/" -ForegroundColor Green
+ 

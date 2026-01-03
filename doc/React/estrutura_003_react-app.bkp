@@ -1,0 +1,175 @@
+cd C:\laragon\www\codeigniter56300\src\public\frontend_react\v1
+
+# ============================================
+# SCRIPT BUILD + DEPLOY REACT-APP
+# Detecta ambiente automaticamente do vite.config.js
+# ============================================
+
+$projeto = "C:\laragon\www\codeigniter56300\src\public\frontend_react\v1"
+$destino = "C:\laragon\www\codeigniter56300\src\public\react-app"
+$viteConfig = "$projeto\vite.config.js"
+
+Write-Host "🚀 Iniciando build e deploy..." -ForegroundColor Cyan
+Write-Host ""
+
+# ============================================
+# DETECTAR AMBIENTE BASEADO NO VITE.CONFIG.JS
+# ============================================
+$configContent = Get-Content $viteConfig -Raw
+
+# Verificar qual linha está ativa (sem //)
+if ($configContent -match "^\s*base:\s*['""`]/codeigniter56300/src/public/react-app/['""`]" -and 
+    $configContent -notmatch "^\s*//\s*base:\s*['""`]/codeigniter56300/src/public/react-app/['""`]") {
+    $ambiente = "PRODUÇÃO"
+    $rewriteBase = "/codeigniter56300/src/public/react-app/"
+    $urlAcesso = "https://habilidade.com/codeigniter56300/src/public/react-app/"
+} else {
+    $ambiente = "DESENVOLVIMENTO"
+    $rewriteBase = "/react-app/"
+    $urlAcesso = "http://localhost:56300/react-app/"
+}
+
+Write-Host "🎯 Ambiente detectado: $ambiente" -ForegroundColor Yellow
+Write-Host "📍 RewriteBase: $rewriteBase" -ForegroundColor Cyan
+Write-Host ""
+
+# ============================================
+# VERIFICAR SE ESTÁ NA PASTA CORRETA
+# ============================================
+if (-not (Test-Path "$projeto\package.json")) {
+    Write-Host "❌ ERRO: Projeto não encontrado em $projeto" -ForegroundColor Red
+    exit
+}
+
+# ============================================
+# IR PARA PASTA DO PROJETO
+# ============================================
+Set-Location $projeto
+Write-Host "📁 Pasta: $projeto" -ForegroundColor Green
+
+# ============================================
+# LIMPAR BUILD ANTERIOR
+# ============================================
+if (Test-Path "dist") {
+    Write-Host "🗑️  Removendo build anterior..." -ForegroundColor Yellow
+    Remove-Item -Recurse -Force "dist"
+}
+
+# ============================================
+# EXECUTAR BUILD
+# ============================================
+Write-Host ""
+Write-Host "⚙️  Executando build..." -ForegroundColor Cyan
+npm run build
+
+# ============================================
+# VERIFICAR SE BUILD FOI CRIADO
+# ============================================
+if (-not (Test-Path "dist")) {
+    Write-Host ""
+    Write-Host "❌ ERRO: Build falhou! Pasta dist não criada." -ForegroundColor Red
+    exit
+}
+
+Write-Host ""
+Write-Host "✅ Build concluído!" -ForegroundColor Green
+
+# ============================================
+# CRIAR PASTA DE DESTINO
+# ============================================
+if (-not (Test-Path $destino)) {
+    Write-Host "📁 Criando pasta: $destino" -ForegroundColor Cyan
+    New-Item -ItemType Directory -Path $destino -Force | Out-Null
+}
+
+# ============================================
+# COPIAR ARQUIVOS
+# ============================================
+Write-Host "📦 Copiando arquivos..." -ForegroundColor Cyan
+Copy-Item -Path "dist\*" -Destination $destino -Recurse -Force
+
+# ============================================
+# CRIAR .HTACCESS COM REWRITEBASE CORRETO
+# ============================================
+Write-Host "📝 Criando .htaccess ($ambiente)..." -ForegroundColor Cyan
+
+$htaccess = @"
+# ============================================
+# AMBIENTE: $ambiente
+# RewriteBase: $rewriteBase
+# ============================================
+
+# Tipos MIME corretos
+<IfModule mod_mime.c>
+    AddType application/javascript .js .mjs
+    AddType text/css .css
+    AddType image/svg+xml .svg
+    AddType video/mp4 .mp4
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+</IfModule>
+
+# React Router - SPA
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase $rewriteBase
+    
+    # Se for arquivo ou diretório que existe, serve diretamente
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # Caso contrário, redireciona para index.html
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+# Cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 year"
+</IfModule>
+
+# Compressão
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+</IfModule>
+
+# Segurança
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+"@
+
+$htaccess | Out-File -FilePath "$destino\.htaccess" -Encoding ASCII
+
+# ============================================
+# RESUMO FINAL
+# ============================================
+Write-Host ""
+Write-Host "============================================" -ForegroundColor Green
+Write-Host "✅ DEPLOY CONCLUÍDO COM SUCESSO!" -ForegroundColor Green
+Write-Host "============================================" -ForegroundColor Green
+Write-Host ""
+Write-Host "📊 Resumo:" -ForegroundColor Cyan
+Write-Host "   Ambiente: $ambiente" -ForegroundColor White
+Write-Host "   Destino: $destino" -ForegroundColor White
+Write-Host "   URL: $urlAcesso" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "📂 Arquivos gerados:" -ForegroundColor Cyan
+Get-ChildItem $destino -File | Select-Object Name, @{Name="Tamanho";Expression={"{0:N2} KB" -f ($_.Length/1KB)}} | Format-Table -AutoSize
+
+Write-Host ""
+if ($ambiente -eq "DESENVOLVIMENTO") {
+    Write-Host "🌐 Teste agora: $urlAcesso" -ForegroundColor Green
+} else {
+    Write-Host "📤 Pronto para upload via FTP!" -ForegroundColor Green
+    Write-Host "   Envie a pasta react-app/ completa para produção" -ForegroundColor Yellow
+}
+Write-Host ""

@@ -1,0 +1,24 @@
+# Rodar servidor DEV (base será '/')
+cd C:\laragon\www\codeigniter56300\src\public\frontend_react\v1
+npm run dev
+ 
+# Build para DEV (base será '/react-app/')
+cd C:\laragon\www\codeigniter56300\src\public\frontend_react\v1
+npm run build
+ 
+# Build para PRD (base será '/codeigniter56300/src/public/react-app/')
+cd C:\laragon\www\codeigniter56300\src\public\frontend_react\v1
+npm run build -- --mode production
+ 
+###########################
+
+cd C:\laragon\www\codeigniter56300\src\public\frontend_react\v1
+
+# Limpar build anterior (se existir)
+if (Test-Path dist) { Remove-Item -Recurse -Force dist }
+
+# Gerar build de produção
+npm run build
+
+
+###########################
