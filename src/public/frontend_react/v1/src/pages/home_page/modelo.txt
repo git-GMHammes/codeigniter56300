@@ -1,0 +1,107 @@
+  const services = [
+    {
+      id: "desenvolvimento-software",
+      title: "Desenvolvimento de Software",
+      videoSrc: "/assets/videos/tab_video001.mp4",
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      ),
+      items: [
+        {
+          name: "Desenvolvimento de sistemas web (portais, e-commerce, dashboards)",
+          description: [
+            "O desenvolvimento de sistemas web, como portais, e-commerce e dashboards, será implementado utilizando uma estrutura robusta e moderna, que combina um backend poderoso com uma interface de usuário dinâmica. Para o backend, será adotado o PHP, uma linguagem amplamente utilizada para o desenvolvimento de soluções web devido à sua flexibilidade, segurança e eficiência no gerenciamento de dados e lógica de negócios. A lógica e os serviços do sistema serão cuidadosamente projetados para garantir o melhor desempenho e escalabilidade, permitindo o suporte a um grande volume de dados e acessos simultâneos.",
+            "Na camada de frontend, será empregado o React juntamente com JavaScript, tecnologias que proporcionam uma experiência de usuário rica e interativa. Através dessa abordagem, serão criadas telas intuitivas e responsivas, com componentes reutilizáveis e bem estruturados, permitindo que os usuários naveguem rapidamente entre as seções e tenham acesso às informações de maneira clara e organizada. Além disso, o uso do React facilita a integração dinâmica com o backend, tornando a atualização de dados em tempo real uma característica-chave do sistema.",
+            "Complementando esse desenvolvimento, serão implementadas extensões e ferramentas específicas para a exibição precisa dos dados, seja em gráficos, tabelas ou outros formatos personalizados. Essas extensões terão como objetivo destacar os indicadores mais importantes, melhorar a visualização das informações e proporcionar flexibilidade na análise e manipulação de dados. Combinando essas tecnologias, entregaremos soluções completas, modernas e eficientes, alinhadas às necessidades específicas do projeto."
+          ]
+        },
+        {
+          name: "Desenvolvimento de aplicativos móveis (Android/iOS)",
+          description: [
+            "O desenvolvimento de aplicativos móveis para Android e iOS será realizado utilizando tecnologias nativas e híbridas, garantindo a melhor performance e experiência do usuário em ambas as plataformas. Utilizaremos frameworks modernos como React Native ou Flutter, que permitem o desenvolvimento multiplataforma com código compartilhado, reduzindo tempo e custos de desenvolvimento.",
+            "Os aplicativos serão projetados seguindo as diretrizes de design de cada plataforma (Material Design para Android e Human Interface Guidelines para iOS), garantindo uma interface familiar e intuitiva para os usuários. A arquitetura do aplicativo será construída com foco em escalabilidade, segurança e performance, incluindo cache offline, sincronização de dados e otimização de consumo de bateria.",
+            "Além disso, implementaremos funcionalidades avançadas como notificações push, geolocalização, integração com APIs nativas, pagamentos in-app e muito mais. Todo o processo incluirá testes rigorosos em diferentes dispositivos e versões de sistema operacional, garantindo qualidade e estabilidade do produto final."
+          ]
+        },
+        {
+          name: "Desenvolvimento de software desktop",
+          description: [
+            "O desenvolvimento de software desktop envolve a criação de aplicações robustas e eficientes que rodam diretamente no sistema operacional do usuário. Utilizaremos tecnologias como Electron, que permite desenvolver aplicações desktop multiplataforma usando tecnologias web (HTML, CSS, JavaScript), ou frameworks nativos específicos para cada sistema operacional.",
+            "As aplicações desktop desenvolvidas terão acesso completo aos recursos do sistema, incluindo gerenciamento de arquivos, integração com hardware, processamento offline e melhor performance para tarefas pesadas. Isso é especialmente importante para sistemas que exigem processamento intensivo, manipulação de grandes volumes de dados ou operações que requerem acesso direto aos recursos do computador.",
+            "Garantiremos que o software seja otimizado para diferentes sistemas operacionais (Windows, macOS, Linux), com instaladores apropriados, atualizações automáticas e uma interface de usuário nativa que se integra perfeitamente ao ambiente do usuário. A segurança dos dados e a estabilidade do sistema serão prioridades em todo o desenvolvimento."
+          ]
+        },
+        {
+          name: "Sistemas SaaS (Software as a Service)",
+          description: [
+            "Sistemas SaaS (Software as a Service) são soluções baseadas em nuvem que permitem aos usuários acessar aplicações através da internet, eliminando a necessidade de instalação local. Desenvolveremos plataformas SaaS escaláveis, seguras e multi-tenant, onde múltiplos clientes compartilham a mesma infraestrutura enquanto mantêm seus dados completamente isolados e protegidos.",
+            "A arquitetura será construída utilizando microserviços e containers, permitindo escalabilidade horizontal e vertical conforme a demanda cresce. Implementaremos sistemas de autenticação robustos, gerenciamento de assinaturas, billing automatizado, APIs para integrações e dashboards administrativos completos para gestão de clientes e recursos.",
+            "Garantiremos alta disponibilidade através de infraestrutura redundante, backups automáticos, monitoramento 24/7 e planos de disaster recovery. Os sistemas SaaS desenvolvidos seguirão as melhores práticas de segurança, incluindo criptografia de dados, conformidade com LGPD/GDPR e auditorias regulares de segurança."
+          ]
+        },
+        {
+          name: "Progressive Web Apps (PWA)",
+          description: [
+            "Progressive Web Apps (PWA) são aplicações web modernas que combinam o melhor das tecnologias web e móveis, oferecendo experiências ricas e envolventes. As PWAs desenvolvidas funcionarão offline, terão instalação simplificada, notificações push e performance comparável a aplicativos nativos, tudo isso através de um navegador web.",
+            "Utilizaremos Service Workers para cache inteligente de recursos, permitindo que a aplicação funcione mesmo sem conexão à internet. A interface será responsiva e adaptável a qualquer tamanho de tela, desde smartphones até desktops, garantindo uma experiência consistente e otimizada em todos os dispositivos.",
+            "As PWAs serão otimizadas para carregamento rápido, seguindo as métricas Core Web Vitals do Google, e serão completamente indexáveis por motores de busca, melhorando o SEO. Implementaremos recursos avançados como geolocalização, acesso à câmera, compartilhamento de arquivos e integração com o sistema operacional, proporcionando uma experiência verdadeiramente nativa através da web."
+          ]
+        },
+      ]
+    },
+    {
+      id: "analise-consultoria",
+      title: "Análise e Consultoria",
+      videoSrc: "/assets/videos/tab_video002.mp4",
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      ),
+      items: [
+        {
+          name: "Levantamento de requisitos",
+          description: [
+            "O levantamento de requisitos é uma etapa fundamental no desenvolvimento de software, onde identificamos e documentamos todas as necessidades, expectativas e restrições do projeto. Este processo envolve reuniões detalhadas com stakeholders, análise de processos existentes e documentação completa de requisitos funcionais e não-funcionais.",
+            "Utilizamos técnicas modernas de elicitação de requisitos, incluindo workshops, entrevistas, prototipagem rápida e análise de sistemas legados. Cada requisito é priorizado, validado e documentado de forma clara, garantindo que todos os envolvidos tenham uma visão compartilhada do produto final.",
+            "Ao final desta etapa, entregaremos documentação completa incluindo casos de uso, histórias de usuário, diagramas de fluxo e especificações técnicas. Este trabalho minucioso garante que o desenvolvimento seja direcionado, eficiente e alinhado com as reais necessidades do negócio."
+          ]
+        },
+        {
+          name: "Análise de viabilidade técnica",
+          description: [
+            "A análise de viabilidade técnica avalia se a solução proposta é tecnicamente possível e viável de ser implementada. Analisamos tecnologias disponíveis, restrições técnicas, integrações necessárias e recursos requeridos para determinar a melhor abordagem para o projeto.",
+            "Realizamos estudos de mercado, análise de concorrentes, avaliação de custos e benefícios, e identificação de riscos técnicos. Esta análise profunda permite tomar decisões informadas sobre arquitetura, tecnologias e metodologias a serem adotadas.",
+            "O resultado é um documento detalhado com recomendações técnicas, estimativas de prazo e custo, identificação de riscos potenciais e plano de mitigação. Esta análise crítica evita investimentos em soluções inviáveis e garante escolhas tecnológicas adequadas."
+          ]
+        },
+        {
+          name: "Modelagem de processos de negócio",
+          description: [
+            "A modelagem de processos de negócio envolve o mapeamento detalhado de todos os processos organizacionais, identificando fluxos de trabalho, pontos de decisão, responsabilidades e oportunidades de melhoria. Utilizamos notações padrão como BPMN para criar representações visuais claras dos processos.",
+            "Este trabalho permite identificar gargalos, redundâncias e ineficiências nos processos atuais, propondo otimizações e automações que aumentem a produtividade e reduzam custos. Cada processo é analisado em detalhes, considerando diferentes cenários e exceções.",
+            "Entregaremos documentação completa dos processos modelados, incluindo diagramas, descrições detalhadas, métricas de performance e recomendações de melhorias. Esta modelagem serve como base fundamental para o desenvolvimento de sistemas que realmente automatizam e otimizam o negócio."
+          ]
+        },
+        {
+          name: "Auditoria de sistemas existentes",
+          description: [
+            "A auditoria de sistemas existentes é uma análise profunda e abrangente da infraestrutura tecnológica atual, identificando problemas, vulnerabilidades, pontos de melhoria e oportunidades de otimização. Avaliamos código, arquitetura, segurança, performance e aderência às melhores práticas.",
+            "Durante a auditoria, revisamos documentação técnica, realizamos análises de código estático e dinâmico, testes de segurança, avaliação de performance e entrevistas com equipes técnicas. Cada aspecto do sistema é minuciosamente examinado e documentado.",
+            "O resultado é um relatório detalhado com diagnóstico completo do estado atual, identificação de problemas críticos e não-críticos, recomendações priorizadas de melhorias e plano de ação. Esta auditoria fornece insights valiosos para decisões estratégicas sobre manutenção, evolução ou substituição de sistemas."
+          ]
+        },
+        {
+          name: "Consultoria em arquitetura de software",
+          description: [
+            "A consultoria em arquitetura de software oferece orientação especializada para definir a estrutura técnica mais adequada para seu projeto. Analisamos requisitos, restrições e objetivos para propor arquiteturas escaláveis, manuteníveis e alinhadas com as melhores práticas da indústria.",
+            "Consideramos aspectos como microserviços vs monolito, escolha de tecnologias, padrões de design, estratégias de integração, gerenciamento de dados e segurança. Cada decisão arquitetural é justificada com base em análise técnica e alinhamento com objetivos de negócio.",
+            "Entregaremos documentação arquitetural completa, incluindo diagramas C4, ADRs (Architecture Decision Records), guias de desenvolvimento e recomendações de ferramentas. Nossa consultoria garante que seu sistema seja construído sobre fundações sólidas que suportarão crescimento e evolução futuros."
+          ]
+        },
+      ]
+    },
+    
+  ];

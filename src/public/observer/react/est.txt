@@ -1,0 +1,224 @@
+LEITOR (index.php): /var/www/html/public/observer/flutter/index.php
+ALVO (relativo)   : /var/www/html/public/observer/flutter/../../frontend_flutter
+ALVO (realpath)   : /var/www/html/public/frontend_flutter
+TYPE              : 1
+
+001 -> frontend_flutter\v1
+002 ->  frontend_flutter\v1\assets
+003 ->  frontend_flutter\v1\assets\icon
+004 ->  frontend_flutter\v1\assets\icon\assets
+005 ->  frontend_flutter\v1\assets\icon\assets\icon
+006 ->  frontend_flutter\v1\assets\icon\app_icon.png (.png)
+007 ->  frontend_flutter\v1\lib
+008 ->  frontend_flutter\v1\lib\app
+009 ->  frontend_flutter\v1\lib\app\messaging
+010 ->  frontend_flutter\v1\lib\app\messaging\app_messenger.dart (.dart)
+011 ->  frontend_flutter\v1\lib\app\messaging\message_service.dart (.dart)
+012 ->  frontend_flutter\v1\lib\app\router
+013 ->  frontend_flutter\v1\lib\app\router\app_router.dart (.dart)
+014 ->  frontend_flutter\v1\lib\app\router\app_routes.dart (.dart)
+015 ->  frontend_flutter\v1\lib\app\router\route_model.dart (.dart)
+016 ->  frontend_flutter\v1\lib\app\theme
+017 ->  frontend_flutter\v1\lib\app\theme\app_theme.dart (.dart)
+018 ->  frontend_flutter\v1\lib\app\theme\color_schemes.dart (.dart)
+019 ->  frontend_flutter\v1\lib\app\app.dart (.dart)
+020 ->  frontend_flutter\v1\lib\core
+021 ->  frontend_flutter\v1\lib\core\config
+022 ->  frontend_flutter\v1\lib\core\config\env.dart (.dart)
+023 ->  frontend_flutter\v1\lib\core\errors
+024 ->  frontend_flutter\v1\lib\core\errors\app_exception.dart (.dart)
+025 ->  frontend_flutter\v1\lib\core\errors\failure.dart (.dart)
+026 ->  frontend_flutter\v1\lib\core\network
+027 ->  frontend_flutter\v1\lib\core\network\interceptors
+028 ->  frontend_flutter\v1\lib\core\network\interceptors\auth_interceptor.dart (.dart)
+029 ->  frontend_flutter\v1\lib\core\network\interceptors\logging_interceptor.dart (.dart)
+030 ->  frontend_flutter\v1\lib\core\network\api_endpoints.dart (.dart)
+031 ->  frontend_flutter\v1\lib\core\network\dio_client.dart (.dart)
+032 ->  frontend_flutter\v1\lib\core\utils
+033 ->  frontend_flutter\v1\lib\core\utils\debouncer.dart (.dart)
+034 ->  frontend_flutter\v1\lib\core\utils\validators.dart (.dart)
+035 ->  frontend_flutter\v1\lib\core\widgets
+036 ->  frontend_flutter\v1\lib\core\widgets\app_dialog.dart (.dart)
+037 ->  frontend_flutter\v1\lib\core\widgets\app_loader.dart (.dart)
+038 ->  frontend_flutter\v1\lib\core\widgets\app_scaffold.dart (.dart)
+039 ->  frontend_flutter\v1\lib\core\widgets\app_snackbar.dart (.dart)
+040 ->  frontend_flutter\v1\lib\features
+041 ->  frontend_flutter\v1\lib\features\about
+042 ->  frontend_flutter\v1\lib\features\about\application
+043 ->  frontend_flutter\v1\lib\features\about\application\about_controller.dart (.dart)
+044 ->  frontend_flutter\v1\lib\features\about\data
+045 ->  frontend_flutter\v1\lib\features\about\data\datasources
+046 ->  frontend_flutter\v1\lib\features\about\data\datasources\about_remote_ds.dart (.dart)
+047 ->  frontend_flutter\v1\lib\features\about\data\models
+048 ->  frontend_flutter\v1\lib\features\about\data\models\about_item_model.dart (.dart)
+049 ->  frontend_flutter\v1\lib\features\about\data\repositories
+050 ->  frontend_flutter\v1\lib\features\about\data\repositories\about_repository_impl.dart (.dart)
+051 ->  frontend_flutter\v1\lib\features\about\domain
+052 ->  frontend_flutter\v1\lib\features\about\domain\entities
+053 ->  frontend_flutter\v1\lib\features\about\domain\entities\about_item.dart (.dart)
+054 ->  frontend_flutter\v1\lib\features\about\domain\repositories
+055 ->  frontend_flutter\v1\lib\features\about\domain\repositories\about_repository.dart (.dart)
+056 ->  frontend_flutter\v1\lib\features\about\domain\usecases
+057 ->  frontend_flutter\v1\lib\features\about\domain\usecases\get_about_feed.dart (.dart)
+058 ->  frontend_flutter\v1\lib\features\about\presentation
+059 ->  frontend_flutter\v1\lib\features\about\presentation\pages
+060 ->  frontend_flutter\v1\lib\features\about\presentation\pages\historioco
+061 ->  frontend_flutter\v1\lib\features\about\presentation\pages\about_page.dart (.dart)
+062 ->  frontend_flutter\v1\lib\features\about\presentation\widgets
+063 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_contact_card.dart (.dart)
+064 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_header_card.dart (.dart)
+065 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_mission_card.dart (.dart)
+066 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_team_card.dart (.dart)
+067 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_values_card.dart (.dart)
+068 ->  frontend_flutter\v1\lib\features\about\presentation\widgets\about_who_we_are_card.dart (.dart)
+069 ->  frontend_flutter\v1\lib\features\about\presentation\routes.dart (.dart)
+070 ->  frontend_flutter\v1\lib\features\contact_us
+071 ->  frontend_flutter\v1\lib\features\contact_us\application
+072 ->  frontend_flutter\v1\lib\features\contact_us\application\contact_us_controller.dart (.dart)
+073 ->  frontend_flutter\v1\lib\features\contact_us\data
+074 ->  frontend_flutter\v1\lib\features\contact_us\data\datasources
+075 ->  frontend_flutter\v1\lib\features\contact_us\data\datasources\contact_us_remote_ds.dart (.dart)
+076 ->  frontend_flutter\v1\lib\features\contact_us\data\models
+077 ->  frontend_flutter\v1\lib\features\contact_us\data\models\contact_us_item_model.dart (.dart)
+078 ->  frontend_flutter\v1\lib\features\contact_us\data\repositories
+079 ->  frontend_flutter\v1\lib\features\contact_us\data\repositories\contact_us_repository_impl.dart (.dart)
+080 ->  frontend_flutter\v1\lib\features\contact_us\domain
+081 ->  frontend_flutter\v1\lib\features\contact_us\domain\entities
+082 ->  frontend_flutter\v1\lib\features\contact_us\domain\entities\contact_us_item.dart (.dart)
+083 ->  frontend_flutter\v1\lib\features\contact_us\domain\repositories
+084 ->  frontend_flutter\v1\lib\features\contact_us\domain\repositories\contact_us_repository.dart (.dart)
+085 ->  frontend_flutter\v1\lib\features\contact_us\domain\usecases
+086 ->  frontend_flutter\v1\lib\features\contact_us\domain\usecases\contact_us_about_feed.dart (.dart)
+087 ->  frontend_flutter\v1\lib\features\contact_us\presentation
+088 ->  frontend_flutter\v1\lib\features\contact_us\presentation\pages
+089 ->  frontend_flutter\v1\lib\features\contact_us\presentation\pages\contact_us_page.dart (.dart)
+090 ->  frontend_flutter\v1\lib\features\contact_us\presentation\widgets
+091 ->  frontend_flutter\v1\lib\features\contact_us\presentation\widgets\contact_us_form_card.dart (.dart)
+092 ->  frontend_flutter\v1\lib\features\contact_us\presentation\routes.dart (.dart)
+093 ->  frontend_flutter\v1\lib\features\home
+094 ->  frontend_flutter\v1\lib\features\home\application
+095 ->  frontend_flutter\v1\lib\features\home\application\home_controller.dart (.dart)
+096 ->  frontend_flutter\v1\lib\features\home\data
+097 ->  frontend_flutter\v1\lib\features\home\data\datasources
+098 ->  frontend_flutter\v1\lib\features\home\data\datasources\home_remote_ds.dart (.dart)
+099 ->  frontend_flutter\v1\lib\features\home\data\models
+100 ->  frontend_flutter\v1\lib\features\home\data\models\home_item_model.dart (.dart)
+101 ->  frontend_flutter\v1\lib\features\home\data\repositories
+102 ->  frontend_flutter\v1\lib\features\home\data\repositories\home_repository_impl.dart (.dart)
+103 ->  frontend_flutter\v1\lib\features\home\domain
+104 ->  frontend_flutter\v1\lib\features\home\domain\entities
+105 ->  frontend_flutter\v1\lib\features\home\domain\entities\home_item.dart (.dart)
+106 ->  frontend_flutter\v1\lib\features\home\domain\repositories
+107 ->  frontend_flutter\v1\lib\features\home\domain\repositories\home_repository.dart (.dart)
+108 ->  frontend_flutter\v1\lib\features\home\domain\usecases
+109 ->  frontend_flutter\v1\lib\features\home\domain\usecases\get_home_feed.dart (.dart)
+110 ->  frontend_flutter\v1\lib\features\home\presentation
+111 ->  frontend_flutter\v1\lib\features\home\presentation\pages
+112 ->  frontend_flutter\v1\lib\features\home\presentation\pages\historioco
+113 ->  frontend_flutter\v1\lib\features\home\presentation\pages\historioco\home_page_001.dart (.dart)
+114 ->  frontend_flutter\v1\lib\features\home\presentation\pages\historioco\home_page_002.dart (.dart)
+115 ->  frontend_flutter\v1\lib\features\home\presentation\pages\historioco\home_page_003.dart (.dart)
+116 ->  frontend_flutter\v1\lib\features\home\presentation\pages\home_page.dart (.dart)
+117 ->  frontend_flutter\v1\lib\features\home\presentation\widgets
+118 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_fale_card.dart (.dart)
+119 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_login_card.dart (.dart)
+120 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_project_card.dart (.dart)
+121 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_row2_card.dart (.dart)
+122 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_row3_card.dart (.dart)
+123 ->  frontend_flutter\v1\lib\features\home\presentation\widgets\home_sobre_card.dart (.dart)
+124 ->  frontend_flutter\v1\lib\features\home\presentation\routes.dart (.dart)
+125 ->  frontend_flutter\v1\lib\features\project
+126 ->  frontend_flutter\v1\lib\features\project\application
+127 ->  frontend_flutter\v1\lib\features\project\application\project_controller.dart (.dart)
+128 ->  frontend_flutter\v1\lib\features\project\data
+129 ->  frontend_flutter\v1\lib\features\project\data\datasources
+130 ->  frontend_flutter\v1\lib\features\project\data\datasources\project_remote_ds.dart (.dart)
+131 ->  frontend_flutter\v1\lib\features\project\data\models
+132 ->  frontend_flutter\v1\lib\features\project\data\models\project_model.dart (.dart)
+133 ->  frontend_flutter\v1\lib\features\project\data\repositories
+134 ->  frontend_flutter\v1\lib\features\project\data\repositories\project_repository_impl.dart (.dart)
+135 ->  frontend_flutter\v1\lib\features\project\domain
+136 ->  frontend_flutter\v1\lib\features\project\domain\entities
+137 ->  frontend_flutter\v1\lib\features\project\domain\entities\project_item.dart (.dart)
+138 ->  frontend_flutter\v1\lib\features\project\domain\repositories
+139 ->  frontend_flutter\v1\lib\features\project\domain\repositories\project_repository.dart (.dart)
+140 ->  frontend_flutter\v1\lib\features\project\domain\usecases
+141 ->  frontend_flutter\v1\lib\features\project\domain\usecases\get_project_feed.dart (.dart)
+142 ->  frontend_flutter\v1\lib\features\project\presentation
+143 ->  frontend_flutter\v1\lib\features\project\presentation\pages
+144 ->  frontend_flutter\v1\lib\features\project\presentation\pages\project_page.dart (.dart)
+145 ->  frontend_flutter\v1\lib\features\project\presentation\widgets
+146 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_estoque_card.dart (.dart)
+147 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_mecanica_card.dart (.dart)
+148 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_row2_card.dart (.dart)
+149 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_row3_card.dart (.dart)
+150 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_tarefas_card.dart (.dart)
+151 ->  frontend_flutter\v1\lib\features\project\presentation\widgets\project_veterinaria_card.dart (.dart)
+152 ->  frontend_flutter\v1\lib\features\project\presentation\routes.dart (.dart)
+153 ->  frontend_flutter\v1\lib\features\user
+154 ->  frontend_flutter\v1\lib\features\user\application
+155 ->  frontend_flutter\v1\lib\features\user\application\auth_controller.dart (.dart)
+156 ->  frontend_flutter\v1\lib\features\user\application\register_controller.dart (.dart)
+157 ->  frontend_flutter\v1\lib\features\user\data
+158 ->  frontend_flutter\v1\lib\features\user\data\datasources
+159 ->  frontend_flutter\v1\lib\features\user\data\datasources\auth_remote_ds.dart (.dart)
+160 ->  frontend_flutter\v1\lib\features\user\data\datasources\register_remote_ds.dart (.dart)
+161 ->  frontend_flutter\v1\lib\features\user\data\models
+162 ->  frontend_flutter\v1\lib\features\user\data\models\auth_user_model.dart (.dart)
+163 ->  frontend_flutter\v1\lib\features\user\data\models\user_model.dart (.dart)
+164 ->  frontend_flutter\v1\lib\features\user\data\repositories
+165 ->  frontend_flutter\v1\lib\features\user\data\repositories\auth_repository_impl.dart (.dart)
+166 ->  frontend_flutter\v1\lib\features\user\data\repositories\register_repository_impl.dart (.dart)
+167 ->  frontend_flutter\v1\lib\features\user\domain
+168 ->  frontend_flutter\v1\lib\features\user\domain\entities
+169 ->  frontend_flutter\v1\lib\features\user\domain\entities\user.dart (.dart)
+170 ->  frontend_flutter\v1\lib\features\user\domain\repositories
+171 ->  frontend_flutter\v1\lib\features\user\domain\repositories\auth_repository.dart (.dart)
+172 ->  frontend_flutter\v1\lib\features\user\domain\repositories\register_repository.dart (.dart)
+173 ->  frontend_flutter\v1\lib\features\user\domain\usecases
+174 ->  frontend_flutter\v1\lib\features\user\domain\usecases\login_user.dart (.dart)
+175 ->  frontend_flutter\v1\lib\features\user\domain\usecases\register_user.dart (.dart)
+176 ->  frontend_flutter\v1\lib\features\user\presentation
+177 ->  frontend_flutter\v1\lib\features\user\presentation\pages
+178 ->  frontend_flutter\v1\lib\features\user\presentation\pages\login_page.bkp (.bkp)
+179 ->  frontend_flutter\v1\lib\features\user\presentation\pages\login_page.dart (.dart)
+180 ->  frontend_flutter\v1\lib\features\user\presentation\pages\register_page.bkp_001 (.bkp_001)
+181 ->  frontend_flutter\v1\lib\features\user\presentation\pages\register_page.dart (.dart)
+182 ->  frontend_flutter\v1\lib\features\user\presentation\widgets
+183 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\login_card.dart (.dart)
+184 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\login_footer.dart (.dart)
+185 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\login_head.dart (.dart)
+186 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_card.bkp_001 (.bkp_001)
+187 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_card.bkp_002 (.bkp_002)
+188 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_card.bkp_003 (.bkp_003)
+189 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_card.dart (.dart)
+190 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_card.ia (.ia)
+191 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_step1_card.dart (.dart)
+192 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_step2_card.dart (.dart)
+193 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\register_step2_card.ia (.ia)
+194 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\_atual.txt (.txt)
+195 ->  frontend_flutter\v1\lib\features\user\presentation\widgets\_sugerido_pela_ia.txt (.txt)
+196 ->  frontend_flutter\v1\lib\features\user\presentation\routes.dart (.dart)
+197 ->  frontend_flutter\v1\lib\features\user\utils
+198 ->  frontend_flutter\v1\lib\features\user\utils\auth_validator.dart (.dart)
+199 ->  frontend_flutter\v1\lib\features\user\fluxo_auth_user.md (.md)
+200 ->  frontend_flutter\v1\lib\features\user\fluxo_register_user.md (.md)
+201 ->  frontend_flutter\v1\lib\features\user\user.md (.md)
+202 ->  frontend_flutter\v1\lib\shared
+203 ->  frontend_flutter\v1\lib\shared\utils
+204 ->  frontend_flutter\v1\lib\shared\utils\readme.txt (.txt)
+205 ->  frontend_flutter\v1\lib\shared\widgets
+206 ->  frontend_flutter\v1\lib\shared\widgets\navigation_header_card.dart (.dart)
+207 ->  frontend_flutter\v1\lib\shared\widgets\nav_card.dart (.dart)
+208 ->  frontend_flutter\v1\lib\shared\widgets\placeholder_widget.dart (.dart)
+209 ->  frontend_flutter\v1\lib\main.dart (.dart)
+210 ->  frontend_flutter\v1\test
+211 ->  frontend_flutter\v1\test\widget_test.dart (.dart)
+212 ->  frontend_flutter\v1\.flutter-plugins (.flutter-plugins)
+213 ->  frontend_flutter\v1\.flutter-plugins-dependencies (.flutter-plugins-dependencies)
+214 ->  frontend_flutter\v1\.gitignore (.gitignore)
+215 ->  frontend_flutter\v1\analysis_options.yaml (.yaml)
+216 ->  frontend_flutter\v1\frontend_flutter_v1.iml (.iml)
+217 ->  frontend_flutter\v1\pubspec.lock (.lock)
+218 ->  frontend_flutter\v1\pubspec.yaml (.yaml)
+219 ->  frontend_flutter\v1\README.md (.md)

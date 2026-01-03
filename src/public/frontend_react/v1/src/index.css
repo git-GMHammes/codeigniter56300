@@ -1,0 +1,58 @@
+/* src/index.css - VERSÃO CORRETA PARA TAILWIND V4 */
+
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #FFD700;
+  --color-orange: #FFA500;
+  --color-gray-dark: #1a1a1a;
+  --color-gray-medium: #cccccc;
+  --color-gray-border: #333;
+  
+  /* Animações customizadas para v4 */
+  --animate-fadeIn: fadeIn 2s ease-in-out;
+  --animate-expandCenter: expandCenter 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Estilo global para o sistema */
+body {
+  background-color: #000000;
+  color: #FFD700;
+  margin: 0;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+/* ============================================
+   ANIMAÇÕES DO MODAL
+   ============================================ */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes expandCenter {
+  from { 
+    transform: scale(0);
+    opacity: 0;
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.animate-expandCenter {
+  animation: expandCenter 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

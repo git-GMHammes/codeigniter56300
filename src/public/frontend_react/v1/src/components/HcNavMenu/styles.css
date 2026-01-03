@@ -1,0 +1,21 @@
+/* C:\laragon\www\sgcpro\src\public\script\react_modelo_v1\frontend\src\components\NavMenu\styles.css */
+
+.navmenu {
+    z-index: 999; /* Um valor menor que o z-index do Header (1000) */
+    width: 100%;
+  }
+  
+  /* Em telas desktop, o navmenu é fixo abaixo do Header */
+  @media (min-width: 769px) {
+    .navmenu {
+      position: sticky;
+      top: 68px; /* Ajuste este valor conforme a altura do seu Header */
+    }
+  }
+  
+  /* Em telas mobile, o navmenu NÃO é fixo e flui normalmente com o conteúdo */
+  @media (max-width: 768px) {
+    .navmenu {
+      position: relative;
+    }
+  }

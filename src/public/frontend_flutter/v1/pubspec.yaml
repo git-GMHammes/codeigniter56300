@@ -1,0 +1,51 @@
+name: frontend_flutter_v1
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  url_launcher: ^6.2.1
+  flutter_masked_text2: ^0.9.0
+  shared_preferences: ^2.0.15
+
+  # Mídia e imagens
+  image_picker: ^1.0.4 # Adicione esta linha
+
+  # HTTP e API (CONFIGURAÇÃO COMPROVADA)
+  dio: ^5.0.0
+  dio_cache_interceptor: ^4.0.5 # Em vez de dio_http_cache
+  pretty_dio_logger: ^1.3.0
+  retrofit: ^4.0.1
+
+  # UI
+  cupertino_icons: ^1.0.6
+
+  # Pacote dartz, muito usado em Clean Architecture
+  dartz: ^0.10.1
+
+  # Permissões do Aplicativo
+  permission_handler: ^12.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+# CONFIGURAÇÃO AQUI FORA - NO NÍVEL RAIZ (sem indentação extra!)
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/

@@ -1,0 +1,237 @@
+LEITOR (index.php): /var/www/html/public/observer/codeigniter/index.php
+ALVO (relativo)   : /var/www/html/public/observer/codeigniter/../../../app
+ALVO (realpath)   : /var/www/html/app
+TYPE              : 2
+
+app/
+├── Config/
+│   ├── App.php (.php)
+│   ├── Autoload.php (.php)
+│   ├── Cache.php (.php)
+│   ├── Constants.php (.php)
+│   ├── ContentSecurityPolicy.php (.php)
+│   ├── Cookie.php (.php)
+│   ├── Cors.php (.php)
+│   ├── CURLRequest.php (.php)
+│   ├── Database.php (.php)
+│   ├── DocTypes.php (.php)
+│   ├── Email.php (.php)
+│   ├── Encryption.php (.php)
+│   ├── Events.php (.php)
+│   ├── Exceptions.php (.php)
+│   ├── Feature.php (.php)
+│   ├── Filters.php (.php)
+│   ├── ForeignCharacters.php (.php)
+│   ├── Format.php (.php)
+│   ├── Generators.php (.php)
+│   ├── Honeypot.php (.php)
+│   ├── Images.php (.php)
+│   ├── Kint.php (.php)
+│   ├── Logger.php (.php)
+│   ├── Migrations.php (.php)
+│   ├── Mimes.php (.php)
+│   ├── Modules.php (.php)
+│   ├── Optimize.php (.php)
+│   ├── Pager.php (.php)
+│   ├── Paths.php (.php)
+│   ├── Publisher.php (.php)
+│   ├── Routes.php (.php)
+│   ├── Routing.php (.php)
+│   ├── Security.php (.php)
+│   ├── Services.php (.php)
+│   ├── Session.php (.php)
+│   ├── Toolbar.php (.php)
+│   ├── UserAgents.php (.php)
+│   ├── Validation.php (.php)
+│   └── View.php (.php)
+├── Controllers/
+│   ├── API/
+│   │   └── v1/
+│   │       ├── ContactUs/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── ContactUsFile/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── Log/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── UserCustomer/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── UserCustomerFile/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── UserCustomerManagement/
+│   │       │   └── ManagerController.php (.php)
+│   │       ├── UserManagement/
+│   │       │   ├── AuthController.php (.php)
+│   │       │   ├── ManagerController.bkp (.bkp)
+│   │       │   └── ManagerController.php (.php)
+│   │       └── BaseManagerController.php (.php)
+│   ├── BaseController.php (.php)
+│   └── Home.php (.php)
+├── Database/
+│   ├── Migrations/
+│   │   └── .gitkeep (.gitkeep)
+│   └── Seeds/
+│       └── .gitkeep (.gitkeep)
+├── Filters/
+│   ├── v1/
+│   │   ├── AuthFilter.php (.php)
+│   │   └── LogRequestFilter.php (.php)
+│   └── .gitkeep (.gitkeep)
+├── Helpers/
+│   ├── .gitkeep (.gitkeep)
+│   ├── myPrint_helper.php (.php)
+│   ├── sanitizer_helper.md (.md)
+│   └── sanitizer_helper.php (.php)
+├── Language/
+│   ├── en/
+│   │   └── Validation.php (.php)
+│   └── .gitkeep (.gitkeep)
+├── Libraries/
+│   ├── v1/
+│   │   └── CurrentUser.php (.php)
+│   ├── .gitkeep (.gitkeep)
+│   ├── ApiResponse.ia (.ia)
+│   └── ApiResponse.php (.php)
+├── Models/
+│   ├── v1/
+│   │   ├── ContactUs/
+│   │   │   ├── FileModel.php (.php)
+│   │   │   └── ResourceModel.php (.php)
+│   │   ├── Log/
+│   │   │   └── ResourceModel.php (.php)
+│   │   ├── UserCustomer/
+│   │   │   ├── FileModel.php (.php)
+│   │   │   └── ResourceModel.php (.php)
+│   │   ├── UserCustomerManagement/
+│   │   │   └── ResourceModel.php (.php)
+│   │   ├── UserManagement/
+│   │   │   ├── ResourceModel.md (.md)
+│   │   │   └── ResourceModel.php (.php)
+│   │   ├── BaseResourceModel.bkp (.bkp)
+│   │   ├── BaseResourceModel.ia (.ia)
+│   │   └── BaseResourceModel.php (.php)
+│   └── .gitkeep (.gitkeep)
+├── Requests/
+│   └── v1/
+│       ├── ContactUs/
+│       │   ├── ModifyRequest.php (.php)
+│       │   ├── SearchRequest.php (.php)
+│       │   └── StoreRequest.php (.php)
+│       ├── ContactUsFile/
+│       │   └── SearchRequest.php (.php)
+│       ├── Log/
+│       │   ├── SearchRequest.php (.php)
+│       │   └── StoreRequest.php (.php)
+│       ├── UserCustomer/
+│       │   ├── ModifyRequest.php (.php)
+│       │   ├── SearchRequest.php (.php)
+│       │   └── StoreRequest.php (.php)
+│       ├── UserCustomerFile/
+│       │   └── SearchRequest.php (.php)
+│       ├── UserCustomerManagement/
+│       │   └── SearchRequest.php (.php)
+│       └── UserManagement/
+│           ├── LoginRequest.php (.php)
+│           ├── ModifyRequest.php (.php)
+│           ├── SearchRequest.php (.php)
+│           └── StoreRequest.php (.php)
+├── Routes/
+│   └── API/
+│       └── v1/
+│           ├── ContactUs/
+│           │   └── api_routes.php (.php)
+│           ├── ContactUsFile/
+│           │   └── api_routes.php (.php)
+│           ├── Log/
+│           │   └── api_routes.php (.php)
+│           ├── UserCustomer/
+│           │   ├── api_routes.md (.md)
+│           │   └── api_routes.php (.php)
+│           ├── UserCustomerFile/
+│           │   └── api_routes.php (.php)
+│           ├── UserCustomerManagement/
+│           │   └── api_routes.php (.php)
+│           └── UserManagement/
+│               ├── api_routes.md (.md)
+│               └── api_routes.php (.php)
+├── Rules/
+│   └── v1/
+│       ├── ContactUs/
+│       │   ├── ModifyRules.php (.php)
+│       │   ├── SearchRules.php (.php)
+│       │   └── StoreRules.php (.php)
+│       ├── ContactUsFile/
+│       │   └── SearchRules.php (.php)
+│       ├── Log/
+│       │   ├── SearchRules.php (.php)
+│       │   └── StoreRules.php (.php)
+│       ├── UserCustomer/
+│       │   ├── ModifyRules.php (.php)
+│       │   ├── SearchRules.php (.php)
+│       │   └── StoreRules.php (.php)
+│       ├── UserCustomerFile/
+│       │   └── SearchRules.php (.php)
+│       ├── UserCustomerManagement/
+│       │   └── SearchRules.php (.php)
+│       └── UserManagement/
+│           ├── ModifyRules.php (.php)
+│           ├── SearchRules.php (.php)
+│           └── StoreRules.php (.php)
+├── Services/
+│   └── v1/
+│       ├── Auth/
+│       │   ├── AuthenticationService.php (.php)
+│       │   ├── PasswordService.php (.php)
+│       │   └── TokenService.php (.php)
+│       ├── ContactUs/
+│       │   ├── ManagerService.php (.php)
+│       │   └── UploadService.php (.php)
+│       ├── ContactUsFile/
+│       │   └── ManagerService.php (.php)
+│       ├── Log/
+│       │   └── ManagerService.php (.php)
+│       ├── UserCustomer/
+│       │   ├── ManagerService.php (.php)
+│       │   ├── UploadService.bkp (.bkp)
+│       │   ├── UploadService.ia (.ia)
+│       │   └── UploadService.php (.php)
+│       ├── UserCustomerFile/
+│       │   └── ManagerService.php (.php)
+│       ├── UserCustomerManagement/
+│       │   └── ManagerService.php (.php)
+│       ├── UserManagement/
+│       │   ├── AuthenticationService.php (.php)
+│       │   └── ManagerService.php (.php)
+│       └── BaseManagerService.php (.php)
+├── ThirdParty/
+│   ├── Firebase/
+│   │   └── JWT/
+│   │       ├── src/
+│   │       │   ├── BeforeValidException.php (.php)
+│   │       │   ├── CachedKeySet.php (.php)
+│   │       │   ├── ExpiredException.php (.php)
+│   │       │   ├── JWK.php (.php)
+│   │       │   ├── JWT.php (.php)
+│   │       │   ├── JWTExceptionWithPayloadInterface.php (.php)
+│   │       │   ├── Key.php (.php)
+│   │       │   └── SignatureInvalidException.php (.php)
+│   │       ├── CHANGELOG.md (.md)
+│   │       ├── composer.json (.json)
+│   │       ├── LICENSE (sem extensão)
+│   │       └── README.md (.md)
+│   └── .gitkeep (.gitkeep)
+├── Views/
+│   ├── errors/
+│   │   ├── cli/
+│   │   │   ├── error_404.php (.php)
+│   │   │   ├── error_exception.php (.php)
+│   │   │   └── production.php (.php)
+│   │   └── html/
+│   │       ├── debug.css (.css)
+│   │       ├── debug.js (.js)
+│   │       ├── error_400.php (.php)
+│   │       ├── error_404.php (.php)
+│   │       ├── error_exception.php (.php)
+│   │       └── production.php (.php)
+│   └── welcome_message.php (.php)
+├── Common.php (.php)
+└── index.html (.html)

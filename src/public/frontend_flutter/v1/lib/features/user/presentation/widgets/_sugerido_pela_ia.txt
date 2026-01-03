@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+
+class LoginCard extends StatefulWidget {
+  final Function(String user, String password)? onSubmit;
+
+  const LoginCard({super.key, this.onSubmit});
+
+  @override
+  State<LoginCard> createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
+  final _formKey = GlobalKey<FormState>();
+  final _userCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
+  bool _isSubmitting = false;
+
+  void _submitForm() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() => _isSubmitting = true);
+
+      if (widget.onSubmit != null) {
+        await widget.onSubmit!(_userCtrl.text, _passCtrl.text);
+      }
+
+      setState(() => _isSubmitting = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _userCtrl,
+            decoration: const InputDecoration(labelText: 'Usuário'),
+          ),
+          TextFormField(
+            controller: _passCtrl,
+            decoration: const InputDecoration(labelText: 'Senha'),
+            obscureText: true,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _isSubmitting ? null : _submitForm,
+            child: _isSubmitting
+                ? const CircularProgressIndicator(color: Colors.white)
+                : const Text('Entrar'),
+          ),
+        ],
+      ),
+    );
+  }
+}
