@@ -164,10 +164,12 @@ src/system/Commands/Database/*
 
 !src/system/Commands/Encryption/
 src/system/Commands/Encryption/*
+
 !src/system/Commands/Encryption/GenerateKey.php
 
 !src/system/Commands/Generators/
 src/system/Commands/Generators/*
+
 !src/system/Commands/Generators/CellGenerator.php
 !src/system/Commands/Generators/CommandGenerator.php
 !src/system/Commands/Generators/ConfigGenerator.php
@@ -183,6 +185,7 @@ src/system/Commands/Generators/*
 
 !src/system/Commands/Generators/Views/
 src/system/Commands/Generators/Views/*
+
 !src/system/Commands/Generators/Views/cell.tpl.php
 !src/system/Commands/Generators/Views/cell_view.tpl.php
 !src/system/Commands/Generators/Views/command.tpl.php
@@ -198,20 +201,24 @@ src/system/Commands/Generators/Views/*
 
 !src/system/Commands/Housekeeping/
 src/system/Commands/Housekeeping/*
+
 !src/system/Commands/Housekeeping/ClearDebugbar.php
 !src/system/Commands/Housekeeping/ClearLogs.php
 
 !src/system/Commands/Server/
 src/system/Commands/Server/*
+
 !src/system/Commands/Server/Serve.php
 
 !src/system/Commands/Translation/
 src/system/Commands/Translation/*
+
 !src/system/Commands/Translation/LocalizationFinder.php
 !src/system/Commands/Translation/LocalizationSync.php
 
 !src/system/Commands/Utilities/
 src/system/Commands/Utilities/*
+
 !src/system/Commands/Utilities/ConfigCheck.php
 !src/system/Commands/Utilities/Environment.php
 !src/system/Commands/Utilities/FilterCheck.php
@@ -223,15 +230,18 @@ src/system/Commands/Utilities/*
 
 !src/system/Commands/Utilities/Routes/
 src/system/Commands/Utilities/Routes/*
+
 !src/system/Commands/Utilities/Routes/AutoRouteCollector.php
 
 !src/system/Commands/Utilities/Routes/AutoRouterImproved/
 src/system/Commands/Utilities/Routes/AutoRouterImproved/*
+
 !src/system/Commands/Utilities/Routes/AutoRouterImproved/AutoRouteCollector.php
 !src/system/Commands/Utilities/Routes/AutoRouterImproved/ControllerMethodReader.php
 
 !src/system/Commands/Utilities/Routes/
 src/system/Commands/Utilities/Routes/*
+
 !src/system/Commands/Utilities/Routes/ControllerFinder.php
 !src/system/Commands/Utilities/Routes/ControllerMethodReader.php
 !src/system/Commands/Utilities/Routes/FilterCollector.php
@@ -240,6 +250,7 @@ src/system/Commands/Utilities/Routes/*
 
 !src/system/Config/
 src/system/Config/*
+
 !src/system/Config/AutoloadConfig.php
 !src/system/Config/BaseConfig.php
 !src/system/Config/BaseService.php
@@ -255,6 +266,7 @@ src/system/Config/*
 
 !src/system/Cookie/
 src/system/Cookie/*
+
 !src/system/Cookie/CloneableCookieInterface.php
 !src/system/Cookie/Cookie.php
 !src/system/Cookie/CookieInterface.php
@@ -262,10 +274,12 @@ src/system/Cookie/*
 
 !src/system/Cookie/Exceptions/
 src/system/Cookie/Exceptions/*
+
 !src/system/Cookie/Exceptions/CookieException.php
 
 !src/system/Database/
 src/system/Database/*
+
 !src/system/Database/BaseBuilder.php
 !src/system/Database/BaseConnection.php
 !src/system/Database/BasePreparedQuery.php
@@ -277,18 +291,21 @@ src/system/Database/Database.php
 
 !src/system/Database/Exceptions/
 src/system/Database/Exceptions/*
+
 !src/system/Database/Exceptions/DatabaseException.php
 !src/system/Database/Exceptions/DataException.php
 !src/system/Database/Exceptions/ExceptionInterface.php
 
 !src/system/Database/
 src/system/Database/*
+
 !src/system/Database/Forge.php
 !src/system/Database/Migration.php
 !src/system/Database/MigrationRunner.php
 
 !src/system/Database/MySQLi/
 src/system/Database/MySQLi/*
+
 !src/system/Database/MySQLi/Builder.php
 !src/system/Database/MySQLi/Connection.php
 !src/system/Database/MySQLi/Forge.php
@@ -298,6 +315,7 @@ src/system/Database/MySQLi/*
 
 !src/system/Database/OCI8/
 src/system/Database/OCI8/*
+
 !src/system/Database/OCI8/Builder.php
 !src/system/Database/OCI8/Connection.php
 !src/system/Database/OCI8/Forge.php
@@ -307,6 +325,7 @@ src/system/Database/OCI8/*
 
 !src/system/Database/Postgre/
 src/system/Database/Postgre/*
+
 !src/system/Database/Postgre/Builder.php
 !src/system/Database/Postgre/Connection.php
 !src/system/Database/Postgre/Forge.php
@@ -316,6 +335,7 @@ src/system/Database/Postgre/*
 
 !src/system/Database/
 src/system/Database/*
+
 !src/system/Database/PreparedQueryInterface.php
 !src/system/Database/Query.php
 !src/system/Database/QueryInterface.php
@@ -325,6 +345,7 @@ src/system/Database/*
 
 !src/system/Database/SQLite3/
 src/system/Database/SQLite3/*
+
 !src/system/Database/SQLite3/Builder.php
 !src/system/Database/SQLite3/Connection.php
 !src/system/Database/SQLite3/Forge.php
@@ -335,6 +356,7 @@ src/system/Database/SQLite3/*
 
 !src/system/Database/SQLSRV/
 src/system/Database/SQLSRV/*
+
 !src/system/Database/SQLSRV/Builder.php
 !src/system/Database/SQLSRV/Connection.php
 !src/system/Database/SQLSRV/Forge.php
@@ -344,14 +366,17 @@ src/system/Database/SQLSRV/*
 
 !src/system/Database/
 src/system/Database/*
+
 !src/system/Database/TableName.php
 
 !src/system/DataCaster/
 src/system/DataCaster/*
+
 !src/system/DataCaster/DataCaster.php
 
 !src/system/DataCaster/Cast/
 src/system/DataCaster/Cast/*
+
 !src/system/DataCaster/Cast/ArrayCast.php
 !src/system/DataCaster/Cast/BaseCast.php
 !src/system/DataCaster/Cast/BooleanCast.php
@@ -367,14 +392,17 @@ src/system/DataCaster/Cast/*
 
 !src/system/DataCaster/Exceptions/
 src/system/DataCaster/Exceptions/*
+
 !src/system/DataCaster/Exceptions/CastException.php
 
 !src/system/DataConverter/
 src/system/DataConverter/*
+
 !src/system/DataConverter/DataConverter.php
 
 !src/system/Debug/
 src/system/Debug/*
+
 !src/system/Debug/BaseExceptionHandler.php
 !src/system/Debug/ExceptionHandler.php
 !src/system/Debug/ExceptionHandlerInterface.php
@@ -385,6 +413,7 @@ src/system/Debug/*
 
 !src/system/Debug/Toolbar/Collectors/
 src/system/Debug/Toolbar/Collectors/*
+
 !src/system/Debug/Toolbar/Collectors/BaseCollector.php
 !src/system/Debug/Toolbar/Collectors/Config.php
 !src/system/Debug/Toolbar/Collectors/Database.php
@@ -398,6 +427,7 @@ src/system/Debug/Toolbar/Collectors/*
 
 !src/system/Debug/Toolbar/Views/
 src/system/Debug/Toolbar/Views/*
+
 !src/system/Debug/Toolbar/Views/_config.tpl
 !src/system/Debug/Toolbar/Views/_database.tpl
 !src/system/Debug/Toolbar/Views/_events.tpl
@@ -412,15 +442,18 @@ src/system/Debug/Toolbar/Views/*
 
 !src/system/Email/
 src/system/Email/*
+
 !src/system/Email/Email.php
 
 !src/system/Encryption/
 src/system/Encryption/*
+
 !src/system/Encryption/EncrypterInterface.php
 !src/system/Encryption/Encryption.php
 
 !src/system/Encryption/Exceptions/
 src/system/Encryption/Exceptions/*
+
 !src/system/Encryption/Exceptions/EncryptionException.php
 
 !src/system/Encryption/Handlers/
@@ -431,6 +464,7 @@ src/system/Encryption/Handlers/*
 
 !src/system/Entity/
 src/system/Entity/*
+
 !src/system/Entity/Entity.php
 
 !src/system/Entity/Cast/
@@ -452,14 +486,17 @@ src/system/Entity/Cast/*
 
 !src/system/Entity/Exceptions/
 src/system/Entity/Exceptions/*
+
 !src/system/Entity/Exceptions/CastException.php
 
 !src/system/Events/
 src/system/Events/*
+
 !src/system/Events/Events.php
 
 !src/system/Exceptions/
 src/system/Exceptions/*
+
 !src/system/Exceptions/BadFunctionCallException.php
 !src/system/Exceptions/BadMethodCallException.php
 !src/system/Exceptions/ConfigException.php
@@ -479,18 +516,21 @@ src/system/Exceptions/*
 
 !src/system/Files/Exceptions/
 src/system/Files/Exceptions/*
+
 !src/system/Files/Exceptions/ExceptionInterface.php
 !src/system/Files/Exceptions/FileException.php
 !src/system/Files/Exceptions/FileNotFoundException.php
 
 !src/system/Files/
 src/system/Files/*
+
 !src/system/Files/File.php
 !src/system/Files/FileCollection.php
 !src/system/Files/FileSizeUnit.php
 
 !src/system/Filters/
 src/system/Filters/*
+
 !src/system/Filters/Cors.php
 !src/system/Filters/CSRF.php
 !src/system/Filters/DebugToolbar.php
@@ -501,6 +541,7 @@ src/system/Filters/Exceptions/*
 
 !src/system/Filters/
 src/system/Filters/*
+
 !src/system/Filters/FilterInterface.php
 !src/system/Filters/Filters.php
 !src/system/Filters/ForceHTTPS.php
@@ -512,10 +553,12 @@ src/system/Filters/*
 
 !src/system/Format/Exceptions/
 src/system/Format/Exceptions/*
+
 !src/system/Format/Exceptions/FormatException.php
 
 !src/system/Format/
 src/system/Format/*
+
 !src/system/Format/Format.php
 !src/system/Format/FormatterInterface.php
 !src/system/Format/JSONFormatter.php
@@ -523,7 +566,7 @@ src/system/Format/*
 
 !src/system/Helpers/
 src/system/Helpers/*
-!src/system/Helpers/Array/ArrayHelper.php
+
 !src/system/Helpers/array_helper.php
 !src/system/Helpers/cookie_helper.php
 !src/system/Helpers/date_helper.php
@@ -538,6 +581,11 @@ src/system/Helpers/*
 !src/system/Helpers/text_helper.php
 !src/system/Helpers/url_helper.php
 !src/system/Helpers/xml_helper.php
+
+!src/system/Helpers/Array/
+src/system/Helpers/Array/*
+
+!src/system/Helpers/Array/ArrayHelper.php
 
 !src/system/Honeypot/
 src/system/Honeypot/*
