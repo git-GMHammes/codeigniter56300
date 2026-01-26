@@ -69,7 +69,7 @@ abstract class BaseManagerController extends ResourceController
     protected function validateRequest($request, string $method): ?array
     {
         
-        $validation = $request->$method(); // Aqui um ERRO GRAVE ocorre
+        $validation = $request->$method();
 
         if (!$validation['valid']) {
             return [

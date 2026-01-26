@@ -15,4 +15,6 @@ $routes->group('api/v1', ['namespace' => 'App\Controllers'], function ($routes) 
     require APPPATH . 'Routes/API/v1/ContactUsFile/api_routes.php';
     require APPPATH . 'Routes/API/v1/Log/api_routes.php';
     require APPPATH . 'Routes/API/v1/UserCustomerManagement/api_routes.php';
+    require APPPATH . 'Routes/API/v1/ForgotPassword/api_routes.php';
+
 });
