@@ -3,16 +3,16 @@
 namespace App\Controllers\API\v1\ForgotPassword;
 
 use App\Controllers\API\v1\BaseManagerController;
-use App\Models\v1\UserCustomer\ResourceModel as UserCustomerModel;
+use App\Models\v1\ForgotPassword\ResourceModel as ForgotPasswordModel;
 
 class ManagerController extends BaseManagerController
 {
-    protected $userCustomerModel;
+    protected $ForgotPasswordModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->userCustomerModel = new UserCustomerModel();
+        $this->ForgotPasswordModel = new ForgotPasswordModel();
     }
 
     # ========================================================================
@@ -54,7 +54,7 @@ class ManagerController extends BaseManagerController
         }
 
         // Buscar usuário pelo email
-        $user = $this->userCustomerModel
+        $user = $this->ForgotPasswordModel
             ->where('mail', $mail)
             ->first();
 
@@ -115,7 +115,7 @@ class ManagerController extends BaseManagerController
         }
 
         // Verificar se usuário existe com os dados informados
-        $user = $this->userCustomerModel
+        $user = $this->ForgotPasswordModel
             ->where('id', $id)
             ->where('user_id', $userId)
             ->first();
