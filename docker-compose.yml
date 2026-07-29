@@ -1,5 +1,6 @@
 version: '3.8'
-
+# PROJETO pessoal excusivo para desenvolvimento. 
+# Não use essas credenciais em outro tipo de ambiente por motivos de segurança
 services:
   mysql:
     image: mysql:8.0
